@@ -23,7 +23,7 @@ public class Realisering {
             JOptionPane.showMessageDialog(null, "Något gick fel!");
             System.out.println("Internt felmeddelande" + ettUndantag.getMessage());
         }
-
+        new Login(mib).setVisible(true);
     }
 
 }
