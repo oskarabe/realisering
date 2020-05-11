@@ -23,25 +23,32 @@ public class Login extends javax.swing.JFrame {
 
     private void loggaIn() {
         Boolean koll = false;
+        Boolean isAgent = false;
         String hittaAlien = "SELECT LOSENORD FROM ALIEN;";
         String hittaAgent = "SELECT LOSENORD FROM AGENT;";
 
         ArrayList<String> allaLosen;
+        ArrayList<String> allaLosenAlien;
 
         try {
 
             allaLosen = mib.fetchColumn(hittaAgent);
-            allaLosen.addAll(mib.fetchColumn(hittaAlien));
+            allaLosenAlien = mib.fetchColumn(hittaAlien);
 
             for (String l : allaLosen) {
                 if (l.equals(new String(losenord.getPassword()))) {
                     dispose();
-                    System.out.println("Nådde detta");
+                    System.out.println("Agent");
                     koll = true;
-                } else {
-                    losenord.setText("123456789");
+                    isAgent = true;
+                }
+            }
 
-                    //   JOptionPane.showMessageDialog(null, "Fel lösenord!");
+            for (String l : allaLosenAlien) {
+                if (l.equals(new String(losenord.getPassword()))) {
+                    dispose();
+                    System.out.println("Alien");
+                    koll = true;
                 }
             }
 
