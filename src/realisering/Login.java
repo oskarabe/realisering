@@ -44,11 +44,11 @@ public class Login extends javax.swing.JFrame {
                     System.out.println("Agent");
                     koll = true;
                     isAgent = true;
-                    // If-sats som kollar om admin, öppna fönster.
+                    // If-sats som kollar om admin, öppna rätt fönster.
                 }
             }
 
-            // Kolalr igenom alla Aliens lösenord.
+            // Kollar igenom alla Aliens lösenord.
             for (String l : allaLosenAlien) {
                 if (l.equals(new String(losenord.getPassword()))) {
                     dispose();
