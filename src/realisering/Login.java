@@ -32,26 +32,32 @@ public class Login extends javax.swing.JFrame {
 
         try {
 
+            // Sparar lösenord i Arraylist.
             allaLosen = mib.fetchColumn(hittaAgent);
             allaLosenAlien = mib.fetchColumn(hittaAlien);
 
+            // Kollar igenom alla Agenters lösenord
             for (String l : allaLosen) {
                 if (l.equals(new String(losenord.getPassword()))) {
                     dispose();
                     System.out.println("Agent");
                     koll = true;
                     isAgent = true;
+                    // If-sats som kollar om admin, öppna fönster.
                 }
             }
 
+            // Kolalr igenom alla Aliens lösenord.
             for (String l : allaLosenAlien) {
                 if (l.equals(new String(losenord.getPassword()))) {
                     dispose();
                     System.out.println("Alien");
                     koll = true;
+                    // Öppna fönster för Alien
                 }
             }
 
+            // Om lösenordet inte fanns - Meddelande om fel lösenord.
             if (!koll) {
                 JOptionPane.showMessageDialog(null, "Fel lösenord!");
             }
