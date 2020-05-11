@@ -21,6 +21,7 @@ public class Login extends javax.swing.JFrame {
         initComponents();
     }
 
+    // Det som händer när man klickar enter/knappen
     private void loggaIn() {
         Boolean koll = false;
         Boolean isAgent = false;
