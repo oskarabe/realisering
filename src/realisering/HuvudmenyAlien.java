@@ -27,21 +27,90 @@ public class HuvudmenyAlien extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        lblinloggNamn = new javax.swing.JLabel();
+        btnListaAliens = new javax.swing.JButton();
+        btnMailaAgent = new javax.swing.JButton();
+        lblOmradeTillhorighet = new javax.swing.JLabel();
+        lblOmradeschefInfo = new javax.swing.JLabel();
+        lblHuvudmenyAlien = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        lblinloggNamn.setText("Du är inloggad som:");
+
+        btnListaAliens.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnListaAliens.setText("Lista aliens");
+        btnListaAliens.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnListaAliensActionPerformed(evt);
+            }
+        });
+
+        btnMailaAgent.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        btnMailaAgent.setText("Maila agent");
+        btnMailaAgent.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMailaAgentActionPerformed(evt);
+            }
+        });
+
+        lblOmradeTillhorighet.setText("Du tillhör området:");
+
+        lblOmradeschefInfo.setText("Områdeschef: namn, (telefon)");
+
+        lblHuvudmenyAlien.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        lblHuvudmenyAlien.setText("Huvudmeny - Alien");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblHuvudmenyAlien)
+                .addGap(170, 170, 170))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblOmradeTillhorighet)
+                    .addComponent(lblOmradeschefInfo)
+                    .addComponent(lblinloggNamn))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnMailaAgent, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnListaAliens, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(29, 29, 29))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnListaAliens)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnMailaAgent))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblHuvudmenyAlien, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(32, 32, 32)
+                        .addComponent(lblinloggNamn)
+                        .addGap(8, 8, 8)
+                        .addComponent(lblOmradeTillhorighet)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblOmradeschefInfo)))
+                .addContainerGap(173, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnListaAliensActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListaAliensActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnListaAliensActionPerformed
+
+    private void btnMailaAgentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMailaAgentActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnMailaAgentActionPerformed
 
     /**
      * @param args the command line arguments
@@ -79,5 +148,11 @@ public class HuvudmenyAlien extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnListaAliens;
+    private javax.swing.JButton btnMailaAgent;
+    private javax.swing.JLabel lblHuvudmenyAlien;
+    private javax.swing.JLabel lblOmradeTillhorighet;
+    private javax.swing.JLabel lblOmradeschefInfo;
+    private javax.swing.JLabel lblinloggNamn;
     // End of variables declaration//GEN-END:variables
 }
