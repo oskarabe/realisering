@@ -1,6 +1,7 @@
 package realisering;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import javax.swing.JOptionPane;
 import oru.inf.InfDB;
 import oru.inf.InfException;
@@ -48,16 +49,24 @@ public class Login extends javax.swing.JFrame {
                 }
             }
 
-            // Kollar igenom alla Aliens lösenord.
+           // Kollar igenom alla Aliens lösenord.
+           // Sparar namn och lösenord i två strängar, för att kunna
+           // användas i main-fönstret
             for (String l : allaLosenAlien) {
-                if (l.equals(new String(losenord.getPassword()))) {
+                String losenordet = new String(losenord.getPassword());
+                if (l.equals(losenordet)) {
                     dispose();
                     System.out.println("Alien");
                     koll = true;
+                    String hittaNamn = "select namn from alien where losenord = '" + losenordet + "'";
+                    String alienNamn = (mib.fetchSingle(hittaNamn));
+                    System.out.println(alienNamn);
+                    System.out.println(losenordet);
                     // Öppna fönster för Alien
+                    new HuvudmenyAlien().setVisible(true);
                 }
             }
-
+            
             // Om lösenordet inte fanns - Meddelande om fel lösenord.
             if (!koll) {
                 JOptionPane.showMessageDialog(null, "Fel lösenord!");
@@ -102,9 +111,13 @@ public class Login extends javax.swing.JFrame {
 
         losenord.setColumns(12);
         losenord.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        losenord.setText("123456789123456789");
         losenord.setToolTipText("Ange lösenord");
         losenord.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        losenord.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                losenordActionPerformed(evt);
+            }
+        });
         losenord.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 losenordKeyPressed(evt);
@@ -175,6 +188,10 @@ public class Login extends javax.swing.JFrame {
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
         dispose();
     }//GEN-LAST:event_jLabel2MouseClicked
+
+    private void losenordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_losenordActionPerformed
+        
+    }//GEN-LAST:event_losenordActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

@@ -98,13 +98,13 @@
       <Properties>
         <Property name="columns" type="int" value="12"/>
         <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="123456789123456789"/>
         <Property name="toolTipText" type="java.lang.String" value="Ange l&#xf6;senord"/>
         <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
           <Color id="Text Cursor"/>
         </Property>
       </Properties>
       <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="losenordActionPerformed"/>
         <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="losenordKeyPressed"/>
       </Events>
     </Component>

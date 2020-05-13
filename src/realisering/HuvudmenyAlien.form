@@ -35,7 +35,7 @@
                   <Component id="lblOmradeschefInfo" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="lblinloggNamn" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace pref="139" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="btnMailaAgent" alignment="0" min="-2" pref="133" max="-2" attributes="0"/>
                   <Component id="btnListaAliens" alignment="0" min="-2" pref="133" max="-2" attributes="0"/>
@@ -64,7 +64,7 @@
                       <Component id="lblOmradeschefInfo" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace pref="173" max="32767" attributes="0"/>
+              <EmptySpace pref="166" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>

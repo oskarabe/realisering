@@ -16,3 +16,5 @@ SELECT * from VAPEN;
 SELECT * from WORM;
 SELECT LOSENORD FROM ALIEN;
 
+select * from alien;
+select namn from alien where losenord = 'blomma';
