@@ -1,9 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package realisering;
+
+import javax.swing.JOptionPane;
+import oru.inf.InfException;
+import oru.inf.InfDB;
 
 /**
  *
@@ -11,11 +10,18 @@ package realisering;
  */
 public class HuvudmenyAlien extends javax.swing.JFrame {
 
+    private String alienID;
+    private InfDB mib;
+    
     /**
      * Creates new form HuvudmenyAlien
      */
-    public HuvudmenyAlien() {
+    public HuvudmenyAlien(InfDB mib) {
         initComponents();
+        this.mib = mib;
+        alienID = Login.getAlienID();
+        setLabelInloggNamn();
+        setLabelAlienOmrade();
     }
 
     /**
@@ -27,16 +33,15 @@ public class HuvudmenyAlien extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lblinloggNamn = new javax.swing.JLabel();
         btnListaAliens = new javax.swing.JButton();
         btnMailaAgent = new javax.swing.JButton();
         lblOmradeTillhorighet = new javax.swing.JLabel();
-        lblOmradeschefInfo = new javax.swing.JLabel();
         lblHuvudmenyAlien = new javax.swing.JLabel();
+        lblinloggNamn = new javax.swing.JLabel();
+        lblAlienOmrade = new javax.swing.JLabel();
+        lblOmradeschef = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        lblinloggNamn.setText("Du är inloggad som:");
 
         btnListaAliens.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         btnListaAliens.setText("Lista aliens");
@@ -54,28 +59,33 @@ public class HuvudmenyAlien extends javax.swing.JFrame {
             }
         });
 
-        lblOmradeTillhorighet.setText("Du tillhör området:");
-
-        lblOmradeschefInfo.setText("Områdeschef: namn, (telefon)");
-
         lblHuvudmenyAlien.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         lblHuvudmenyAlien.setText("Huvudmeny - Alien");
+
+        lblinloggNamn.setText("Du är inloggad som: ");
+
+        lblAlienOmrade.setText("Du tillhör område: ");
+
+        lblOmradeschef.setText("Din områdeschef är:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(198, Short.MAX_VALUE)
                 .addComponent(lblHuvudmenyAlien)
                 .addGap(170, 170, 170))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblOmradeTillhorighet)
-                    .addComponent(lblOmradeschefInfo)
-                    .addComponent(lblinloggNamn))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 139, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblAlienOmrade, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblOmradeTillhorighet))
+                    .addComponent(lblinloggNamn, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblOmradeschef, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnMailaAgent, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnListaAliens, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -89,36 +99,96 @@ public class HuvudmenyAlien extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnListaAliens)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnMailaAgent))
+                        .addComponent(btnMailaAgent)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(lblHuvudmenyAlien, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(32, 32, 32)
+                        .addGap(22, 22, 22)
                         .addComponent(lblinloggNamn)
-                        .addGap(8, 8, 8)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblAlienOmrade)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(lblOmradeTillhorighet)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lblOmradeschefInfo)))
-                .addContainerGap(166, Short.MAX_VALUE))
+                        .addGap(15, 15, 15)
+                        .addComponent(lblOmradeschef)
+                        .addGap(156, 156, 156))))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    //Anger texten i label lblinloggNamn
+    private void setLabelInloggNamn()
+    {
+        String hittaNamn = ("select namn from alien where alien_id = " + alienID);
+        
+        try {
+        lblinloggNamn.setText("Du är inloggad som: " + mib.fetchSingle(hittaNamn));
+            }
+        
+        catch (InfException ettUndantag) {
+            JOptionPane.showMessageDialog(null, "Databasfel!");
+            System.out.println("Internt felmeddelande" + ettUndantag.getMessage());
+        } catch (Exception ettUndantag) {
+            JOptionPane.showMessageDialog(null, "Något gick fel!");
+            System.out.println("Internt felmeddelande" + ettUndantag.getMessage());
+        }
+    }
+    
+    //Anger texten i label lblAlienOmrade
+    private void setLabelAlienOmrade()
+    {
+        String hittaOmrade = ("select omrade.benamning from alien, plats, omrade where " +
+                                "plats = plats_id and finns_i = omrades_id and " +
+                                "alien_id = " + alienID);
+        
+        try {
+        lblAlienOmrade.setText("Du tillhör område: " + mib.fetchSingle(hittaOmrade));
+            }
+        
+        catch (InfException ettUndantag) {
+            JOptionPane.showMessageDialog(null, "Databasfel!");
+            System.out.println("Internt felmeddelande" + ettUndantag.getMessage());
+        } catch (Exception ettUndantag) {
+            JOptionPane.showMessageDialog(null, "Något gick fel!");
+            System.out.println("Internt felmeddelande" + ettUndantag.getMessage());
+        }
+    }
+    
+   /** private void setLabelOmradeschef()
+    {
+        String hittaChef = (");
+        
+        try {
+        lblAlienOmrade.setText("Din områdeschef är: " + mib.fetchSingle(hittaOmrade));
+            }
+        
+        catch (InfException ettUndantag) {
+            JOptionPane.showMessageDialog(null, "Databasfel!");
+            System.out.println("Internt felmeddelande" + ettUndantag.getMessage());
+        } catch (Exception ettUndantag) {
+            JOptionPane.showMessageDialog(null, "Något gick fel!");
+            System.out.println("Internt felmeddelande" + ettUndantag.getMessage());
+        }
+    }
+    */
+    
     private void btnListaAliensActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListaAliensActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnListaAliensActionPerformed
 
     private void btnMailaAgentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMailaAgentActionPerformed
-        // TODO add your handling code here:
+        System.out.println(Login.getAlienID());
     }//GEN-LAST:event_btnMailaAgentActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnListaAliens;
     private javax.swing.JButton btnMailaAgent;
+    private javax.swing.JLabel lblAlienOmrade;
     private javax.swing.JLabel lblHuvudmenyAlien;
     private javax.swing.JLabel lblOmradeTillhorighet;
-    private javax.swing.JLabel lblOmradeschefInfo;
+    private javax.swing.JLabel lblOmradeschef;
     private javax.swing.JLabel lblinloggNamn;
     // End of variables declaration//GEN-END:variables
 }
