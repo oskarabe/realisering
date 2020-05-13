@@ -1,7 +1,6 @@
 package realisering;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import javax.swing.JOptionPane;
 import oru.inf.InfDB;
 import oru.inf.InfException;
@@ -13,6 +12,9 @@ import oru.inf.InfException;
 public class Login extends javax.swing.JFrame {
 
     private InfDB mib;
+    //ID:t för den alien som är inloggad. Används för att kunna hitta rätt
+    //info med SQL-frågor i andra fönster
+    private String alienID;
 
     /**
      * Konstruktor
@@ -50,19 +52,17 @@ public class Login extends javax.swing.JFrame {
             }
 
            // Kollar igenom alla Aliens lösenord.
-           // Sparar namn och lösenord i två strängar, för att kunna
-           // användas i main-fönstret
             for (String l : allaLosenAlien) {
-                String losenordet = new String(losenord.getPassword());
-                if (l.equals(losenordet)) {
+                String alienLosenord = new String(losenord.getPassword());
+                if (l.equals(alienLosenord)) {
                     dispose();
                     System.out.println("Alien");
                     koll = true;
-                    String hittaNamn = "select namn from alien where losenord = '" + losenordet + "'";
-                    String alienNamn = (mib.fetchSingle(hittaNamn));
-                    System.out.println(alienNamn);
-                    System.out.println(losenordet);
-                    // Öppna fönster för Alien
+                    //Registrera Alien-ID för att kunna användas i andra klasser
+                    String hittaAlienID = ("select alien_id from alien where losenord = " + "'" + alienLosenord + "'");
+                    alienID = mib.fetchSingle(hittaAlienID);
+                    System.out.println("AlienID: " + alienID);
+                    // Öppna fönster HuvudmenyAlien
                     new HuvudmenyAlien().setVisible(true);
                 }
             }
@@ -82,6 +82,13 @@ public class Login extends javax.swing.JFrame {
 
     }
 
+   
+    
+    public String getAlienID()
+    {
+        return alienID;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
