@@ -18,3 +18,17 @@ SELECT LOSENORD FROM ALIEN;
 
 select * from alien;
 select namn from alien where losenord = 'blomma';
+
+select namn from alien where alien_id = '1';
+
+select omrade.benamning from alien, plats, omrade where
+plats = plats_id and finns_i = omrades_id and
+alien_id = 1;
+
+select agent.namn from 
+
+use mib;
+
+select omrades_id from alien, plats, omrade where " +
+                                "plats = plats_id and finns_i = omrades_id and " +
+                                "alien_id = 1;
