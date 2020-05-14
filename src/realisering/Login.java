@@ -12,9 +12,10 @@ import oru.inf.InfException;
 public class Login extends javax.swing.JFrame {
 
     private InfDB mib;
-    //ID:t för den alien som är inloggad. Används för att kunna hitta rätt
-    //info med SQL-frågor i andra fönster
+    //ID:t för den alien eller agent som är inloggad.
+    //Används för att kunna hitta rätt info med SQL-frågor i andra klasser
     private static String alienID;
+    private static String agentID;
 
     /**
      * Konstruktor
@@ -31,23 +32,42 @@ public class Login extends javax.swing.JFrame {
         String hittaAlien = "SELECT LOSENORD FROM ALIEN;";
         String hittaAgent = "SELECT LOSENORD FROM AGENT;";
 
-        ArrayList<String> allaLosen;
+        ArrayList<String> allaLosenAgent;
         ArrayList<String> allaLosenAlien;
 
         try {
 
             // Sparar lösenord i Arraylist.
-            allaLosen = mib.fetchColumn(hittaAgent);
+            allaLosenAgent = mib.fetchColumn(hittaAgent);
             allaLosenAlien = mib.fetchColumn(hittaAlien);
 
             // Kollar igenom alla Agenters lösenord
-            for (String l : allaLosen) {
-                if (l.equals(new String(losenord.getPassword()))) {
+            for (String l : allaLosenAgent) {
+                String agentLosenord = new String(losenord.getPassword());
+                if (l.equals(agentLosenord)) {
                     dispose();
                     System.out.println("Agent");
                     koll = true;
                     isAgent = true;
-                    // If-sats som kollar om admin, öppna rätt fönster.
+                    //Registrera Agent-ID för att kunna användas i andra klasser
+                    String hittaAgentID = ("select alien_id from alien where " +
+                                           "losenord = " + "'" + agentLosenord + "'");
+                    alienID = mib.fetchSingle(hittaAgentID);
+                    System.out.println("AgentID: " + agentID);
+                    
+                    // Kolla ifall agenten har adminstatus
+                    String hittaAdminStatus = ("select administrator from agent " +
+                                               "where agent_id = " + "(" + hittaAgentID +
+                                               ")");
+                    String adminStatus = mib.fetchSingle(hittaAdminStatus);
+                    System.out.println(adminStatus);
+                    //If-sats för att öppna rätt fönster beroende på adminstatus
+                        if(adminStatus == "J" )
+                        {
+                            new HuvudmenyAdmin().setVisible(true);
+                        }
+                        else
+                            new HuvudmenyAgent().setVisible(true);
                 }
             }
 
