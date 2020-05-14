@@ -5,16 +5,21 @@
  */
 package realisering;
 
+import oru.inf.InfDB;
+
 /**
  *
  * @author oskar
  */
 public class HuvudmenyAdmin extends javax.swing.JFrame {
 
+    private InfDB mib;
+    
     /**
      * Creates new form HuvudmenyAgent
      */
-    public HuvudmenyAdmin() {
+    public HuvudmenyAdmin(InfDB mib) {
+        this.mib = mib;
         initComponents();
     }
 
