@@ -54,19 +54,8 @@ public class Login extends javax.swing.JFrame {
                                            "losenord = " + "'" + agentLosenord + "'");
                     agentID = mib.fetchSingle(hittaAgentID);
                     System.out.println("AgentID: " + agentID);
-                    
-                    // Kolla ifall agenten har adminstatus
-                    String hittaAdminStatus = ("select administrator from agent " +
-                                               "where agent_id = " + "(" + hittaAgentID + ")");
-                    String adminStatus = mib.fetchSingle(hittaAdminStatus);
-                    System.out.println("Adminstatus: " + adminStatus);
-                    //If-sats för att öppna rätt fönster beroende på adminstatus
-                        if(adminStatus.equals("J"))
-                        {
-                            new HuvudmenyAdmin().setVisible(true);
-                        }
-                        else
-                            new HuvudmenyAgent().setVisible(true);
+                    //Öppna huvudmenyn för agenter
+                    new HuvudmenyAgent(mib).setVisible(true);
                 }
             }
 
@@ -101,11 +90,16 @@ public class Login extends javax.swing.JFrame {
 
     }
 
-   
-    
+    //get-metoder för att returnera ID av den agent eller alien som är inloggad
+    //Kommer användas i andra klasser
     public static String getAlienID()
     {
         return alienID;
+    }
+    
+    public static String getAgentID()
+    {
+        return agentID;
     }
     
     /**
