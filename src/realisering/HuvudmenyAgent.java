@@ -1,5 +1,7 @@
 package realisering;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import javax.swing.JOptionPane;
 import oru.inf.InfDB;
 import oru.inf.InfException;
@@ -13,6 +15,7 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
     private String agentID;
     private boolean isAdmin;
     private InfDB mib;
+    private Object cBoxPlats;
     
     /**
      * Creates new form HuvudmenyAgent
@@ -69,6 +72,30 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Något gick fel!");
             System.out.println("Internt felmeddelande" + ettUndantag.getMessage());
         }
+    }
+    
+    private void fyllcbPlats()
+    {
+        String hittaPlats = "select benamning from plats";
+        ArrayList<String> allaPlatsBenamningar;
+        
+        try {   
+            allaPlatsBenamningar = mib.fetchColumn(hittaPlats);
+            for (String platsNamn : allaPlatsBenamningar) {
+                cBoxPlats.addItem(platsNamn);
+            }            
+            
+        } catch (InfException ettUndantag) {
+            JOptionPane.showMessageDialog(null, "Databasfel!");
+            System.out.println("Internt felmeddelande" + ettUndantag.getMessage());
+        }
+        
+        catch (Exception ettUndantag) {
+            JOptionPane.showMessageDialog(null, "Något gick fel!");
+            System.out.println("Internt felmeddelande" + ettUndantag.getMessage());
+        }
+
+    }
     }
     
     /**
