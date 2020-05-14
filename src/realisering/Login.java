@@ -50,19 +50,18 @@ public class Login extends javax.swing.JFrame {
                     koll = true;
                     isAgent = true;
                     //Registrera Agent-ID för att kunna användas i andra klasser
-                    String hittaAgentID = ("select alien_id from alien where " +
+                    String hittaAgentID = ("select agent_id from agent where " +
                                            "losenord = " + "'" + agentLosenord + "'");
-                    alienID = mib.fetchSingle(hittaAgentID);
+                    agentID = mib.fetchSingle(hittaAgentID);
                     System.out.println("AgentID: " + agentID);
                     
                     // Kolla ifall agenten har adminstatus
                     String hittaAdminStatus = ("select administrator from agent " +
-                                               "where agent_id = " + "(" + hittaAgentID +
-                                               ")");
+                                               "where agent_id = " + "(" + hittaAgentID + ")");
                     String adminStatus = mib.fetchSingle(hittaAdminStatus);
-                    System.out.println(adminStatus);
+                    System.out.println("Adminstatus: " + adminStatus);
                     //If-sats för att öppna rätt fönster beroende på adminstatus
-                        if(adminStatus == "J" )
+                        if(adminStatus.equals("J"))
                         {
                             new HuvudmenyAdmin().setVisible(true);
                         }
