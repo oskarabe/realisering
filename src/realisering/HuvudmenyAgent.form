@@ -39,7 +39,7 @@
               <Group type="103" groupAlignment="1" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="272" max="-2" attributes="0"/>
-                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblHuvudmenyAgent" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
@@ -48,47 +48,43 @@
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Component id="plats" min="-2" max="-2" attributes="0"/>
+                                      <Component id="cBoxPlats" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="omrade" min="-2" max="-2" attributes="0"/>
+                                      <Component id="cBoxOmrade" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="ras" min="-2" max="-2" attributes="0"/>
+                                      <Component id="cBoxRas" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="isAdmin" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblAdminStatus" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblInloggad" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="inloggadSom" min="-2" pref="65" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jLabel6" min="-2" pref="41" max="-2" attributes="0"/>
+                                      <Component id="lblPlats" min="-2" pref="41" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
-                                      <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblOmrade" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
-                                      <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblRas" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" alignment="1" attributes="0">
                                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                                      <Component id="adminKnapp" min="-2" pref="136" max="-2" attributes="0"/>
+                                      <Component id="btnAdmin" min="-2" pref="136" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="jLabel8" alignment="0" min="-2" max="-2" attributes="0"/>
+                                          <Component id="lblDatum" alignment="0" min="-2" max="-2" attributes="0"/>
                                           <Group type="102" alignment="0" attributes="0">
-                                              <Component id="datumFran" min="-2" pref="94" max="-2" attributes="0"/>
+                                              <Component id="txtFldDatumFran" min="-2" pref="94" max="-2" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="datumTill" min="-2" pref="94" max="-2" attributes="0"/>
+                                              <Component id="txtFldDatumTill" min="-2" pref="94" max="-2" attributes="0"/>
                                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                                              <Component id="sokruta" min="-2" max="-2" attributes="0"/>
+                                              <Component id="txtFldSokruta" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                       <EmptySpace pref="48" max="32767" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="hanteraAliens" alignment="1" min="-2" pref="136" max="-2" attributes="0"/>
-                                          <Component id="registreraUtrustning" alignment="1" min="-2" max="-2" attributes="0"/>
+                                          <Component id="btnHanteraAliens" alignment="1" min="-2" pref="136" max="-2" attributes="0"/>
+                                          <Component id="btnRegistreraUtrustning" alignment="1" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                               </Group>
@@ -107,38 +103,35 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
-                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblHuvudmenyAgent" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="inloggadSom" alignment="3" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="lblInloggad" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="isAdmin" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblAdminStatus" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblPlats" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblOmrade" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblRas" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="lblDatum" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="plats" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="omrade" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="ras" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="datumFran" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="datumTill" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="sokruta" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="cBoxPlats" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="cBoxOmrade" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="cBoxRas" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtFldDatumFran" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtFldDatumTill" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtFldSokruta" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="86" max="-2" attributes="0"/>
-                      <Component id="adminKnapp" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnAdmin" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="hanteraAliens" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnHanteraAliens" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="registreraUtrustning" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnRegistreraUtrustning" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -149,7 +142,7 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JLabel" name="jLabel1">
+    <Component class="javax.swing.JLabel" name="lblHuvudmenyAgent">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="24" style="1"/>
@@ -157,46 +150,41 @@
         <Property name="text" type="java.lang.String" value="Huvudmeny - Agent"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel2">
+    <Component class="javax.swing.JLabel" name="lblInloggad">
       <Properties>
         <Property name="text" type="java.lang.String" value="Du &#xe4;r inloggad som:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="inloggadSom">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Agent 1"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="isAdmin">
+    <Component class="javax.swing.JLabel" name="lblAdminStatus">
       <Properties>
         <Property name="text" type="java.lang.String" value="Du &#xe4;r (inte) administrat&#xf6;r"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="hanteraAliens">
+    <Component class="javax.swing.JButton" name="btnHanteraAliens">
       <Properties>
         <Property name="text" type="java.lang.String" value="Hantera aliens"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="hanteraAliensActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnHanteraAliensActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="adminKnapp">
+    <Component class="javax.swing.JButton" name="btnAdmin">
       <Properties>
         <Property name="text" type="java.lang.String" value="Administrat&#xf6;r"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="adminKnappActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAdminActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="registreraUtrustning">
+    <Component class="javax.swing.JButton" name="btnRegistreraUtrustning">
       <Properties>
         <Property name="text" type="java.lang.String" value="Registrera utrustning"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="registreraUtrustningActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRegistreraUtrustningActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JComboBox" name="plats">
+    <Component class="javax.swing.JComboBox" name="cBoxPlats">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="4">
@@ -211,7 +199,7 @@
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JComboBox" name="omrade">
+    <Component class="javax.swing.JComboBox" name="cBoxOmrade">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="4">
@@ -226,7 +214,7 @@
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JComboBox" name="ras">
+    <Component class="javax.swing.JComboBox" name="cBoxRas">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="4">
@@ -248,7 +236,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTable" name="tabell">
+        <Component class="javax.swing.JTable" name="tblListaAliens">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="4" rowCount="4">
@@ -262,37 +250,37 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JTextField" name="datumFran">
+    <Component class="javax.swing.JTextField" name="txtFldDatumFran">
       <Properties>
         <Property name="text" type="java.lang.String" value="Fr&#xe5;n"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="datumTill">
+    <Component class="javax.swing.JTextField" name="txtFldDatumTill">
       <Properties>
         <Property name="text" type="java.lang.String" value="Till"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel5">
+    <Component class="javax.swing.JLabel" name="lblOmrade">
       <Properties>
         <Property name="text" type="java.lang.String" value="Omr&#xe5;de"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel6">
+    <Component class="javax.swing.JLabel" name="lblPlats">
       <Properties>
         <Property name="text" type="java.lang.String" value="Plats"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel7">
+    <Component class="javax.swing.JLabel" name="lblRas">
       <Properties>
         <Property name="text" type="java.lang.String" value="Ras"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel8">
+    <Component class="javax.swing.JLabel" name="lblDatum">
       <Properties>
         <Property name="text" type="java.lang.String" value="Datum"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="sokruta">
+    <Component class="javax.swing.JTextField" name="txtFldSokruta">
       <Properties>
         <Property name="text" type="java.lang.String" value="S&#xf6;k alien..."/>
       </Properties>
