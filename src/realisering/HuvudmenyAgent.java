@@ -1,18 +1,76 @@
 package realisering;
 
+import javax.swing.JOptionPane;
+import oru.inf.InfDB;
+import oru.inf.InfException;
+
 /**
  *
  * @author oskar
  */
 public class HuvudmenyAgent extends javax.swing.JFrame {
 
+    private String agentID;
+    private boolean isAdmin;
+    private InfDB mib;
+    
     /**
      * Creates new form HuvudmenyAgent
      */
-    public HuvudmenyAgent() {
+    public HuvudmenyAgent(InfDB mib) {
         initComponents();
+        this.mib = mib;
+        agentID = Login.getAgentID();
+        setLabelInloggNamn();
+        setLabelAdminStatus();
     }
 
+    //Anger texten i label lblinloggNamn
+    private void setLabelInloggNamn()
+    {
+        String hittaNamn = ("select namn from agent where agent_id = " + agentID);
+        
+        try {
+        lblInloggad.setText("Du är inloggad som: " + mib.fetchSingle(hittaNamn));
+            }
+        
+        catch (InfException ettUndantag) {
+            JOptionPane.showMessageDialog(null, "Databasfel!");
+            System.out.println("Internt felmeddelande" + ettUndantag.getMessage());
+        } catch (Exception ettUndantag) {
+            JOptionPane.showMessageDialog(null, "Något gick fel!");
+            System.out.println("Internt felmeddelande" + ettUndantag.getMessage());
+        }
+    }
+    
+    //Anger texten i label lblinloggNamn
+    private void setLabelAdminStatus()
+    {
+        try{
+        String hittaAdminStatus = ("select administrator from agent where agent_id = " + agentID);
+        String adminStatus = mib.fetchSingle(hittaAdminStatus);
+       
+        if(adminStatus.equals("J"))
+        {
+            isAdmin = true;
+            lblAdminStatus.setText("Du är administratör");
+        }
+        else
+        {
+            isAdmin = false;
+            lblAdminStatus.setText("Du är inte administratör");
+                }
+        }
+        
+        catch (InfException ettUndantag) {
+            JOptionPane.showMessageDialog(null, "Databasfel!");
+            System.out.println("Internt felmeddelande" + ettUndantag.getMessage());
+        } catch (Exception ettUndantag) {
+            JOptionPane.showMessageDialog(null, "Något gick fel!");
+            System.out.println("Internt felmeddelande" + ettUndantag.getMessage());
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -203,7 +261,15 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
     }//GEN-LAST:event_btnHanteraAliensActionPerformed
 
     private void btnAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdminActionPerformed
-        // TODO add your handling code here:
+        /**
+         * // Kolla ifall agenten har adminstatus
+                    String hittaAdminStatus = ("select administrator from agent " +
+                                               "where agent_id = " + "(" + hittaAgentID + ")");
+                    String adminStatus = mib.fetchSingle(hittaAdminStatus);
+                    System.out.println("Adminstatus: " + adminStatus);
+                    //If-sats för att öppna rätt fönster beroende på adminstatus
+                        if(adminStatus.equals("J"))
+         */
     }//GEN-LAST:event_btnAdminActionPerformed
 
     private void btnRegistreraUtrustningActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistreraUtrustningActionPerformed
