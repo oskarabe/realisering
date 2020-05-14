@@ -14,7 +14,7 @@ public class Login extends javax.swing.JFrame {
     private InfDB mib;
     //ID:t för den alien som är inloggad. Används för att kunna hitta rätt
     //info med SQL-frågor i andra fönster
-    private String alienID;
+    private static String alienID;
 
     /**
      * Konstruktor
@@ -63,7 +63,7 @@ public class Login extends javax.swing.JFrame {
                     alienID = mib.fetchSingle(hittaAlienID);
                     System.out.println("AlienID: " + alienID);
                     // Öppna fönster HuvudmenyAlien
-                    new HuvudmenyAlien().setVisible(true);
+                    new HuvudmenyAlien(mib).setVisible(true);
                 }
             }
             
@@ -84,7 +84,7 @@ public class Login extends javax.swing.JFrame {
 
    
     
-    public String getAlienID()
+    public static String getAlienID()
     {
         return alienID;
     }
