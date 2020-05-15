@@ -27,7 +27,7 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
         setLabelAdminStatus();
         setcBoxOmrade();
         setcBoxPlats();
-        setcBoxRas();
+        //setcBoxRas();
     }
 
     //Anger texten i lblInloggNamn
@@ -123,7 +123,7 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
     }
     
     //Anger värdena i cBoxRas
-    private void setcBoxRas()
+    /**private void setcBoxRas()
     {
         String hittaRas = "select benamning from plats";
         ArrayList<String> allaPlatser;
@@ -144,6 +144,7 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
             System.out.println("Internt felmeddelande" + ettUndantag.getMessage());
         }
     }
+    */
     
     /**
      * This method is called from within the constructor to initialize the form.
