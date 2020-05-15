@@ -5,7 +5,7 @@ import oru.inf.InfException;
 /**
  *
  * @author lovee
- * Denna klass används för att se vilka utrustningar som finns registrerade
+ * Denna klass används för att se vilka utrustningar som finns registrerade.
  * Klassen ger även möjlighet att ta sig till nya fönster som kan
  * lägga till och ta bort utrustning
  */
