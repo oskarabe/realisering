@@ -9,6 +9,8 @@ import oru.inf.InfException;
  *
  * @author lovee
  * Denna klass gör det möjligt att ta bort utrustning ur databasen
+ * Vet inte hur detta ska lösas dock, eftersom det finns en foreign_key constraint
+ * på innehar_utrustning... Får error ifall man försöker köra ett delete statement på utrustning
  */
 public class TaBortUtrustning extends javax.swing.JFrame {
 
