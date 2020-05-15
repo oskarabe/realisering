@@ -343,15 +343,10 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
     }//GEN-LAST:event_btnHanteraAliensActionPerformed
 
     private void btnAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdminActionPerformed
-        /**
-         * // Kolla ifall agenten har adminstatus
-                    String hittaAdminStatus = ("select administrator from agent " +
-                                               "where agent_id = " + "(" + hittaAgentID + ")");
-                    String adminStatus = mib.fetchSingle(hittaAdminStatus);
-                    System.out.println("Adminstatus: " + adminStatus);
-                    //If-sats för att öppna rätt fönster beroende på adminstatus
-                        if(adminStatus.equals("J"))
-         */
+        if(isAdmin)
+        {
+            new HuvudmenyAdmin(mib).setVisible(true);
+        }
     }//GEN-LAST:event_btnAdminActionPerformed
 
     private void btnRegistreraUtrustningActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistreraUtrustningActionPerformed
