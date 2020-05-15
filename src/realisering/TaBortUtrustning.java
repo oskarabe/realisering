@@ -92,10 +92,7 @@ public class TaBortUtrustning extends javax.swing.JFrame {
     //Knapptryck som gör att utrustningen med det angivna namnet tas bort från databasen
     private void btnTaBortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaBortActionPerformed
         String namnPaUtrustning = txtFldUtrustningNamn.getText();
-        String deleteSQL = ("set foreign_key_checks = 0; " +
-                            "delete from utrustning where benamning = " +
-                            namnPaUtrustning + "; SET foreign_key_checks = 1;");
-
+        String deleteSQL = ("delete from utrustning where benamning = " + "'" + namnPaUtrustning + "'");
        if (Validering.finnsText(txtFldUtrustningNamn))
         {
             try {
