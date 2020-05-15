@@ -8,6 +8,9 @@ import oru.inf.InfException;
 /**
  *
  * @author oskar
+ * Denna klass utgör loginfönstret för programmet. Användaren anger sitt
+ * lösenord och beroende på ifall användaren är en agent, administratör eller
+ * alien kommer olika fönster öppnas upp
  */
 public class Login extends javax.swing.JFrame {
 
