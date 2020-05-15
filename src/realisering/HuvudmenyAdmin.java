@@ -5,6 +5,7 @@
  */
 package realisering;
 
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import oru.inf.InfDB;
 import oru.inf.InfException;
@@ -26,6 +27,7 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
         initComponents();
         agentID = Login.getAgentID();
         setLblInloggNamn();
+        setcBoxOmrade();
     }
 
     //Anger texten i lblInloggNamn
@@ -46,6 +48,30 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
         }
     }
     
+    //Anger värdena i cBoxOmrade
+    private void setcBoxOmrade()
+    {
+        String hittaOmraden = "select benamning from omrade";
+        ArrayList<String> allaOmraden;
+        
+        try {   
+            allaOmraden = mib.fetchColumn(hittaOmraden);
+            for (String omrade : allaOmraden) {
+                cBoxOmrade.addItem(omrade);
+            }            
+            
+        } catch (InfException ettUndantag) {
+            JOptionPane.showMessageDialog(null, "Databasfel!");
+            System.out.println("Internt felmeddelande" + ettUndantag.getMessage());
+        }
+        
+        catch (Exception ettUndantag) {
+            JOptionPane.showMessageDialog(null, "Något gick fel!");
+            System.out.println("Internt felmeddelande" + ettUndantag.getMessage());
+        }
+    }
+    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -67,7 +93,7 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
         txtFldsokruta = new javax.swing.JTextField();
         hanteraAlien = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(800, 500));
         setSize(new java.awt.Dimension(800, 500));
 
@@ -96,8 +122,6 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
                 hanteraUtrustningActionPerformed(evt);
             }
         });
-
-        cBoxOmrade.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         tabell.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -196,7 +220,7 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_hanteraAgentActionPerformed
 
     private void tillbakaKnappActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tillbakaKnappActionPerformed
-        // TODO add your handling code here:
+        dispose();
     }//GEN-LAST:event_tillbakaKnappActionPerformed
 
     private void hanteraUtrustningActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hanteraUtrustningActionPerformed
