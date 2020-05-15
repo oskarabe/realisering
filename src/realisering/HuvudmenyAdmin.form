@@ -2,7 +2,7 @@
 
 <Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <Properties>
-    <Property name="defaultCloseOperation" type="int" value="3"/>
+    <Property name="defaultCloseOperation" type="int" value="2"/>
     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
       <Dimension value="[800, 500]"/>
     </Property>
@@ -39,24 +39,20 @@
                   <Group type="102" alignment="1" attributes="0">
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Group type="102" attributes="0">
-                              <Component id="omrade" min="-2" max="-2" attributes="0"/>
+                              <Component id="cBoxOmrade" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="sokruta" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtFldsokruta" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
                               <Component id="hanteraUtrustning" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="hanteraAgent1" min="-2" pref="136" max="-2" attributes="0"/>
+                              <Component id="hanteraAlien" min="-2" pref="136" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="inloggadSom" min="-2" pref="65" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblInloggNamn" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblOmrade" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="264" max="32767" attributes="0"/>
+                              <EmptySpace pref="339" max="32767" attributes="0"/>
                               <Component id="tillbakaKnapp" min="-2" pref="136" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="hanteraAgent" min="-2" pref="136" max="-2" attributes="0"/>
@@ -68,7 +64,7 @@
           </Group>
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="32767" attributes="0"/>
-              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+              <Component id="lblAdministrator" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="310" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -77,16 +73,13 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
-              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+              <Component id="lblAdministrator" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                                  <Component id="inloggadSom" alignment="3" min="-2" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="lblInloggNamn" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
@@ -98,16 +91,16 @@
                           </Group>
                       </Group>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="hanteraAgent1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="hanteraAlien" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="hanteraUtrustning" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" attributes="0">
-                      <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblOmrade" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="sokruta" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="omrade" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="txtFldsokruta" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="cBoxOmrade" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
               </Group>
@@ -119,7 +112,7 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JLabel" name="jLabel1">
+    <Component class="javax.swing.JLabel" name="lblAdministrator">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="24" style="1"/>
@@ -127,14 +120,9 @@
         <Property name="text" type="java.lang.String" value="Administrat&#xf6;r"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel2">
+    <Component class="javax.swing.JLabel" name="lblInloggNamn">
       <Properties>
         <Property name="text" type="java.lang.String" value="Du &#xe4;r inloggad som:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="inloggadSom">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Agent 1"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JButton" name="hanteraAgent">
@@ -161,7 +149,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="hanteraUtrustningActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JComboBox" name="omrade">
+    <Component class="javax.swing.JComboBox" name="cBoxOmrade">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="4">
@@ -197,22 +185,22 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JLabel" name="jLabel5">
+    <Component class="javax.swing.JLabel" name="lblOmrade">
       <Properties>
         <Property name="text" type="java.lang.String" value="Omr&#xe5;de"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="sokruta">
+    <Component class="javax.swing.JTextField" name="txtFldsokruta">
       <Properties>
         <Property name="text" type="java.lang.String" value="S&#xf6;k agent..."/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="hanteraAgent1">
+    <Component class="javax.swing.JButton" name="hanteraAlien">
       <Properties>
         <Property name="text" type="java.lang.String" value="Hantera alien"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="hanteraAgent1ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="hanteraAlienActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
