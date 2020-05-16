@@ -92,13 +92,26 @@ public class TaBortUtrustning extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     //Knapptryck som gör att utrustningen med det angivna namnet tas bort från databasen
+    //Måste fixa för vapen, teknik och kommunikation också
     private void btnTaBortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaBortActionPerformed
         String namnPaUtrustning = txtFldUtrustningNamn.getText();
-        String deleteSQL = ("delete from utrustning where benamning = " + "'" + namnPaUtrustning + "'");
+        String hittaUtrustnings_id = ("(select utrustnings_id from utrustning where benamning = " 
+                                      + "'" + namnPaUtrustning + "')");
+        String deleteFromInneharUtrustning = ("delete from innehar_utrustning where utrustnings_id = " +
+                                              hittaUtrustnings_id);
+        String deleteFromUtrustning = ("delete from utrustning where utrustnings_id = " +
+                                       hittaUtrustnings_id);
+        String deleteFromTeknik = ("delete from teknik where utrustnings_id = " +
+                                       hittaUtrustnings_id);
+        
+        //Skulle behöva en if och loop för att se ifall et faktiskt finns en utrustning
+        //med det valda namnet
        if (Validering.finnsText(txtFldUtrustningNamn))
         {
             try {
-                mib.delete(deleteSQL);
+                mib.delete(deleteFromTeknik);
+                mib.delete(deleteFromInneharUtrustning);
+                mib.delete(deleteFromUtrustning);
                 lblMeddelande.setText(namnPaUtrustning + " har tagits bort!");
                 }
 
