@@ -8,7 +8,8 @@ import oru.inf.*;
 
 /**
  *
- * @author oskar
+ * @author oskar Klassen är till för att förse administratören med ett
+ * gränssnitt där de kan utföra funktioner som vanliga agenter inte har
  */
 public class HuvudmenyAdmin extends javax.swing.JFrame {
 
@@ -41,7 +42,7 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
                 private String valOmrade() {
 
                                 try {
-                                               String aktiv = (String) omradeBox.getSelectedItem();
+                                                String aktiv = (String) omradeBox.getSelectedItem();
                                                 omID = ("SELECT OMRADES_ID FROM OMRADE WHERE BENAMNING = '" + aktiv + "'");
                                                 //System.out.println(mib.fetchSingle(omID));
 
@@ -158,6 +159,7 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
                                 return lvBox;
 
                 }
+
                 private TableModel getTableModel() {
                                 return tabell.getModel();
 
@@ -334,8 +336,8 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
                 }//GEN-LAST:event_omradeBoxItemStateChanged
 
                 private void sokrutaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_sokrutaKeyPressed
- String lvpString = (namnSok + "%" + sokruta.getText().toUpperCase() + "%'");
- if (evt.getKeyCode() == 10) {
+                                String lvpString = (namnSok + "%" + sokruta.getText().toUpperCase() + "%'");
+                                if (evt.getKeyCode() == 10) {
                                                 skrivTabell(lvpString, true);
                                                 }                }//GEN-LAST:event_sokrutaKeyPressed
 
