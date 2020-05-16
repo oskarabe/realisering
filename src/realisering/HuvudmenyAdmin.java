@@ -307,7 +307,7 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
                                                                 .addContainerGap(56, Short.MAX_VALUE))
                                 );
 
-                                pack();
+                                setBounds(0, 0, 817, 477);
                 }//GEN-END:initComponents
 
     private void hanteraAgentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hanteraAgentActionPerformed
