@@ -1,9 +1,9 @@
 package realisering;
 
-import java.util.ArrayList;
-import javax.swing.JOptionPane;
-import oru.inf.InfDB;
-import oru.inf.InfException;
+import java.awt.*;
+import java.util.*;
+import javax.swing.*;
+import oru.inf.*;
 
 /**
  *
@@ -11,212 +11,231 @@ import oru.inf.InfException;
  */
 public class Login extends javax.swing.JFrame {
 
-    private InfDB mib;
-    //ID:t för den alien eller agent som är inloggad.
-    //Används för att kunna hitta rätt info med SQL-frågor i andra klasser
-    private static String alienID;
-    private static String agentID;
+                private InfDB mib;
+                //ID:t för den alien eller agent som är inloggad.
+                //Används för att kunna hitta rätt info med SQL-frågor i andra klasser
+                private static String alienID;
+                private static String agentID;
+                private static boolean isAdmin;
 
-    /**
-     * Konstruktor
-     */
-    public Login(InfDB mib) {
-        this.mib = mib;
-        initComponents();
-    }
-
-    // Det som händer när man klickar enter/knappen
-    private void loggaIn() {
-        Boolean koll = false;
-        Boolean isAgent = false;
-        String hittaAlien = "SELECT LOSENORD FROM ALIEN;";
-        String hittaAgent = "SELECT LOSENORD FROM AGENT;";
-
-        ArrayList<String> allaLosenAgent;
-        ArrayList<String> allaLosenAlien;
-
-        try {
-
-            // Sparar lösenord i Arraylist.
-            allaLosenAgent = mib.fetchColumn(hittaAgent);
-            allaLosenAlien = mib.fetchColumn(hittaAlien);
-
-            // Kollar igenom alla Agenters lösenord
-            for (String l : allaLosenAgent) {
-                String agentLosenord = new String(losenord.getPassword());
-                if (l.equals(agentLosenord)) {
-                    dispose();
-                    System.out.println("Agent");
-                    koll = true;
-                    isAgent = true;
-                    //Registrera Agent-ID för att kunna användas i andra klasser
-                    String hittaAgentID = ("select agent_id from agent where " +
-                                           "losenord = " + "'" + agentLosenord + "'");
-                    agentID = mib.fetchSingle(hittaAgentID);
-                    System.out.println("AgentID: " + agentID);
-                    //Öppna huvudmenyn för agenter
-                    new HuvudmenyAgent(mib).setVisible(true);
+                /**
+                 * Konstruktor
+                 */
+                public Login(InfDB mib) {
+                                this.mib = mib;
+                                initComponents();
                 }
-            }
 
-           // Kollar igenom alla Aliens lösenord.
-            for (String l : allaLosenAlien) {
-                String alienLosenord = new String(losenord.getPassword());
-                if (l.equals(alienLosenord)) {
-                    dispose();
-                    System.out.println("Alien");
-                    koll = true;
-                    //Registrera Alien-ID för att kunna användas i andra klasser
-                    String hittaAlienID = ("select alien_id from alien where losenord = " + "'" + alienLosenord + "'");
-                    alienID = mib.fetchSingle(hittaAlienID);
-                    System.out.println("AlienID: " + alienID);
-                    // Öppna fönster HuvudmenyAlien
-                    new HuvudmenyAlien(mib).setVisible(true);
+                // Det som händer när man klickar enter/knappen
+                private void loggaIn() {
+                                Boolean koll = false;
+                                Boolean isAgent = false;
+                                String hittaAlien = "SELECT LOSENORD FROM ALIEN;";
+                                String hittaAgent = "SELECT LOSENORD FROM AGENT;";
+                                String hittaAdmin = "SELECT LOSENORD FROM AGENT WHERE ADMINISTRATOR LIKE 'J';";
+
+                                ArrayList<String> allaLosenAgent;
+                                ArrayList<String> allaLosenAlien;
+                                ArrayList<String> allaLosenAdmin;
+
+                                try {
+
+                                                // Sparar lösenord i Arraylist.
+                                                allaLosenAgent = mib.fetchColumn(hittaAgent);
+                                                allaLosenAlien = mib.fetchColumn(hittaAlien);
+                                                allaLosenAdmin = mib.fetchColumn(hittaAdmin);
+
+                                                // Kollar igenom alla Agenters lösenord
+                                                for (String l : allaLosenAdmin) {
+                                                                String adminLosenord = new String(losenord.getPassword());
+
+                                                                if (adminLosenord.equals(l)) {
+                                                                                isAdmin = true;
+                                                                } else {
+                                                                                isAdmin = false;
+                                                                }
+                                                }
+
+                                                // Kollar igenom alla Agenters lösenord
+                                                for (String l : allaLosenAgent) {
+                                                                String agentLosenord = new String(losenord.getPassword());
+                                                                if (l.equals(agentLosenord)) {
+                                                                                this.dispose();
+                                                                                //  System.out.println("Agent");
+                                                                                koll = true;
+                                                                                isAgent = true;
+                                                                                //Registrera Agent-ID för att kunna användas i andra klasser
+                                                                                String hittaAgentID = ("SELECT AGENT_ID FROM AGENT WHERE "
+                                                                                        + "LOSENORD LIKE '" + agentLosenord + "' ");
+                                                                                agentID = mib.fetchSingle(hittaAgentID);
+                                                                                //      System.out.println("AgentID: " + agentID);
+                                                                                //Öppna huvudmenyn för agenter
+                                                                                new HuvudmenyAdmin(mib).setVisible(true);
+
+                                                                }
+                                                }
+
+                                                // Kollar igenom alla Aliens lösenord.
+                                                for (String l : allaLosenAlien) {
+                                                                String alienLosenord = new String(losenord.getPassword());
+                                                                if (l.equals(alienLosenord)) {
+                                                                                dispose();
+                                                                                System.out.println("Alien");
+                                                                                koll = true;
+                                                                                //Registrera Alien-ID för att kunna användas i andra klasser
+                                                                                String hittaAlienID = ("SELECT ALIEN_ID FROM ALIEN WHERE LOSENORD LIKE " + "'" + alienLosenord + "'");
+                                                                                alienID = mib.fetchSingle(hittaAlienID);
+                                                                                System.out.println("AlienID: " + alienID);
+                                                                                // Öppna fönster HuvudmenyAlien
+                                                                                new HuvudmenyAlien(mib).setVisible(true);
+                                                                }
+                                                }
+
+                                                // Om lösenordet inte fanns - Meddelande om fel lösenord.
+                                                if (!koll) {
+                                                                JOptionPane.showMessageDialog(null, "Fel lösenord!");
+                                                }
+
+                                } catch (InfException ettUndantag) {
+                                                JOptionPane.showMessageDialog(null, "Databasfel!");
+                                                System.out.println("D Fel --  " + ettUndantag.getMessage() + " -- " + ettUndantag.getLocalizedMessage() + " -- " + ettUndantag.getCause().toString());
+                                } catch (HeadlessException ettUndantag) {
+                                                JOptionPane.showMessageDialog(null, "Något gick fel!");
+                                                System.out.println("Fel --  " + ettUndantag.getMessage() + " -- " + ettUndantag.getLocalizedMessage() + " -- " + ettUndantag.getCause().toString());
+                                }
+
                 }
-            }
-            
-            // Om lösenordet inte fanns - Meddelande om fel lösenord.
-            if (!koll) {
-                JOptionPane.showMessageDialog(null, "Fel lösenord!");
-            }
 
-        } catch (InfException ettUndantag) {
-            JOptionPane.showMessageDialog(null, "Databasfel!");
-            System.out.println("Internt felmeddelande" + ettUndantag.getMessage());
-        } catch (Exception ettUndantag) {
-            JOptionPane.showMessageDialog(null, "Något gick fel!");
-            System.out.println("Internt felmeddelande" + ettUndantag.getMessage());
-        }
+                //get-metoder för att returnera ID av den agent eller alien som är inloggad
+                //Kommer användas i andra klasser
+                public static String getAlienID() {
+                                return alienID;
+                }
 
-    }
+                public static String getAgentID() {
+                                return agentID;
+                }
 
-    //get-metoder för att returnera ID av den agent eller alien som är inloggad
-    //Kommer användas i andra klasser
-    public static String getAlienID()
-    {
-        return alienID;
-    }
-    
-    public static String getAgentID()
-    {
-        return agentID;
-    }
-    
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+                public static Boolean getAdmin() {
+                                return isAdmin;
+                }
 
-        jLabel1 = new javax.swing.JLabel();
-        losenord = new javax.swing.JPasswordField();
-        knapp = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
+                /**
+                 * This method is called from within the constructor to
+                 * initialize the form. WARNING: Do NOT modify this code. The
+                 * content of this method is always regenerated by the Form
+                 * Editor.
+                 */
+                @SuppressWarnings("unchecked")
+                // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+                private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setBackground(new java.awt.Color(47, 59, 94));
-        setBounds(new java.awt.Rectangle(0, 0, 0, 0));
-        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        setFont(new java.awt.Font("Gill Sans MT Condensed", 1, 14)); // NOI18N
-        setMaximumSize(new java.awt.Dimension(400, 350));
-        setMinimumSize(new java.awt.Dimension(400, 350));
-        setPreferredSize(new java.awt.Dimension(400, 350));
-        setResizable(false);
-        setSize(new java.awt.Dimension(400, 350));
+                                jLabel1 = new javax.swing.JLabel();
+                                losenord = new javax.swing.JPasswordField();
+                                knapp = new javax.swing.JButton();
+                                jLabel2 = new javax.swing.JLabel();
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/realisering/Men_In_Black_logo.png"))); // NOI18N
+                                setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+                                setBackground(new java.awt.Color(47, 59, 94));
+                                setBounds(new java.awt.Rectangle(0, 0, 0, 0));
+                                setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+                                setFont(new java.awt.Font("Gill Sans MT Condensed", 1, 14)); // NOI18N
+                                setMaximumSize(new java.awt.Dimension(400, 350));
+                                setMinimumSize(new java.awt.Dimension(400, 350));
+                                setPreferredSize(new java.awt.Dimension(400, 350));
+                                setResizable(false);
+                                setSize(new java.awt.Dimension(400, 350));
 
-        losenord.setColumns(12);
-        losenord.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        losenord.setToolTipText("Ange lösenord");
-        losenord.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        losenord.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                losenordActionPerformed(evt);
-            }
-        });
-        losenord.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                losenordKeyPressed(evt);
-            }
-        });
+                                jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/realisering/Men_In_Black_logo.png"))); // NOI18N
 
-        knapp.setFont(new java.awt.Font("Open Sans SemiBold", 1, 16)); // NOI18N
-        knapp.setText("LOGGA IN");
-        knapp.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                knappActionPerformed(evt);
-            }
-        });
+                                losenord.setColumns(12);
+                                losenord.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+                                losenord.setToolTipText("Ange lösenord");
+                                losenord.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+                                losenord.addActionListener(new java.awt.event.ActionListener() {
+                                                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                                                losenordActionPerformed(evt);
+                                                }
+                                });
+                                losenord.addKeyListener(new java.awt.event.KeyAdapter() {
+                                                public void keyPressed(java.awt.event.KeyEvent evt) {
+                                                                losenordKeyPressed(evt);
+                                                }
+                                });
 
-        jLabel2.setText("Ändra lösenord");
-        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel2MouseClicked(evt);
-            }
-        });
+                                knapp.setFont(new java.awt.Font("Open Sans SemiBold", 1, 16)); // NOI18N
+                                knapp.setText("LOGGA IN");
+                                knapp.addActionListener(new java.awt.event.ActionListener() {
+                                                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                                                                knappActionPerformed(evt);
+                                                }
+                                });
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(17, 17, 17)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(125, 125, 125)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(knapp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(losenord)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(143, 143, 143)
-                        .addComponent(jLabel2)))
-                .addContainerGap(19, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(losenord, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(knapp, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2)
-                .addContainerGap(56, Short.MAX_VALUE))
-        );
+                                jLabel2.setText("Ändra lösenord");
+                                jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+                                                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                                                                jLabel2MouseClicked(evt);
+                                                }
+                                });
 
-        pack();
-    }// </editor-fold>//GEN-END:initComponents
+                                javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+                                getContentPane().setLayout(layout);
+                                layout.setHorizontalGroup(
+                                                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addGroup(layout.createSequentialGroup()
+                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                                .addGroup(layout.createSequentialGroup()
+                                                                                                .addGap(17, 17, 17)
+                                                                                                .addComponent(jLabel1))
+                                                                                .addGroup(layout.createSequentialGroup()
+                                                                                                .addGap(125, 125, 125)
+                                                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                                                                                .addComponent(knapp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                                                                .addComponent(losenord)))
+                                                                                .addGroup(layout.createSequentialGroup()
+                                                                                                .addGap(143, 143, 143)
+                                                                                                .addComponent(jLabel2)))
+                                                                .addContainerGap(19, Short.MAX_VALUE))
+                                );
+                                layout.setVerticalGroup(
+                                                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addGroup(layout.createSequentialGroup()
+                                                                .addContainerGap()
+                                                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                                .addComponent(losenord, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addComponent(knapp, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addComponent(jLabel2)
+                                                                .addContainerGap(56, Short.MAX_VALUE))
+                                );
 
-    // Logga in genom att klicka på knappen
+                                pack();
+                }// </editor-fold>//GEN-END:initComponents
+
+                // Logga in genom att klicka på knappen
     private void knappActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_knappActionPerformed
-        loggaIn();
+                                loggaIn();
     }//GEN-LAST:event_knappActionPerformed
     private void losenordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_losenordKeyPressed
-        if (evt.getKeyCode() == 10) {
-            loggaIn(); // Logga in genom att trycka enter
-        }
+                                if (evt.getKeyCode() == 10) {
+                                                loggaIn(); // Logga in genom att trycka enter
+                                }
     }//GEN-LAST:event_losenordKeyPressed
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
-        dispose();
+                                dispose();
     }//GEN-LAST:event_jLabel2MouseClicked
 
     private void losenordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_losenordActionPerformed
-        
+
     }//GEN-LAST:event_losenordActionPerformed
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JButton knapp;
-    private javax.swing.JPasswordField losenord;
-    // End of variables declaration//GEN-END:variables
+                // Variables declaration - do not modify//GEN-BEGIN:variables
+                private javax.swing.JLabel jLabel1;
+                private javax.swing.JLabel jLabel2;
+                private javax.swing.JButton knapp;
+                private javax.swing.JPasswordField losenord;
+                // End of variables declaration//GEN-END:variables
 }
