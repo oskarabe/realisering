@@ -9,6 +9,8 @@ import oru.inf.*;
 /**
  *
  * @author oskar
+ * Klassen är till för att förse administratören med ett gränssnitt där de
+ * kan utföra funktioner som vanliga agenter inte har
  */
 public class HuvudmenyAdmin extends javax.swing.JFrame {
 

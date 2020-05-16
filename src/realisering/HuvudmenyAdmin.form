@@ -45,11 +45,11 @@
                           <Group type="102" attributes="0">
                               <Component id="omradeBox" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                              <Component id="sokruta" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtFldsokruta" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
                               <Component id="hanteraUtrustning" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="hanteraAgent1" min="-2" pref="136" max="-2" attributes="0"/>
+                              <Component id="hanteraAlien" min="-2" pref="136" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -68,7 +68,7 @@
           </Group>
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="32767" attributes="0"/>
-              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+              <Component id="lblAdministrator" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="310" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -87,7 +87,7 @@
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="hanteraAgent1" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="hanteraAlien" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="hanteraUtrustning" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -110,7 +110,7 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JLabel" name="jLabel1">
+    <Component class="javax.swing.JLabel" name="lblAdministrator">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="24" style="1"/>
@@ -195,7 +195,7 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JLabel" name="jLabel5">
+    <Component class="javax.swing.JLabel" name="lblOmrade">
       <Properties>
         <Property name="text" type="java.lang.String" value="Omr&#xe5;de"/>
       </Properties>
@@ -203,7 +203,7 @@
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JTextField" name="sokruta">
+    <Component class="javax.swing.JTextField" name="txtFldsokruta">
       <Properties>
         <Property name="columns" type="int" value="12"/>
         <Property name="document" type="javax.swing.text.Document" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
@@ -221,12 +221,12 @@
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JButton" name="hanteraAgent1">
+    <Component class="javax.swing.JButton" name="hanteraAlien">
       <Properties>
         <Property name="text" type="java.lang.String" value="Hantera alien"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="hanteraAgent1ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="hanteraAlienActionPerformed"/>
       </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
