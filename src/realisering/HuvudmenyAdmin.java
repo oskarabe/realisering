@@ -1,6 +1,5 @@
 package realisering;
 
-import java.awt.*;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.table.*;
@@ -8,17 +7,15 @@ import oru.inf.*;
 
 /**
  *
- * @author oskar Klassen är till för att förse administratören med ett
- * gränssnitt där de kan utföra funktioner som vanliga agenter inte har
+ * @author oskar
  */
 public class HuvudmenyAdmin extends javax.swing.JFrame {
 
-                private InfDB mib;
-                private String agentID;
-                private String omID;
+                private final InfDB mib;
                 private ComboBoxModel lvBox;
                 private DefaultTableModel model;
-                private String agentLista, omradeSok, namnSok;
+                private String omID, omCB;
+                private final String namnSok, agentID, agentLista, omradeSok;
 
                 /**
                  * Creates new form HuvudmenyAgent
@@ -33,7 +30,7 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
                                 setLabelInloggNamn();
                                 setOmraden();
                                 agentLista = "SELECT AGENT_ID, NAMN, TELEFON, ANSTALLNINGSDATUM, ADMINISTRATOR, OMRADE FROM AGENT";
-                                omradeSok = agentLista + " WHERE OMRADE = ";
+                                omradeSok = agentLista + " WHERE OMRADE = (" + valOmrade() + ")";
                                 namnSok = agentLista + " WHERE NAMN LIKE '";
 
 
@@ -44,9 +41,8 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
                                 try {
                                                 String aktiv = (String) omradeBox.getSelectedItem();
                                                 omID = ("SELECT OMRADES_ID FROM OMRADE WHERE BENAMNING = '" + aktiv + "'");
-                                                //System.out.println(mib.fetchSingle(omID));
-
-                                                return mib.fetchSingle(omID);
+                                                omCB = mib.fetchSingle(omID);
+                                                return omCB;
 
 
                                 } catch (InfException ettUndantag) {
@@ -79,10 +75,9 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
 
                 //Anger texten i label lblinloggNamn
                 private void setOmraden() {
-                                String hittaOmraden = ("SELECT BENAMNING FROM OMRADE;");
                                 Vector<String> vc = new Vector<>();
                                 try {
-                                                vc.addAll(mib.fetchColumn(hittaOmraden));
+                                                vc.addAll(mib.fetchColumn("SELECT BENAMNING FROM OMRADE"));
                                                 lvBox = new DefaultComboBoxModel(vc);
                                                 omradeBox.getModel().setSelectedItem(vc.firstElement());
                                                 omradeBox.setModel(lvBox);
@@ -90,15 +85,14 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
                                 } catch (InfException ettUndantag) {
                                                 JOptionPane.showMessageDialog(null, "Databasfel!");
                                                 System.out.println("3 Internt felmeddelande" + ettUndantag.getMessage());
-                                } catch (HeadlessException ettUndantag) {
+                                } catch (IndexOutOfBoundsException ettUndantag) {
                                                 JOptionPane.showMessageDialog(null, "Något gick fel!");
-                                                System.out.println("Fel --  " + ettUndantag.getMessage() + " -- " + ettUndantag.getLocalizedMessage());
+                                                System.out.println("");
                                 }
 
                 }
 
-                private void skrivTabell(String querySQL, Boolean manual) {
-
+                private void skrivTabell(String qurSL, Boolean manual) {
                                 model = (DefaultTableModel) tabell.getModel();
                                 model.getDataVector().removeAllElements();
                                 tabell.setAutoCreateRowSorter(true);
@@ -109,46 +103,53 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
                                 Vector<Vector> vV = new Vector<>(30, 10);
                                 Vector<String> vK, vT;
                                 try {
-
-                                                System.out.println(querySQL);
+                                                vK = new Vector<String>();
                                                 ArrayList<HashMap<String, String>> kDat;
-                                                if (manual) {
-                                                                kDat = mib.fetchRows(querySQL);
-                                                } else {
-                                                                kDat = mib.fetchRows(agentLista);
-                                                }
+                                                int i = 0;
+                                                kDat = mib.fetchRows(qurSL);
 
 
                                                 for (HashMap<String, String> lvHm : kDat) {
+                                                                Object[] iKeys = lvHm.keySet().toArray();
 
-                                                                Iterator iKeys = lvHm.keySet().iterator();
-                                                                vK = new Vector<>();
-                                                                while (iKeys.hasNext()) {
-                                                                                String key = (String) iKeys.next();
+
+                                                                while (i < 6) {
+                                                                                String key = (String) iKeys[i];
                                                                                 vK.add(key);
+                                                                                System.out.println(key);
+                                                                                if (vK.retainAll(lvHm.keySet())) {
+                                                                                                break;
+                                                                                }
+                                                                                i++;
                                                                 }
-
                                                                 vT = new Vector<>();
                                                                 vT.addAll(lvHm.values());
                                                                 vV.add(vT);
-
-                                                                model.setDataVector(vV, vK);
-
-                                                                model.fireTableStructureChanged();
-                                                                model.fireTableDataChanged();
-                                                                tabell.updateUI();
                                                 }
+                                                model.setDataVector(vV, vK);
+                                                tabell.setRowSorter(new TableRowSorter(model));
+                                                tabell.setAutoCreateRowSorter(true);
+                                                tabell.setAutoCreateColumnsFromModel(true);
+                                                tabell.setRowSelectionAllowed(true);
+
+
+                                                model.fireTableStructureChanged();
+                                                model.fireTableDataChanged();
+                                                tabell.updateUI();
+                                                tabell.getColumnModel().moveColumn(2, 0);
+                                                tabell.getColumnModel().moveColumn(5, 4);
+
 
                                 } catch (InfException ettUndantag) {
                                                 JOptionPane.showMessageDialog(null, "Databasfel!");
-                                                System.out.println("3 Internt felmeddelande" + ettUndantag.getMessage());
-                                } catch (HeadlessException ettUndantag) {
+                                                System.out.println("inf fel 3 Internt felmeddelande" + ettUndantag.getMessage());
+                                } catch (IndexOutOfBoundsException ettUndantag) {
                                                 JOptionPane.showMessageDialog(null, "Något gick fel!");
-                                                System.out.println("Fel --  " + ettUndantag.getMessage() + " -- " + ettUndantag.getLocalizedMessage());
+                                                System.out.println("headFel --  " + ettUndantag.getMessage() + " -- " + ettUndantag.getLocalizedMessage());
                                 } catch (NullPointerException ettUndantag) {
-                                                JOptionPane.showMessageDialog(null, "Något gick fel!");
-                                                sokruta.setText("Inga resultat");
-                                                System.out.println("Fel --  " + ettUndantag.getMessage() + " -- " + ettUndantag.getLocalizedMessage());
+                                                JOptionPane.showMessageDialog(null, "inget");
+
+                                                System.out.println("  nullFel --  " + ettUndantag.getMessage() + " -- " + ettUndantag.getLocalizedMessage());
                                 }
 
 
@@ -156,7 +157,7 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
 
                 private ComboBoxModel getCbModel() {
 
-                                return lvBox;
+                                return omradeBox.getModel();
 
                 }
 
@@ -164,6 +165,19 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
                                 return tabell.getModel();
 
                 }
+
+
+                private void avslut(boolean b) {
+                                new HanteraAgent(mib).setVisible(true);
+
+                                setEnabled(b);
+                                this.dispose();
+                                this.disable();
+                                this.setVisible(b);
+
+
+                }
+
 
                 /**
                  * This method is called from within the constructor to
@@ -187,6 +201,7 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
                                 hanteraAgent1 = new javax.swing.JButton();
 
                                 setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+                                setTitle("Admin");
                                 setMinimumSize(new java.awt.Dimension(800, 500));
                                 setSize(new java.awt.Dimension(800, 500));
 
@@ -196,6 +211,11 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
                                 inloggadSom.setText("Agent 1");
 
                                 hanteraAgent.setText("Hantera agent");
+                                hanteraAgent.addMouseListener(new java.awt.event.MouseAdapter() {
+                                                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                                                                hanteraAgentMouseClicked(evt);
+                                                }
+                                });
                                 hanteraAgent.addActionListener(new java.awt.event.ActionListener() {
                                                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                                                                 hanteraAgentActionPerformed(evt);
@@ -309,16 +329,19 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
                                                                 .addContainerGap(56, Short.MAX_VALUE))
                                 );
 
-                                setBounds(0, 0, 817, 477);
+                                pack();
                 }//GEN-END:initComponents
 
     private void hanteraAgentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hanteraAgentActionPerformed
-                                // TODO add your handling code here:
+
+                                avslut(false);
+
     }//GEN-LAST:event_hanteraAgentActionPerformed
 
     private void tillbakaKnappActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tillbakaKnappActionPerformed
-                                new HuvudmenyAgent(mib).setVisible(true);
-                                dispose();
+                                avslut(false);
+
+
     }//GEN-LAST:event_tillbakaKnappActionPerformed
 
     private void hanteraUtrustningActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hanteraUtrustningActionPerformed
@@ -326,7 +349,7 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_hanteraUtrustningActionPerformed
 
     private void hanteraAgent1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hanteraAgent1ActionPerformed
-                                // TODO add your handling code here:
+                                avslut(false);
     }//GEN-LAST:event_hanteraAgent1ActionPerformed
 
                 private void omradeBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_omradeBoxItemStateChanged
@@ -336,10 +359,17 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
                 }//GEN-LAST:event_omradeBoxItemStateChanged
 
                 private void sokrutaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_sokrutaKeyPressed
-                                String lvpString = (namnSok + "%" + sokruta.getText().toUpperCase() + "%'");
+                                String lvpString = (namnSok + "'%" + sokruta.getText().toUpperCase() + "%'");
                                 if (evt.getKeyCode() == 10) {
                                                 skrivTabell(lvpString, true);
                                                 }                }//GEN-LAST:event_sokrutaKeyPressed
+
+                private void hanteraAgentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hanteraAgentMouseClicked
+                                avslut(false);
+
+
+                                // TODO add your handling code here:
+                }//GEN-LAST:event_hanteraAgentMouseClicked
 
                 /**
                  * @param args the command line arguments
