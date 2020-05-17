@@ -31,7 +31,7 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
                                 setOmraden();
                                 agentLista = "SELECT AGENT_ID, NAMN, TELEFON, ANSTALLNINGSDATUM, ADMINISTRATOR, OMRADE FROM AGENT";
                                 omradeSok = agentLista + " WHERE OMRADE = (" + valOmrade() + ")";
-                                namnSok = agentLista + " WHERE NAMN LIKE '";
+                                namnSok = agentLista + " WHERE NAMN LIKE ";
 
 
                 }
@@ -73,7 +73,7 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
                                 }
                 }
 
-                //Anger texten i label lblinloggNamn
+                //Anger områden i combobox
                 private void setOmraden() {
                                 Vector<String> vc = new Vector<>();
                                 try {
