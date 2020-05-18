@@ -1,6 +1,4 @@
 package realisering;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import oru.inf.InfDB;
 import javax.swing.JOptionPane;
 import oru.inf.InfException;
@@ -56,10 +54,14 @@ public class TaBortUtrustning extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 109, Short.MAX_VALUE)
+                .addComponent(lblMeddelande, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(105, 105, 105))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(66, 66, 66)
+                        .addGap(65, 65, 65)
                         .addComponent(lblNamnUtrustning))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(127, 127, 127)
@@ -68,22 +70,18 @@ public class TaBortUtrustning extends javax.swing.JFrame {
                                 .addGap(10, 10, 10)
                                 .addComponent(btnTaBort, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(txtFldUtrustningNamn, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(65, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(lblMeddelande, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(105, 105, 105))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(18, 18, 18)
                 .addComponent(lblNamnUtrustning)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtFldUtrustningNamn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnTaBort)
-                .addGap(28, 28, 28)
+                .addGap(16, 16, 16)
                 .addComponent(lblMeddelande)
                 .addContainerGap(32, Short.MAX_VALUE))
         );
@@ -97,19 +95,16 @@ public class TaBortUtrustning extends javax.swing.JFrame {
         String namnPaUtrustning = txtFldUtrustningNamn.getText();
         String hittaUtrustnings_id = ("(select utrustnings_id from utrustning where benamning = " 
                                       + "'" + namnPaUtrustning + "')");
-        String deleteFromInneharUtrustning = ("delete from innehar_utrustning where utrustnings_id = " +
-                                              hittaUtrustnings_id);
         String deleteFromUtrustning = ("delete from utrustning where utrustnings_id = " +
                                        hittaUtrustnings_id);
-        String deleteFromTeknik = ("delete from teknik where utrustnings_id = " +
+        String deleteFromInneharUtrustning = ("delete from innehar_utrustning where utrustnings_id = " +
                                        hittaUtrustnings_id);
         
-        //Skulle behöva en if och loop för att se ifall et faktiskt finns en utrustning
+        //Skulle behöva en if och loop för att se ifall det faktiskt finns en utrustning
         //med det valda namnet
        if (Validering.finnsText(txtFldUtrustningNamn))
         {
             try {
-                mib.delete(deleteFromTeknik);
                 mib.delete(deleteFromInneharUtrustning);
                 mib.delete(deleteFromUtrustning);
                 lblMeddelande.setText(namnPaUtrustning + " har tagits bort!");
