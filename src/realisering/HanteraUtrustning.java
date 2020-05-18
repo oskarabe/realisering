@@ -21,8 +21,19 @@ public class HanteraUtrustning extends javax.swing.JFrame {
     public HanteraUtrustning(InfDB mib) {
         this.mib = mib;
         initComponents();
+        checkAdminStatus();
     }
 
+    //Ifall användaren inte har adminstatus inaktiveras btnTaBort
+    private void checkAdminStatus()
+    {
+        if(!Login.getAdmin())
+        {
+            btnTaBort.setEnabled(false);
+        }
+        else
+            btnTaBort.setEnabled(true);
+    }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -35,7 +46,7 @@ public class HanteraUtrustning extends javax.swing.JFrame {
         sokruta = new javax.swing.JTextField();
         btnLaggTill = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         tble.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -125,7 +136,7 @@ public class HanteraUtrustning extends javax.swing.JFrame {
     }//GEN-LAST:event_sokrutaActionPerformed
 
     private void btnLaggTillActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLaggTillActionPerformed
-        new LaggTillUtrustning(mib).setVisible(true);
+        new RegistreraUtrustning(mib).setVisible(true);
     }//GEN-LAST:event_btnLaggTillActionPerformed
 
 

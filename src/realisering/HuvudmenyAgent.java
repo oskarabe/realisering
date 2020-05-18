@@ -133,7 +133,7 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
         lblAdminStatus = new javax.swing.JLabel();
         btnHanteraAliens = new javax.swing.JButton();
         btnAdmin = new javax.swing.JButton();
-        btnRegistreraUtrustning = new javax.swing.JButton();
+        btnHanteraUtrustning = new javax.swing.JButton();
         cBoxPlats = new javax.swing.JComboBox<>();
         cBoxOmrade = new javax.swing.JComboBox<>();
         cBoxRas = new javax.swing.JComboBox<>();
@@ -175,10 +175,10 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
             }
         });
 
-        btnRegistreraUtrustning.setText("Registrera utrustning");
-        btnRegistreraUtrustning.addActionListener(new java.awt.event.ActionListener() {
+        btnHanteraUtrustning.setText("Hantera utrustning");
+        btnHanteraUtrustning.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnRegistreraUtrustningActionPerformed(evt);
+                btnHanteraUtrustningActionPerformed(evt);
             }
         });
 
@@ -254,7 +254,7 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(18, 18, 18)
                                         .addComponent(cBoxRas, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lblDatum)
                                     .addGroup(layout.createSequentialGroup()
@@ -264,7 +264,7 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
                                         .addGap(18, 18, 18)
                                         .addComponent(txtFldSokruta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(33, 33, 33)
-                                .addComponent(btnRegistreraUtrustning))
+                                .addComponent(btnHanteraUtrustning))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(73, 73, 73)
                                 .addComponent(lblHuvudmenyAgent)
@@ -308,7 +308,7 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnHanteraAliens)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnRegistreraUtrustning)))
+                        .addComponent(btnHanteraUtrustning)))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(74, Short.MAX_VALUE))
@@ -329,9 +329,9 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnAdminActionPerformed
 
-    private void btnRegistreraUtrustningActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistreraUtrustningActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnRegistreraUtrustningActionPerformed
+    private void btnHanteraUtrustningActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHanteraUtrustningActionPerformed
+        new HanteraUtrustning(mib).setVisible(true);
+    }//GEN-LAST:event_btnHanteraUtrustningActionPerformed
 
     private void cBoxPlatsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cBoxPlatsActionPerformed
         // TODO add your handling code here:
@@ -348,7 +348,7 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdmin;
     private javax.swing.JButton btnHanteraAliens;
-    private javax.swing.JButton btnRegistreraUtrustning;
+    private javax.swing.JButton btnHanteraUtrustning;
     private javax.swing.JButton btnTillbakaInlogg;
     private javax.swing.JComboBox<String> cBoxOmrade;
     private javax.swing.JComboBox<String> cBoxPlats;

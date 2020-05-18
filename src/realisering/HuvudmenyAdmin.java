@@ -215,7 +215,7 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_tillbakaKnappActionPerformed
 
     private void hanteraUtrustningActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hanteraUtrustningActionPerformed
-        new TaBortUtrustning(mib).setVisible(true);
+        new HanteraUtrustning(mib).setVisible(true);
     }//GEN-LAST:event_hanteraUtrustningActionPerformed
 
     private void hanteraAlienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hanteraAlienActionPerformed

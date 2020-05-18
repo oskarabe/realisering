@@ -19,6 +19,7 @@ public class Login extends javax.swing.JFrame {
     //Används för att kunna hitta rätt info med SQL-frågor i andra klasser
     private static String alienID;
     private static String agentID;
+    private static boolean isAdmin;
 
     /**
      * Konstruktor
@@ -26,8 +27,14 @@ public class Login extends javax.swing.JFrame {
     public Login(InfDB mib) {
         this.mib = mib;
         initComponents();
+        isAdmin = true; //bara för test
     }
 
+    public static boolean getAdmin()
+    {
+        return isAdmin;
+    }
+    
     // Det som händer när man klickar enter/knappen
     private void loggaIn() {
         Boolean koll = false;
