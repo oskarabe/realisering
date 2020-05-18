@@ -1,6 +1,7 @@
 package realisering;
 
 import java.util.*;
+import java.util.logging.*;
 import javax.swing.*;
 import javax.swing.table.*;
 import oru.inf.*;
@@ -13,26 +14,32 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
 
                 private final InfDB mib;
                 private ComboBoxModel lvBox;
-                private DefaultTableModel model;
-                private String omID, omCB;
-                private final String namnSok, agentID, agentLista, omradeSok;
+                private TableColumnModel cmodel;
+                private TableColumn tC;
+                private String omID, omCB, all, agentLista;
+                private final String agentID;
+                private Vector<String> vC, vK, vL, vT;
 
-                /**
-                 * Creates new form HuvudmenyAgent
-                 *
-                 * @param mib
-                 */
+                DefaultTableModel model;
+
                 public HuvudmenyAdmin(InfDB mib) {
 
                                 this.mib = mib;
+                                model = new DefaultTableModel() {
+
+                                                @Override
+                                                public boolean isCellEditable(int row, int column) {
+                                                                return false;
+                                                }
+
+
+                                };
                                 agentID = Login.getAgentID();
                                 initComponents();
                                 setLabelInloggNamn();
-                                setOmraden();
-                                agentLista = "SELECT AGENT_ID, NAMN, TELEFON, ANSTALLNINGSDATUM, ADMINISTRATOR, OMRADE FROM AGENT";
-                                omradeSok = agentLista + " WHERE OMRADE = (" + valOmrade() + ")";
-                                namnSok = agentLista + " WHERE NAMN LIKE ";
-
+                                setGetCbModel();
+                                omradeBox.setSelectedItem(lvBox.getElementAt(0));
+                                setGetTableModel();
 
                 }
 
@@ -40,9 +47,12 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
 
                                 try {
                                                 String aktiv = (String) omradeBox.getSelectedItem();
-                                                omID = ("SELECT OMRADES_ID FROM OMRADE WHERE BENAMNING = '" + aktiv + "'");
-                                                omCB = mib.fetchSingle(omID);
-                                                return omCB;
+                                                omID = ("SELECT OMRADES_ID FROM OMRADE");
+                                                if (omradeBox.getSelectedIndex() != 0) {
+                                                                omID = omID + " WHERE BENAMNING LIKE '" + aktiv + "'";
+                                                                omCB = mib.fetchSingle(omID);
+                                                                return omCB;
+                                                }
 
 
                                 } catch (InfException ettUndantag) {
@@ -53,6 +63,7 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
                                                 JOptionPane.showMessageDialog(null, "Något gick fel!");
                                                 System.out.println("2 Internt felmeddelande" + ettUndantag.getMessage());
                                 }
+                                // Sätter en random som selected om något blir fel
                                 float lvR = 3 * Math.round(Math.random());
                                 return "" + Math.round(lvR);
 
@@ -73,54 +84,34 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
                                 }
                 }
 
-                //Anger områden i combobox
-                private void setOmraden() {
-                                Vector<String> vc = new Vector<>();
-                                try {
-                                                vc.addAll(mib.fetchColumn("SELECT BENAMNING FROM OMRADE"));
-                                                lvBox = new DefaultComboBoxModel(vc);
-                                                omradeBox.getModel().setSelectedItem(vc.firstElement());
-                                                omradeBox.setModel(lvBox);
 
-                                } catch (InfException ettUndantag) {
-                                                JOptionPane.showMessageDialog(null, "Databasfel!");
-                                                System.out.println("3 Internt felmeddelande" + ettUndantag.getMessage());
-                                } catch (IndexOutOfBoundsException ettUndantag) {
-                                                JOptionPane.showMessageDialog(null, "Något gick fel!");
-                                                System.out.println("");
-                                }
-
+                protected void skrivTabell() {
+                                skrivTabell(getAgentLista());
                 }
 
-                private void skrivTabell(String qurSL, Boolean manual) {
-                                model = (DefaultTableModel) tabell.getModel();
-                                model.getDataVector().removeAllElements();
-                                tabell.setAutoCreateRowSorter(true);
+                protected void skrivTabell(String specQuery) {
+                                ArrayList<HashMap<String, String>> kDat;
+                                Vector<Vector<String>> vV;
+                                int i = 0;
 
-                                tabell.setModel(model);
-                                model.fireTableDataChanged();
-
-                                Vector<Vector> vV = new Vector<>(30, 10);
-                                Vector<String> vK, vT;
                                 try {
-                                                vK = new Vector<String>();
-                                                ArrayList<HashMap<String, String>> kDat;
-                                                int i = 0;
-                                                kDat = mib.fetchRows(qurSL);
-
-
+                                                vV = new Vector<>();
+                                                vK = new Vector<>();
+                                                vL = new Vector<>();
+                                                kDat = mib.fetchRows(specQuery);
                                                 for (HashMap<String, String> lvHm : kDat) {
-                                                                Object[] iKeys = lvHm.keySet().toArray();
-
-
+                                                                vL.addAll(lvHm.keySet());
                                                                 while (i < 6) {
-                                                                                String key = (String) iKeys[i];
+                                                                                String key = vL.get(i);
                                                                                 vK.add(key);
                                                                                 System.out.println(key);
-                                                                                if (vK.retainAll(lvHm.keySet())) {
-                                                                                                break;
-                                                                                }
-                                                                                i++;
+                                                                                /*
+                                                                                 * if
+                                                                                 * (vK.retainAll(lvHm.keySet()))
+                                                                                 * {
+                                                                                 * break;
+                                                                                 * }
+                                                                                 */ i++;
                                                                 }
                                                                 vT = new Vector<>();
                                                                 vT.addAll(lvHm.values());
@@ -131,13 +122,21 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
                                                 tabell.setAutoCreateRowSorter(true);
                                                 tabell.setAutoCreateColumnsFromModel(true);
                                                 tabell.setRowSelectionAllowed(true);
+                                                tC = new TableColumn(vK.lastIndexOf(vK), model.findColumn(tabell.getColumnName(0)), tabell.getDefaultRenderer(model.getColumnClass(0)), null);
+                                                TableCellEditor cellEditor = null;
+                                                tC.setCellEditor(cellEditor);
+                                                cmodel.addColumn(tC);
+
+                                                tabell.removeEditor();
 
 
                                                 model.fireTableStructureChanged();
                                                 model.fireTableDataChanged();
-                                                tabell.updateUI();
+                                                //    tabell.updateUI();
                                                 tabell.getColumnModel().moveColumn(2, 0);
                                                 tabell.getColumnModel().moveColumn(5, 4);
+                                                tabell.removeEditor();
+                                                tabell.enableInputMethods(false);
 
 
                                 } catch (InfException ettUndantag) {
@@ -146,23 +145,43 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
                                 } catch (IndexOutOfBoundsException ettUndantag) {
                                                 JOptionPane.showMessageDialog(null, "Något gick fel!");
                                                 System.out.println("headFel --  " + ettUndantag.getMessage() + " -- " + ettUndantag.getLocalizedMessage());
-                                } catch (NullPointerException ettUndantag) {
-                                                JOptionPane.showMessageDialog(null, "inget");
+                                } catch (NullPointerException u) {
 
-                                                System.out.println("  nullFel --  " + ettUndantag.getMessage() + " -- " + ettUndantag.getLocalizedMessage());
+                                                lblFel.setText("Inga resultat hittades...");
+                                                lblFel.setVisible(true);
+                                                System.err.println("-- NullPointerEx --");
                                 }
 
 
                 }
 
-                private ComboBoxModel getCbModel() {
-
-                                return omradeBox.getModel();
+                private ComboBoxModel setGetCbModel() {
+                                vC = new Vector<>();
+                                all = "Alla";
+                                try {
+                                                vC.addAll(mib.fetchColumn("SELECT BENAMNING FROM OMRADE"));
+                                } catch (InfException ex) {
+                                                Logger.getLogger(HuvudmenyAdmin.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                                vC.insertElementAt(all, 0);
+                                lvBox = new DefaultComboBoxModel(vC);
+                                lvBox.setSelectedItem(lvBox.getElementAt(0));
+                                omradeBox.setModel(lvBox);
+                                return lvBox;
 
                 }
 
-                private TableModel getTableModel() {
-                                return tabell.getModel();
+                private TableModel setGetTableModel() {
+                                setAgentLista("SELECT AGENT_ID, NAMN, TELEFON, ANSTALLNINGSDATUM, ADMINISTRATOR, OMRADE FROM AGENT");
+
+                                model = (DefaultTableModel) tabell.getModel();
+                                model.getDataVector().removeAllElements();
+                                tabell.setAutoCreateRowSorter(true);
+                                tabell.setModel(model);
+                                model.fireTableDataChanged();
+
+                                skrivTabell();
+                                return model;
 
                 }
 
@@ -188,7 +207,7 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
                 @SuppressWarnings("unchecked")
                 private void initComponents() {//GEN-BEGIN:initComponents
 
-                                jLabel1 = new javax.swing.JLabel();
+                                lblAdmin = new javax.swing.JLabel();
                                 inloggadSom = new javax.swing.JLabel();
                                 hanteraAgent = new javax.swing.JButton();
                                 tillbakaKnapp = new javax.swing.JButton();
@@ -196,21 +215,32 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
                                 omradeBox = new javax.swing.JComboBox<>();
                                 jScrollPane1 = new javax.swing.JScrollPane();
                                 tabell = new javax.swing.JTable();
-                                jLabel5 = new javax.swing.JLabel();
+                                lblOmrade = new javax.swing.JLabel();
                                 sokruta = new javax.swing.JTextField();
                                 hanteraAgent1 = new javax.swing.JButton();
+                                lblFel = new javax.swing.JLabel();
 
                                 setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
                                 setTitle("Admin");
+                                setBackground(new java.awt.Color(244, 247, 252));
+                                setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+                                setFont(new java.awt.Font("Berlin Sans FB", 0, 18)); // NOI18N
                                 setMinimumSize(new java.awt.Dimension(800, 500));
                                 setSize(new java.awt.Dimension(800, 500));
 
-                                jLabel1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-                                jLabel1.setText("Administratör");
+                                lblAdmin.setFont(new java.awt.Font("Berlin Sans FB", 0, 36)); // NOI18N
+                                lblAdmin.setText("Administratör");
 
+                                inloggadSom.setFont(new java.awt.Font("Berlin Sans FB", 0, 18)); // NOI18N
                                 inloggadSom.setText("Agent 1");
 
-                                hanteraAgent.setText("Hantera agent");
+                                hanteraAgent.setFont(new java.awt.Font("Berlin Sans FB", 0, 16)); // NOI18N
+                                hanteraAgent.setText("AGENTER");
+                                hanteraAgent.setToolTipText("Hantera...");
+                                hanteraAgent.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+                                hanteraAgent.setMaximumSize(new java.awt.Dimension(150, 60));
+                                hanteraAgent.setMinimumSize(new java.awt.Dimension(150, 60));
+                                hanteraAgent.setPreferredSize(new java.awt.Dimension(150, 30));
                                 hanteraAgent.addMouseListener(new java.awt.event.MouseAdapter() {
                                                 public void mouseClicked(java.awt.event.MouseEvent evt) {
                                                                 hanteraAgentMouseClicked(evt);
@@ -222,20 +252,34 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
                                                 }
                                 });
 
+                                tillbakaKnapp.setFont(new java.awt.Font("Berlin Sans FB", 0, 16)); // NOI18N
                                 tillbakaKnapp.setText("Tillbaka");
+                                tillbakaKnapp.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+                                tillbakaKnapp.setMaximumSize(new java.awt.Dimension(150, 40));
+                                tillbakaKnapp.setMinimumSize(new java.awt.Dimension(150, 40));
+                                tillbakaKnapp.setPreferredSize(new java.awt.Dimension(150, 40));
                                 tillbakaKnapp.addActionListener(new java.awt.event.ActionListener() {
                                                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                                                                 tillbakaKnappActionPerformed(evt);
                                                 }
                                 });
 
-                                hanteraUtrustning.setText("Hantera utrustning");
+                                hanteraUtrustning.setFont(new java.awt.Font("Berlin Sans FB", 0, 16)); // NOI18N
+                                hanteraUtrustning.setText("UTRUSTNING");
+                                hanteraUtrustning.setToolTipText("Hantera...");
+                                hanteraUtrustning.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+                                hanteraUtrustning.setMaximumSize(new java.awt.Dimension(150, 60));
+                                hanteraUtrustning.setMinimumSize(new java.awt.Dimension(150, 60));
+                                hanteraUtrustning.setPreferredSize(new java.awt.Dimension(130, 30));
                                 hanteraUtrustning.addActionListener(new java.awt.event.ActionListener() {
                                                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                                                                 hanteraUtrustningActionPerformed(evt);
                                                 }
                                 });
 
+                                omradeBox.setFont(omradeBox.getFont());
+                                omradeBox.setModel(setGetCbModel());
+                                omradeBox.setSelectedIndex(omradeBox.getSelectedIndex());
                                 omradeBox.setSelectedItem(omradeBox.getSelectedItem());
                                 omradeBox.addItemListener(new java.awt.event.ItemListener() {
                                                 public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -243,29 +287,68 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
                                                 }
                                 });
 
-                                tabell.setModel(getTableModel());
-                                jScrollPane1.setViewportView(tabell);
+                                jScrollPane1.setFont(jScrollPane1.getFont());
 
-                                jLabel5.setText("Område");
+                                tabell.setAutoCreateRowSorter(true);
+                                tabell.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+                                tabell.setFont(new java.awt.Font("Berlin Sans FB", 0, 16)); // NOI18N
+                                tabell.setModel(setGetTableModel());
+                                tabell.setColumnSelectionAllowed(true);
+                                tabell.setEnabled(tabell.isVisible());
+                                tabell.setFocusable(false);
+                                tabell.setIntercellSpacing(new java.awt.Dimension(10, 10));
+                                tabell.setRequestFocusEnabled(false);
+                                tabell.setRowHeight(24);
+                                tabell.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+                                tabell.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+                                tabell.setShowGrid(true);
+                                jScrollPane1.setViewportView(tabell);
+                                tabell.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+
+                                lblOmrade.setFont(getFont());
+                                lblOmrade.setText("Område");
 
                                 sokruta.setColumns(12);
                                 sokruta.setDocument(sokruta.getDocument());
-                                sokruta.setText("SÖK...");
+                                sokruta.setFont(new java.awt.Font("Berlin Sans FB", 0, 14)); // NOI18N
+                                sokruta.setText("SÖK KODNAMN...");
                                 sokruta.setToolTipText("Sök Agent...");
-                                sokruta.setSelectionEnd(0);
-                                sokruta.setSelectionStart(0);
+                                sokruta.addMouseListener(new java.awt.event.MouseAdapter() {
+                                                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                                                                sokrutaMouseClicked(evt);
+                                                }
+                                });
+                                sokruta.addInputMethodListener(new java.awt.event.InputMethodListener() {
+                                                public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+                                                }
+                                                public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                                                                sokrutaInputMethodTextChanged(evt);
+                                                }
+                                });
                                 sokruta.addKeyListener(new java.awt.event.KeyAdapter() {
                                                 public void keyPressed(java.awt.event.KeyEvent evt) {
                                                                 sokrutaKeyPressed(evt);
                                                 }
                                 });
 
-                                hanteraAgent1.setText("Hantera alien");
+                                hanteraAgent1.setFont(new java.awt.Font("Berlin Sans FB", 0, 16)); // NOI18N
+                                hanteraAgent1.setText("ALIENS");
+                                hanteraAgent1.setToolTipText("Hantera...");
+                                hanteraAgent1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+                                hanteraAgent1.setMaximumSize(new java.awt.Dimension(150, 60));
+                                hanteraAgent1.setMinimumSize(new java.awt.Dimension(150, 60));
+                                hanteraAgent1.setPreferredSize(new java.awt.Dimension(150, 30));
                                 hanteraAgent1.addActionListener(new java.awt.event.ActionListener() {
                                                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                                                                 hanteraAgent1ActionPerformed(evt);
                                                 }
                                 });
+
+                                lblFel.setFont(new java.awt.Font("Berlin Sans FB", 0, 18)); // NOI18N
+                                lblFel.setAlignmentY(0.0F);
+                                lblFel.setMaximumSize(new java.awt.Dimension(250, 40));
+                                lblFel.setMinimumSize(new java.awt.Dimension(250, 40));
+                                lblFel.setPreferredSize(new java.awt.Dimension(250, 40));
 
                                 javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
                                 getContentPane().setLayout(layout);
@@ -273,33 +356,39 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
                                                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                 .addGroup(layout.createSequentialGroup()
                                                                 .addGap(30, 30, 30)
-                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                                                                 .addGroup(layout.createSequentialGroup()
-                                                                                                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 742, Short.MAX_VALUE)
+                                                                                                .addComponent(jScrollPane1)
                                                                                                 .addGap(33, 33, 33))
-                                                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                                                .addGroup(layout.createSequentialGroup()
+                                                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                                                                .addGroup(layout.createSequentialGroup()
+                                                                                                                                .addComponent(inloggadSom)
+                                                                                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
                                                                                                                 .addGroup(layout.createSequentialGroup()
                                                                                                                                 .addComponent(omradeBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                                                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                                                                                .addComponent(sokruta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                                                                                                .addComponent(hanteraUtrustning)
-                                                                                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                                                                                                .addComponent(hanteraAgent1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                                                                                .addComponent(sokruta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                                                                .addComponent(lblOmrade))
+                                                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 68, Short.MAX_VALUE)
+                                                                                                .addComponent(lblFel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                .addGap(74, 74, 74)
+                                                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                                                                                                 .addGroup(layout.createSequentialGroup()
-                                                                                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                                                                                                .addComponent(jLabel5)
-                                                                                                                                                .addComponent(inloggadSom))
-                                                                                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                                                                                                .addComponent(tillbakaKnapp, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                                                                                                .addComponent(hanteraAgent, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                                                                                .addGap(39, 39, 39))))
+                                                                                                                                .addGap(6, 6, 6)
+                                                                                                                                .addComponent(hanteraUtrustning, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                                                                .addComponent(hanteraAgent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                                .addComponent(hanteraAgent1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                                                .addGap(55, 55, 55))))
                                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                                .addComponent(jLabel1)
-                                                                .addGap(310, 310, 310))
+                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                                                                .addComponent(lblAdmin)
+                                                                                                .addGap(310, 310, 310))
+                                                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                                                                .addComponent(tillbakaKnapp, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                .addGap(46, 46, 46))))
                                 );
                                 layout.setVerticalGroup(
                                                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -307,26 +396,29 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
                                                                 .addGap(32, 32, 32)
                                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                                                                 .addGroup(layout.createSequentialGroup()
-                                                                                                .addComponent(jLabel1)
-                                                                                                .addGap(36, 36, 36)
-                                                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                                                                                .addComponent(hanteraAgent)
-                                                                                                                .addComponent(tillbakaKnapp))
-                                                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                                                                                                .addComponent(hanteraAgent1)
-                                                                                                                .addComponent(hanteraUtrustning)))
-                                                                                .addGroup(layout.createSequentialGroup()
+                                                                                                .addComponent(lblAdmin)
+                                                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                                                                 .addComponent(inloggadSom)
                                                                                                 .addGap(26, 26, 26)
-                                                                                                .addComponent(jLabel5)
+                                                                                                .addComponent(lblOmrade)
                                                                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                                                                .addComponent(sokruta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                                                                .addComponent(omradeBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                                                                                                .addComponent(omradeBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                                .addComponent(sokruta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                                                .addGap(20, 20, 20))
+                                                                                .addGroup(layout.createSequentialGroup()
+                                                                                                .addComponent(hanteraAgent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                .addGap(18, 18, 18)
+                                                                                                .addComponent(hanteraAgent1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                .addGap(18, 18, 18)
+                                                                                                .addComponent(hanteraUtrustning, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                                                .addGap(23, 23, 23))
+                                                                                .addComponent(lblFel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                                 .addGap(18, 18, 18)
-                                                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                .addContainerGap(56, Short.MAX_VALUE))
+                                                                .addComponent(tillbakaKnapp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                                .addContainerGap(19, Short.MAX_VALUE))
                                 );
 
                                 pack();
@@ -353,15 +445,27 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_hanteraAgent1ActionPerformed
 
                 private void omradeBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_omradeBoxItemStateChanged
-                                String agentL = "SELECT AGENT_ID, NAMN, TELEFON, ANSTALLNINGSDATUM, ADMINISTRATOR, OMRADE FROM AGENT WHERE OMRADE = '";
-                                String osok = agentL + valOmrade() + "'";
-                                skrivTabell(osok, true);       // TODO add your handling code here:
+                                if (evt.getStateChange() == 1 && !omradeBox.getSelectedItem().toString().equals("Alla")) {
+                                                String agentL = getAgentLista() + " WHERE OMRADE = '" + valOmrade() + "'";
+                                                System.out.println(agentL);
+                                                skrivTabell(agentL);
+
+                                } else {
+                                                skrivTabell();
+                                }     // TODO add your handling code here:
                 }//GEN-LAST:event_omradeBoxItemStateChanged
 
                 private void sokrutaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_sokrutaKeyPressed
-                                String lvpString = (namnSok + "'%" + sokruta.getText().toUpperCase() + "%'");
-                                if (evt.getKeyCode() == 10) {
-                                                skrivTabell(lvpString, true);
+                                String query = getAgentLista();
+                                String lvpString = " WHERE NAMN LIKE " + "'%" + sokruta.getText() + "%'";
+                                if (!omradeBox.getSelectedItem().toString().equals("Alla")) {
+                                                query = query + lvpString + " AND OMRADE LIKE '" + valOmrade() + "'";
+                                } else {
+                                                query += lvpString;
+                                }
+                                if (evt.getKeyCode() == 1) {
+                                                System.out.println(query);
+                                                skrivTabell(query);
                                                 }                }//GEN-LAST:event_sokrutaKeyPressed
 
                 private void hanteraAgentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hanteraAgentMouseClicked
@@ -371,6 +475,23 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
                                 // TODO add your handling code here:
                 }//GEN-LAST:event_hanteraAgentMouseClicked
 
+                private void sokrutaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sokrutaMouseClicked
+
+                                lblFel.setVisible(false);
+                                sokruta.setText("");
+
+
+                }//GEN-LAST:event_sokrutaMouseClicked
+
+                private void sokrutaInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_sokrutaInputMethodTextChanged
+
+                                lblFel.setVisible(false);
+
+                                sokruta.setText("");
+
+
+                }//GEN-LAST:event_sokrutaInputMethodTextChanged
+
                 /**
                  * @param args the command line arguments
                  */
@@ -379,12 +500,28 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
                 public javax.swing.JButton hanteraAgent1;
                 public javax.swing.JButton hanteraUtrustning;
                 public javax.swing.JLabel inloggadSom;
-                public javax.swing.JLabel jLabel1;
-                public javax.swing.JLabel jLabel5;
                 private javax.swing.JScrollPane jScrollPane1;
+                public javax.swing.JLabel lblAdmin;
+                private javax.swing.JLabel lblFel;
+                public javax.swing.JLabel lblOmrade;
                 public javax.swing.JComboBox<String> omradeBox;
                 public javax.swing.JTextField sokruta;
                 public javax.swing.JTable tabell;
                 public javax.swing.JButton tillbakaKnapp;
                 // End of variables declaration//GEN-END:variables
+
+                /**
+                 * @return the agentLista
+                 */
+                private String getAgentLista() {
+                                return agentLista;
+                }
+
+                /**
+                 * @param agentLista the agentLista to set
+                 */
+                private void setAgentLista(String agentLista) {
+                                this.agentLista = agentLista;
+                }
+
 }

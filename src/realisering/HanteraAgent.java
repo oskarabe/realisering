@@ -20,57 +20,62 @@ public class HanteraAgent extends javax.swing.JFrame {
 
                 private final InfDB mib;
                 private final String agentID;
-
+                private String agentLista;
                 private ArrayList<String> AyL, sList;
                 private DefaultTableModel model;
                 private DefaultComboBoxModel cbmod;
-                private final String agentLista;
-                private String cbVal;
-                private Vector<String> vA, vS, vK, vT, vN, vM;
+                private Vector<String> vK, vT;
 
                 public HanteraAgent(InfDB mib) {
 
-                                initComponents();
                                 this.mib = mib;
+                                initComponents();
                                 agentID = Login.getAgentID();
-                                agentLista = "SELECT AGENT_ID, NAMN, TELEFON, ANSTALLNINGSDATUM, ADMINISTRATOR, OMRADE FROM AGENT";
+                                setAgentLista("SELECT AGENT_ID, NAMN, TELEFON, ANSTALLNINGSDATUM, ADMINISTRATOR, OMRADE FROM AGENT");
                                 setTableModel();
+                                vK = new Vector<>();
+                                vT = new Vector<>();
                                 cBM(vK, vT);
                                 setOmradeCB();
+                }
+
+                /**
+                 * @return the agentLista
+                 */
+                private String getAgentLista() {
+                                return agentLista;
+                }
 
 
+                /**
+                 * @param agentLista the agentLista to set
+                 */
+                private void setAgentLista(String agentLista) {
+                                this.agentLista = agentLista;
                 }
 
 
                 private DefaultComboBoxModel cBM(Vector<String> vQ, Vector<String> vW) {
                                 try {
-                                                //       vQ = new Vector<>();
-                                                //      vW = new Vector<>();
-                                                //     Iterator ite = mib.fetchRow(agentLista).keySet().iterator();
+
                                                 AyL = new ArrayList<>();
                                                 sList = new ArrayList<>();
+                                                String sK = "SELECT NAMN, TELEFON, ANSTALLNINGSDATUM, ADMINISTRATOR, OMRADE FROM AGENT";
 
-                                                                                String agentVal = "SELECT NAMN, TELEFON, ANSTALLNINGSDATUM, ADMINISTRATOR, OMRADE FROM AGENT";
-
-                                                AyL.addAll(mib.fetchRow(agentVal).keySet());
+                                                AyL.addAll(mib.fetchRow(getAgentLista()).keySet());
                                                 sList.addAll(AyL.subList(0, 5));
                                                 Collections.sort(sList);
 
 
                                                 vQ.addAll(sList);
-                                                vW.addAll(mib.fetchRow(agentLista).values());
+                                                vW.addAll(mib.fetchRow(sK).values());
 
 
                                                 cbmod = (DefaultComboBoxModel) aCB.getModel();
                                                 cbmod.removeAllElements();
                                                 cbmod.addAll(sList);
                                                 aCB.setModel(cbmod);
-                                                //     aCB = new JComboBox(cbmod);
-
-
-                                                //      System.out.println(aCB.getModel().getSize());
-                                                aCB.getModel().setSelectedItem(vA);
-
+                                                aCB.getModel().setSelectedItem(sList.get(0));
                                                 return cbmod;
 
                                                 // 3 till 1, 2 till tre. 1 te två
@@ -87,30 +92,34 @@ public class HanteraAgent extends javax.swing.JFrame {
                                 String agID = tabell.getValueAt(rad, 0).toString();
                                 String attr = cbmod.getSelectedItem().toString();
                                 String nyttV = "'" + attributVarde.getText() + "'";
-                                System.err.println(attr + " - " + nyttV + nyttV.length() + " " + agID + rad );
-                                if (nyttV.length() == 3) nyttV = nyttV.toUpperCase();
+                                System.err.println(attr + " - " + nyttV + nyttV.length() + " " + agID + rad);
+                                if (nyttV.length() == 3) {
+                                                nyttV = nyttV.toUpperCase();
+                                }
                                 String fraga = "UPDATE AGENT SET " + attr + " = " + nyttV + " WHERE AGENT_ID = " + agID + ";";
-                    try {
-                        mib.update(fraga);
-                        model.fireTableDataChanged();
-                        model.fireTableStructureChanged();
-                        setTableModel();
-                        tabell.updateUI();
-                        
-                    } catch (InfException ex) {
-                        Logger.getLogger(HanteraAgent.class.getName()).log(Level.SEVERE, getWarningString(), ex);
-                        System.out.println("InfFel " + ex.getSQLState() + " " + ex.getMessage() + " " + ex.getLocalizedMessage());
-                    }
+                                try {
+                                                mib.update(fraga);
+                                                model.fireTableDataChanged();
+                                                model.fireTableStructureChanged();
+                                                setTableModel();
+                                                tabell.updateUI();
+
+                                } catch (InfException ex) {
+                                                Logger.getLogger(HanteraAgent.class.getName()).log(Level.SEVERE, getWarningString(), ex);
+                                                System.out.println("InfFel " + ex.getSQLState() + " " + ex.getMessage() + " " + ex.getLocalizedMessage());
+                                }
 
                 }
-                
-                 //Anger områden i combobox
+
+                //Anger områden i combobox
                 private void setOmradeCB() {
-                                Vector<String> vc = new Vector<>();
+
                                 try {
+
+                                                Vector<String> vc = new Vector<>();
                                                 vc.addAll(mib.fetchColumn("SELECT BENAMNING FROM OMRADE"));
                                                 ComboBoxModel lvBox = new DefaultComboBoxModel(vc);
-                                              omrade.getModel().setSelectedItem(vc.firstElement());
+                                                omrade.getModel().setSelectedItem(vc.firstElement());
                                                 omrade.setModel(lvBox);
 
                                 } catch (InfException ettUndantag) {
@@ -123,25 +132,25 @@ public class HanteraAgent extends javax.swing.JFrame {
 
                 }
 
+                private void skrivTabell() {
+                                skrivTabell(getAgentLista());
+                }
 
-                private void skrivTabell(String querySQL, boolean ja) {
+
+                private void skrivTabell(String querySQL) {
                                 model = (DefaultTableModel) tabell.getModel();
                                 model.getDataVector().removeAllElements();
                                 tabell.setAutoCreateRowSorter(true);
-
                                 tabell.setModel(model);
                                 model.fireTableDataChanged();
 
-                                Vector<Vector> vV = new Vector<>(30, 10);
                                 try {
 
-                                                //  System.out.println(querySQL);
-                                                ArrayList<HashMap<String, String>> kDat;
-                                                if (2 < 1) {
-                                                                kDat = mib.fetchRows(querySQL);
-                                                } else {
-                                                                kDat = mib.fetchRows(agentLista);
-                                                }
+
+                                                //        ArrayList<HashMap<String, String>> kDat;  new ArrayList<HashMap<String, String>>();
+                                                Vector<Vector> vV = new Vector<>();
+                                                System.out.println(querySQL);
+                                                ArrayList<HashMap<String, String>> kDat = mib.fetchRows(querySQL);
 
 
                                                 for (HashMap<String, String> lvHm : kDat) {
@@ -155,6 +164,7 @@ public class HanteraAgent extends javax.swing.JFrame {
 
                                                                 vT = new Vector<>();
                                                                 vT.addAll(lvHm.values());
+                                                                vV = new Vector<>();
                                                                 vV.add(vT);
 
                                                 }
@@ -199,7 +209,7 @@ public class HanteraAgent extends javax.swing.JFrame {
                                 tabell.setAutoCreateRowSorter(true);
 
                                 tabell.setModel(model);
-                                skrivTabell(agentID, true);
+                                skrivTabell(agentID);
                                 model.fireTableDataChanged();
 
                 }
@@ -220,10 +230,7 @@ public class HanteraAgent extends javax.swing.JFrame {
 
 
                 }
-                
-                
-                  
-                
+
 
                 /**
                  * This method is called from within the constructor to
@@ -412,7 +419,7 @@ public class HanteraAgent extends javax.swing.JFrame {
                 }//GEN-END:initComponents
 
     private void attributKnappActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_attributKnappActionPerformed
-                          editAgent();      // TODO add your handling code here:
+                                editAgent();      // TODO add your handling code here:
     }//GEN-LAST:event_attributKnappActionPerformed
 
     private void attributVardeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_attributVardeActionPerformed
@@ -428,44 +435,38 @@ public class HanteraAgent extends javax.swing.JFrame {
     }//GEN-LAST:event_kontorschefActionPerformed
 
     private void omradeschefActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_omradeschefActionPerformed
-if (omrade.getSelectedItem() == null) {omrade.setSelectedIndex(0);}
+                                if (omrade.getSelectedItem() == null) {
+                                                omrade.setSelectedIndex(0);
+                                }
 
-        try {            
-            tabell.setRowSelectionAllowed(true);
-                               model.fireTableDataChanged();
-                               model.fireTableStructureChanged();
-                                String agID = tabell.getValueAt(tabell.getSelectedRow(), 0).toString();
-                                                      int agIN = Integer.parseInt(agID);
+                                try {
+                                                tabell.setRowSelectionAllowed(true);
+                                                model.fireTableDataChanged();
+                                                model.fireTableStructureChanged();
+                                                String agID = (String) tabell.getValueAt(tabell.getSelectedRow(), 0);
+                                                int agIN = Integer.parseInt(agID);
 
-                                ArrayList<String> vS = new ArrayList<>(); 
-                    String oi = mib.fetchSingle("SELECT OMRADES_ID FROM OMRADE WHERE BENAMNING LIKE '" + (String) omrade.getSelectedItem() + "'");
-                            int omid =  Integer.parseInt((String) oi); 
-                           vS.addAll(mib.fetchColumn("SELECT a.AGENT_ID FROM AGENT as a, OMRADESCHEF as o WHERE a.AGENT_ID = o.AGENT_ID ORDER BY a.AGENT_ID DESC"));
-                          System.out.println(vS.size());
-                           if (agID.equals(vS.get(0)) || agID.equals(vS.get(1))) {
-                                 mib.update("UPDATE OMRADESCHEF SET OMRADE = " + omid + " WHERE AGENT_ID = " + agIN); 
-                               System.out.println("Nådde if");
-                           } else {
-                            mib.insert("INSERT INTO OMRADESCHEF VALUES(" + oi + ", " + agID + ");");
-                                                           System.out.println("Nådde else");
+                                                ArrayList<String> vS = new ArrayList<>();
+                                                String oi = mib.fetchSingle("SELECT OMRADES_ID FROM OMRADE WHERE BENAMNING LIKE '" + omrade.getSelectedItem() + "'");
+                                                int omid = Integer.parseInt((String) oi);
+                                                System.err.println(" " + agID + " - " + agIN + " " + omid + " " + oi);
+                                                vS.addAll(mib.fetchColumn("SELECT a.AGENT_ID FROM AGENT as a, OMRADESCHEF as o WHERE a.AGENT_ID = o.AGENT_ID ORDER BY a.AGENT_ID DESC"));
+                                                System.out.println(vS.size());
+                                                if (agID.equals(vS.get(0)) || agID.equals(vS.get(1))) {
+                                                                mib.update("UPDATE OMRADESCHEF SET OMRADE = " + omid + " WHERE AGENT_ID = " + agIN);
+                                                                System.out.println("Nådde if");
+                                                } else {
+                                                                mib.insert("INSERT INTO OMRADESCHEF VALUES(" + oi + ", " + agID + ");");
+                                                                System.out.println("Nådde else");
 
-                           }   
-                
-                
-            
-            
-                                
-    
-                          //  mib.insert("INSERT INTO OMRADESCHEF VALUES(" + s + ", " + agID + ");");
-                            
-                                
-                        
-        
-        
-        } catch (InfException ex) {
-                        System.err.println(ex.getMessage() + ex.getLocalizedMessage() + ex.getSQLState() + ex.getErrorCode() + ex.getNextException());
-                        Logger.getLogger(HanteraAgent.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                                                }
+
+
+                                                //  mib.insert("INSERT INTO OMRADESCHEF VALUES(" + s + ", " + agID + ");");
+                                } catch (InfException ex) {
+                                                System.err.println(ex.getMessage() + ex.getLocalizedMessage() + ex.getSQLState() + ex.getErrorCode() + ex.getNextException());
+                                                Logger.getLogger(HanteraAgent.class.getName()).log(Level.SEVERE, null, ex);
+                                }
 
 
     }//GEN-LAST:event_omradeschefActionPerformed
