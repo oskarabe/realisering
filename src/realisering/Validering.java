@@ -19,6 +19,6 @@ public class Validering {
         }
     }
 
-    //Behövs en metod för att se ifall utrustningen finns i registret
+    //static public boolean 
     
 }

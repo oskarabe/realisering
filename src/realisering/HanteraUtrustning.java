@@ -16,7 +16,7 @@ public class HanteraUtrustning extends javax.swing.JFrame {
     private InfDB mib;
     
     /**
-     * Creates new form RegistreraUtrustning
+     * Creates new form LaggTillNyUtrustning
      */
     public HanteraUtrustning(InfDB mib) {
         this.mib = mib;
@@ -45,19 +45,20 @@ public class HanteraUtrustning extends javax.swing.JFrame {
         lblUtrustning = new javax.swing.JLabel();
         sokruta = new javax.swing.JTextField();
         btnLaggTill = new javax.swing.JButton();
+        btnLaggTill1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         tble.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "UtrustningsId", "Benämning"
+                "Utrustnings-ID", "Benämning", "Innehas av", "Datum"
             }
         ));
         jScrollPane1.setViewportView(tble);
@@ -79,10 +80,17 @@ public class HanteraUtrustning extends javax.swing.JFrame {
             }
         });
 
-        btnLaggTill.setText("Lägg till utrustning");
+        btnLaggTill.setText("Lägg till ny utrustning");
         btnLaggTill.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLaggTillActionPerformed(evt);
+            }
+        });
+
+        btnLaggTill1.setText("Registrera utrustning");
+        btnLaggTill1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLaggTill1ActionPerformed(evt);
             }
         });
 
@@ -93,20 +101,21 @@ public class HanteraUtrustning extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(163, 163, 163)
-                        .addComponent(lblUtrustning))
-                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(sokruta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(57, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(43, 43, 43)
-                .addComponent(btnTaBort)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnLaggTill)
-                .addGap(57, 57, 57))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 428, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnLaggTill)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnLaggTill1)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnTaBort))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(188, 188, 188)
+                        .addComponent(lblUtrustning)))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -119,9 +128,10 @@ public class HanteraUtrustning extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnTaBort)
-                    .addComponent(btnLaggTill))
-                .addContainerGap(33, Short.MAX_VALUE))
+                    .addComponent(btnLaggTill)
+                    .addComponent(btnLaggTill1)
+                    .addComponent(btnTaBort))
+                .addContainerGap(44, Short.MAX_VALUE))
         );
 
         pack();
@@ -136,12 +146,17 @@ public class HanteraUtrustning extends javax.swing.JFrame {
     }//GEN-LAST:event_sokrutaActionPerformed
 
     private void btnLaggTillActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLaggTillActionPerformed
-        new RegistreraUtrustning(mib).setVisible(true);
+        new LaggTillNyUtrustning(mib).setVisible(true);
     }//GEN-LAST:event_btnLaggTillActionPerformed
+
+    private void btnLaggTill1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLaggTill1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnLaggTill1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLaggTill;
+    private javax.swing.JButton btnLaggTill1;
     private javax.swing.JButton btnTaBort;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblUtrustning;
