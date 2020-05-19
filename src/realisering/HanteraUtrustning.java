@@ -45,7 +45,7 @@ public class HanteraUtrustning extends javax.swing.JFrame {
         lblUtrustning = new javax.swing.JLabel();
         sokruta = new javax.swing.JTextField();
         btnLaggTill = new javax.swing.JButton();
-        btnLaggTill1 = new javax.swing.JButton();
+        btnReg = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -87,10 +87,10 @@ public class HanteraUtrustning extends javax.swing.JFrame {
             }
         });
 
-        btnLaggTill1.setText("Registrera utrustning");
-        btnLaggTill1.addActionListener(new java.awt.event.ActionListener() {
+        btnReg.setText("Registrera utrustning");
+        btnReg.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLaggTill1ActionPerformed(evt);
+                btnRegActionPerformed(evt);
             }
         });
 
@@ -109,7 +109,7 @@ public class HanteraUtrustning extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(btnLaggTill)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnLaggTill1)
+                        .addComponent(btnReg)
                         .addGap(18, 18, 18)
                         .addComponent(btnTaBort))
                     .addGroup(layout.createSequentialGroup()
@@ -129,7 +129,7 @@ public class HanteraUtrustning extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnLaggTill)
-                    .addComponent(btnLaggTill1)
+                    .addComponent(btnReg)
                     .addComponent(btnTaBort))
                 .addContainerGap(44, Short.MAX_VALUE))
         );
@@ -149,14 +149,14 @@ public class HanteraUtrustning extends javax.swing.JFrame {
         new LaggTillNyUtrustning(mib).setVisible(true);
     }//GEN-LAST:event_btnLaggTillActionPerformed
 
-    private void btnLaggTill1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLaggTill1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnLaggTill1ActionPerformed
+    private void btnRegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegActionPerformed
+        new RegUtrustning(mib).setVisible(true);
+    }//GEN-LAST:event_btnRegActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLaggTill;
-    private javax.swing.JButton btnLaggTill1;
+    private javax.swing.JButton btnReg;
     private javax.swing.JButton btnTaBort;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblUtrustning;

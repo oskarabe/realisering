@@ -21,6 +21,7 @@ public class LaggTillNyUtrustning extends javax.swing.JFrame {
         initComponents();
         clearMeddelande();
         skapaRdoBtnGrupp();
+        setEgenskap();
     }
 
     //Töm meddelandet vid start
@@ -38,11 +39,20 @@ public class LaggTillNyUtrustning extends javax.swing.JFrame {
         G.add(rdiobtnTeknik);
         G.add(rdiobtnKom);
         rdiobtnVapen.setSelected(true);
+        setEgenskap();
     }
     
     //Anger texten för vilken typ av egenskap som ska skrivas in
     //Beror på vilken radioButton som är markerad
-    private void setEgenskap
+    private void setEgenskap()
+    {
+        if(rdiobtnVapen.isSelected())
+            txtEgenskap.setText("Kaliber");
+        else if(rdiobtnTeknik.isSelected())
+            txtEgenskap.setText("Kraftkälla");
+                    else if(rdiobtnKom.isSelected())
+            txtEgenskap.setText("Överföringsteknik");
+    }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -55,17 +65,16 @@ public class LaggTillNyUtrustning extends javax.swing.JFrame {
         rdiobtnTeknik = new javax.swing.JRadioButton();
         rdiobtnKom = new javax.swing.JRadioButton();
         lblMeddelande = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        lblRubrik = new javax.swing.JLabel();
+        lblNamn = new javax.swing.JLabel();
         txtTyp = new javax.swing.JLabel();
         txtEgenskap = new javax.swing.JLabel();
-        txtValjUtrustning1 = new javax.swing.JTextField();
+        txtValjEgenskap = new javax.swing.JTextField();
 
         jLabel2.setText("Lägg till utrustning i din samling");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(369, 240));
-        setResizable(false);
+        setPreferredSize(new java.awt.Dimension(420, 280));
 
         btnLaggTill.setText("Lägg till");
         btnLaggTill.addActionListener(new java.awt.event.ActionListener() {
@@ -74,31 +83,40 @@ public class LaggTillNyUtrustning extends javax.swing.JFrame {
             }
         });
 
-        txtValjUtrustning.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                txtValjUtrustningMouseClicked(evt);
+        rdiobtnVapen.setText("Vapen");
+        rdiobtnVapen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdiobtnVapenActionPerformed(evt);
             }
         });
 
-        rdiobtnVapen.setText("Vapen");
-
         rdiobtnTeknik.setText("Teknik");
+        rdiobtnTeknik.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdiobtnTeknikActionPerformed(evt);
+            }
+        });
 
         rdiobtnKom.setText("Kommunikation");
+        rdiobtnKom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdiobtnKomActionPerformed(evt);
+            }
+        });
 
         lblMeddelande.setText("Meddelande");
 
-        jLabel3.setText("Ange namn och typ av utrustning att lägga till i företagets förråd");
+        lblRubrik.setText("Ange namn och typ av utrustning att lägga till i företagets förråd");
 
-        jLabel1.setText("Namn: ");
+        lblNamn.setText("Namn: ");
 
         txtTyp.setText("Typ: ");
 
         txtEgenskap.setText("Egenskap: ");
 
-        txtValjUtrustning1.addMouseListener(new java.awt.event.MouseAdapter() {
+        txtValjEgenskap.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                txtValjUtrustning1MouseClicked(evt);
+                txtValjEgenskapMouseClicked(evt);
             }
         });
 
@@ -107,47 +125,47 @@ public class LaggTillNyUtrustning extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(lblMeddelande, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addGap(27, 27, 27)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(txtTyp, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(rdiobtnVapen)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(rdiobtnTeknik)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(rdiobtnKom))
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addComponent(txtEgenskap)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(txtValjUtrustning1, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(layout.createSequentialGroup()
-                                            .addGap(13, 13, 13)
-                                            .addComponent(jLabel1)
-                                            .addGap(18, 18, 18)
-                                            .addComponent(txtValjUtrustning, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(126, 126, 126)
-                        .addComponent(btnLaggTill, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(29, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(38, 38, 38)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(txtTyp, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(rdiobtnVapen)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(rdiobtnTeknik)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(rdiobtnKom))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(txtEgenskap)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(txtValjEgenskap, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(13, 13, 13)
+                                        .addComponent(lblNamn)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(txtValjUtrustning, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(lblMeddelande, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(116, 116, 116)
+                                .addComponent(btnLaggTill, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(65, 65, 65))
+                    .addComponent(lblRubrik, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(38, 38, 38)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblRubrik, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtValjUtrustning, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
+                    .addComponent(lblNamn))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(rdiobtnVapen)
@@ -156,13 +174,13 @@ public class LaggTillNyUtrustning extends javax.swing.JFrame {
                     .addComponent(txtTyp))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtValjUtrustning1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtValjEgenskap, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtEgenskap))
                 .addGap(18, 18, 18)
                 .addComponent(btnLaggTill)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(lblMeddelande)
-                .addGap(30, 30, 30))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
 
         pack();
@@ -174,20 +192,43 @@ public class LaggTillNyUtrustning extends javax.swing.JFrame {
     //Dagens datum läggs till för varje nyregistrerad utrustning
     private void btnLaggTillActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLaggTillActionPerformed
         String utrustningNamn = txtValjUtrustning.getText();
+        String egenskapVarde = txtValjEgenskap.getText();
         String insertIntoUtrustning = "";
-        //String insertIntoInneharUtrustning = "";
         String nyttUtrustningsId = "";
+        String insertIntoVapen = "";
+        String insertIntoTeknik = "";
+        String insertIntoKom = "";
         
-        if(Validering.finnsText(txtValjUtrustning))
+        //Validering för att se att båda textfälten är ifyllda
+        if((Validering.finnsText(txtValjUtrustning)) && (Validering.finnsText(txtValjEgenskap)))
         {
         try
         {
+                //Lägga till i utrustning-tabellen först
                 nyttUtrustningsId = mib.getAutoIncrement("utrustning", "utrustnings_id");
                 insertIntoUtrustning = "insert into utrustning values " + "(" + nyttUtrustningsId + ", " + "'" + utrustningNamn + "');";
-                //insertIntoInneharUtrustning = "insert into innehar_utrustning values " + "(" + Login.getAgentID() +
-                                               //", " + nyttUtrustningsId + ", current_timestamp)";
                 mib.insert(insertIntoUtrustning);
-                //mib.insert(insertIntoInneharUtrustning);
+                
+                //Sedan lägga till i vapen, teknik, eller kommunikation-tabellen
+                if(rdiobtnVapen.isSelected())
+                {
+                    insertIntoVapen = "insert into vapen values " + "(" + nyttUtrustningsId +
+                                       ", " + egenskapVarde + ")";
+                    mib.insert(insertIntoVapen);
+                }
+                else if(rdiobtnTeknik.isSelected())
+                {
+                    insertIntoTeknik = "insert into teknik values " + "(" + nyttUtrustningsId +
+                                       ", '" + egenskapVarde + "')";
+                    mib.insert(insertIntoTeknik);
+                }
+                else if(rdiobtnKom.isSelected())
+                {
+                    insertIntoKom = "insert into kommunikation values " + "(" + nyttUtrustningsId +
+                                       ", '" + egenskapVarde + "')";
+                    mib.insert(insertIntoKom);
+                }
+                
                 lblMeddelande.setText(utrustningNamn + " har lagts till i företagets förråd!");
                         }
         
@@ -201,26 +242,34 @@ public class LaggTillNyUtrustning extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnLaggTillActionPerformed
 
-    private void txtValjUtrustningMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtValjUtrustningMouseClicked
-        txtValjUtrustning.setText("");
-    }//GEN-LAST:event_txtValjUtrustningMouseClicked
-
-    private void txtValjUtrustning1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtValjUtrustning1MouseClicked
+    private void txtValjEgenskapMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtValjEgenskapMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtValjUtrustning1MouseClicked
+    }//GEN-LAST:event_txtValjEgenskapMouseClicked
+
+    private void rdiobtnVapenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdiobtnVapenActionPerformed
+        setEgenskap();
+    }//GEN-LAST:event_rdiobtnVapenActionPerformed
+
+    private void rdiobtnTeknikActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdiobtnTeknikActionPerformed
+        setEgenskap();
+    }//GEN-LAST:event_rdiobtnTeknikActionPerformed
+
+    private void rdiobtnKomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdiobtnKomActionPerformed
+        setEgenskap();
+    }//GEN-LAST:event_rdiobtnKomActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLaggTill;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel lblMeddelande;
+    private javax.swing.JLabel lblNamn;
+    private javax.swing.JLabel lblRubrik;
     private javax.swing.JRadioButton rdiobtnKom;
     private javax.swing.JRadioButton rdiobtnTeknik;
     private javax.swing.JRadioButton rdiobtnVapen;
     private javax.swing.JLabel txtEgenskap;
     private javax.swing.JLabel txtTyp;
+    private javax.swing.JTextField txtValjEgenskap;
     private javax.swing.JTextField txtValjUtrustning;
-    private javax.swing.JTextField txtValjUtrustning1;
     // End of variables declaration//GEN-END:variables
 }
