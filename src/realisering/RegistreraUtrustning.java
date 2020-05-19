@@ -118,12 +118,15 @@ public class RegistreraUtrustning extends javax.swing.JFrame {
         String utrustningNamn = txtValjUtrustning.getText();
         String insertIntoUtrustning = "";
         String insertIntoInneharUtrustning = "";
+        String nyttUtrustningsId = "";
         
         try
         {
-                insertIntoUtrustning = "insert into utrustning values " + "(" + mib.getAutoIncrement("utrustning", "utrustnings_id") + ", " + "'" + utrustningNamn + "');";
-                //insertIntoInneharUtrustning = "insert into innehar_utrustning values " + "(" + Login.getAgentID() + ", " + ;
+                nyttUtrustningsId = mib.getAutoIncrement("utrustning", "utrustnings_id");
+                insertIntoUtrustning = "insert into utrustning values " + "(" + nyttUtrustningsId + ", " + "'" + utrustningNamn + "');";
+                insertIntoInneharUtrustning = "insert into innehar_utrustning values " + "(" + Login.getAgentID() + ", " + nyttUtrustningsId + ", GETDATE()";
                 mib.insert(insertIntoUtrustning);
+                mib.insert(insertIntoInneharUtrustning);
                 lblMeddelande.setText(utrustningNamn + " har registrerats i din utrustningssamling!");
                         }
         
