@@ -24,7 +24,6 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
         this.mib = mib;
         agentID = Login.getAgentID();
         setLabelInloggNamn();
-        setLabelAdminStatus();
         setcBoxOmrade();
         setcBoxPlats();
         //setcBoxRas();
@@ -38,34 +37,6 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
         try {
         lblInloggNamn.setText("Du är inloggad som: " + mib.fetchSingle(hittaNamn));
             }
-        
-        catch (InfException ettUndantag) {
-            JOptionPane.showMessageDialog(null, "Databasfel!");
-            System.out.println("Internt felmeddelande" + ettUndantag.getMessage());
-        } catch (Exception ettUndantag) {
-            JOptionPane.showMessageDialog(null, "Något gick fel!");
-            System.out.println("Internt felmeddelande" + ettUndantag.getMessage());
-        }
-    }
-    
-    //Anger texten i lblAdminStatus
-    private void setLabelAdminStatus()
-    {
-        try{
-        String hittaAdminStatus = ("select administrator from agent where agent_id = " + agentID);
-        String adminStatus = mib.fetchSingle(hittaAdminStatus);
-       
-        if(adminStatus.equals("J"))
-        {
-            isAdmin = true;
-            lblAdminStatus.setText("Du är administratör");
-        }
-        else
-        {
-            isAdmin = false;
-            lblAdminStatus.setText("Du är inte administratör");
-                }
-        }
         
         catch (InfException ettUndantag) {
             JOptionPane.showMessageDialog(null, "Databasfel!");
@@ -130,9 +101,7 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
 
         lblHuvudmenyAgent = new javax.swing.JLabel();
         lblInloggNamn = new javax.swing.JLabel();
-        lblAdminStatus = new javax.swing.JLabel();
         btnHanteraAliens = new javax.swing.JButton();
-        btnAdmin = new javax.swing.JButton();
         btnHanteraUtrustning = new javax.swing.JButton();
         cBoxPlats = new javax.swing.JComboBox<>();
         cBoxOmrade = new javax.swing.JComboBox<>();
@@ -148,10 +117,8 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
         txtFldSokruta = new javax.swing.JTextField();
         btnTillbakaInlogg = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(800, 800));
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(800, 500));
-        setPreferredSize(new java.awt.Dimension(800, 500));
         setSize(new java.awt.Dimension(800, 500));
 
         lblHuvudmenyAgent.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
@@ -159,19 +126,10 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
 
         lblInloggNamn.setText("Du är inloggad som:");
 
-        lblAdminStatus.setText("Du är (inte) administratör");
-
         btnHanteraAliens.setText("Hantera aliens");
         btnHanteraAliens.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnHanteraAliensActionPerformed(evt);
-            }
-        });
-
-        btnAdmin.setText("Administratör");
-        btnAdmin.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAdminActionPerformed(evt);
             }
         });
 
@@ -233,18 +191,17 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(lblOmrade)
-                                        .addGap(53, 53, 53)
-                                        .addComponent(lblPlats))
-                                    .addComponent(lblAdminStatus)
-                                    .addComponent(lblInloggNamn))
-                                .addGap(18, 18, 18))
+                                .addComponent(lblOmrade)
+                                .addGap(53, 53, 53)
+                                .addComponent(lblPlats)
+                                .addGap(30, 30, 30))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(cBoxOmrade, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(cBoxPlats, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(cBoxPlats, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGap(31, 31, 31)
+                                .addComponent(lblInloggNamn)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -270,7 +227,6 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
                                 .addComponent(lblHuvudmenyAgent)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnAdmin, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(btnHanteraAliens, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(btnTillbakaInlogg, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addGap(33, 33, 33))
@@ -280,13 +236,15 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(42, 42, 42)
-                        .addComponent(lblHuvudmenyAgent)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lblInloggNamn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblAdminStatus)
-                        .addGap(34, 34, 34)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(42, 42, 42)
+                                .addComponent(lblHuvudmenyAgent)
+                                .addGap(79, 79, 79))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lblInloggNamn)
+                                .addGap(49, 49, 49)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblPlats)
                             .addComponent(lblOmrade)
@@ -301,11 +259,9 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
                             .addComponent(txtFldSokruta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(cBoxPlats, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(57, 57, 57)
+                        .addGap(81, 81, 81)
                         .addComponent(btnTillbakaInlogg)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnAdmin)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnHanteraAliens)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnHanteraUtrustning)))
@@ -319,18 +275,13 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
 
     
     private void btnHanteraAliensActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHanteraAliensActionPerformed
-        // TODO add your handling code here:
+        new HanteraAlien(mib).setVisible(true);
+        dispose();
     }//GEN-LAST:event_btnHanteraAliensActionPerformed
-
-    private void btnAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdminActionPerformed
-        if(isAdmin)
-        {
-            new HuvudmenyAdmin(mib).setVisible(true);
-        }
-    }//GEN-LAST:event_btnAdminActionPerformed
 
     private void btnHanteraUtrustningActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHanteraUtrustningActionPerformed
         new HanteraUtrustning(mib).setVisible(true);
+        dispose();
     }//GEN-LAST:event_btnHanteraUtrustningActionPerformed
 
     private void cBoxPlatsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cBoxPlatsActionPerformed
@@ -346,7 +297,6 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAdmin;
     private javax.swing.JButton btnHanteraAliens;
     private javax.swing.JButton btnHanteraUtrustning;
     private javax.swing.JButton btnTillbakaInlogg;
@@ -354,7 +304,6 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cBoxPlats;
     private javax.swing.JComboBox<String> cBoxRas;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblAdminStatus;
     private javax.swing.JLabel lblDatum;
     private javax.swing.JLabel lblHuvudmenyAgent;
     private javax.swing.JLabel lblInloggNamn;

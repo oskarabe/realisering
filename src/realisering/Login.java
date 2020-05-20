@@ -32,7 +32,6 @@ public class Login extends javax.swing.JFrame {
                 // Det som händer när man klickar enter/knappen
                 private void loggaIn() {
                                 Boolean koll = false;
-                                Boolean isAgent = false;
                                 String hittaAlien = "SELECT LOSENORD FROM ALIEN;";
                                 String hittaAgent = "SELECT LOSENORD FROM AGENT;";
                                 String hittaAdmin = "SELECT LOSENORD FROM AGENT WHERE ADMINISTRATOR LIKE 'J';";
@@ -54,6 +53,10 @@ public class Login extends javax.swing.JFrame {
 
                                                                 if (adminLosenord.equals(l)) {
                                                                                 isAdmin = true;
+                                                                                System.out.println("Admin");
+                                                                                //Öppnar upp huvudmenyn för admin
+                                                                                new HuvudmenyAdmin(mib).setVisible(true);
+                                                                                this.dispose();
                                                                 } else {
                                                                                 isAdmin = false;
                                                                 }
@@ -63,18 +66,19 @@ public class Login extends javax.swing.JFrame {
                                                 for (String l : allaLosenAgent) {
                                                                 String agentLosenord = new String(losenord.getPassword());
                                                                 if (l.equals(agentLosenord)) {
-                                                                                this.dispose();
-                                                                                //  System.out.println("Agent");
+                                                                                System.out.println("Agent");
                                                                                 koll = true;
-                                                                                isAgent = true;
                                                                                 //Registrera Agent-ID för att kunna användas i andra klasser
                                                                                 String hittaAgentID = ("SELECT AGENT_ID FROM AGENT WHERE "
                                                                                         + "LOSENORD LIKE '" + agentLosenord + "' ");
                                                                                 agentID = mib.fetchSingle(hittaAgentID);
-                                                                                //      System.out.println("AgentID: " + agentID);
+                                                                                System.out.println("AgentID: " + agentID);
                                                                                 //Öppna huvudmenyn för agenter
-                                                                                new HuvudmenyAdmin(mib).setVisible(true);
-
+                                                                                if(isAdmin == false)
+                                                                                {
+                                                                                new HuvudmenyAgent(mib).setVisible(true);
+                                                                                this.dispose();
+                                                                                }
                                                                 }
                                                 }
 
@@ -82,7 +86,6 @@ public class Login extends javax.swing.JFrame {
                                                 for (String l : allaLosenAlien) {
                                                                 String alienLosenord = new String(losenord.getPassword());
                                                                 if (l.equals(alienLosenord)) {
-                                                                                dispose();
                                                                                 System.out.println("Alien");
                                                                                 koll = true;
                                                                                 //Registrera Alien-ID för att kunna användas i andra klasser
@@ -91,6 +94,7 @@ public class Login extends javax.swing.JFrame {
                                                                                 System.out.println("AlienID: " + alienID);
                                                                                 // Öppna fönster HuvudmenyAlien
                                                                                 new HuvudmenyAlien(mib).setVisible(true);
+                                                                                dispose();
                                                                 }
                                                 }
 
@@ -123,7 +127,7 @@ public class Login extends javax.swing.JFrame {
                                 return isAdmin;
                 }
 
-    @SuppressWarnings("unchecked")
+                @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -137,9 +141,7 @@ public class Login extends javax.swing.JFrame {
         setBounds(new java.awt.Rectangle(0, 0, 0, 0));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setFont(new java.awt.Font("Gill Sans MT Condensed", 1, 14)); // NOI18N
-        setMaximumSize(new java.awt.Dimension(400, 350));
         setMinimumSize(new java.awt.Dimension(400, 350));
-        setPreferredSize(new java.awt.Dimension(400, 350));
         setResizable(false);
         setSize(new java.awt.Dimension(400, 350));
 
@@ -211,22 +213,22 @@ public class Login extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    // Logga in genom att klicka på knappen
+                // Logga in genom att klicka på knappen
     private void knappActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_knappActionPerformed
-        loggaIn();
+                                loggaIn();
     }//GEN-LAST:event_knappActionPerformed
     private void losenordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_losenordKeyPressed
-        if (evt.getKeyCode() == 10) {
-            loggaIn(); // Logga in genom att trycka enter
-        }
+                                if (evt.getKeyCode() == 10) {
+                                                loggaIn(); // Logga in genom att trycka enter
+                                }
     }//GEN-LAST:event_losenordKeyPressed
 
     private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
-        dispose();
+                                dispose();
     }//GEN-LAST:event_jLabel2MouseClicked
 
     private void losenordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_losenordActionPerformed
-        
+
     }//GEN-LAST:event_losenordActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
