@@ -1,525 +1,233 @@
 package realisering;
 
-import java.util.*;
-import java.util.logging.*;
-import javax.swing.*;
-import javax.swing.table.*;
-import oru.inf.*;
+import javax.swing.JOptionPane;
+import oru.inf.InfException;
+import oru.inf.InfDB;
 
 /**
  *
- * @author oskar
+ * @author lovee
+ * Klassen förser användaren, i det här fallet en alien, med ett gränssnitt
+ * där de kan se information om sitt område och sin områdeschef
  */
-public class HuvudmenyAdmin extends javax.swing.JFrame {
+public class HuvudmenyAlien extends javax.swing.JFrame {
 
-                private final InfDB mib;
-                private ComboBoxModel lvBox;
-                private TableColumnModel cmodel;
-                private TableColumn tC;
-                private String omID, omCB, all, agentLista;
-                private final String agentID;
-                private Vector<String> vC, vK, vL, vT;
+    private String alienID;
+    private InfDB mib;
+    
+    /**
+     * Creates new form HuvudmenyAlien
+     */
+    public HuvudmenyAlien(InfDB mib) {
+        initComponents();
+        this.mib = mib;
+        alienID = Login.getAlienID();
+        setLabelInloggNamn();
+        setLabelAlienOmrade();
+        setLabelOmradeschef();
+    }
 
-                DefaultTableModel model;
-
-                public HuvudmenyAdmin(InfDB mib) {
-
-                                this.mib = mib;
-                                model = new DefaultTableModel() {
-
-                                                @Override
-                                                public boolean isCellEditable(int row, int column) {
-                                                                return false;
-                                                }
-
-
-                                };
-                                agentID = Login.getAgentID();
-                                initComponents();
-                                setLabelInloggNamn();
-                                setGetCbModel();
-                                omradeBox.setSelectedItem(lvBox.getElementAt(0));
-                                setGetTableModel();
-
-                }
-
-                private String valOmrade() {
-
-                                try {
-                                                String aktiv = (String) omradeBox.getSelectedItem();
-                                                omID = ("SELECT OMRADES_ID FROM OMRADE");
-                                                if (omradeBox.getSelectedIndex() != 0) {
-                                                                omID = omID + " WHERE BENAMNING LIKE '" + aktiv + "'";
-                                                                omCB = mib.fetchSingle(omID);
-                                                                return omCB;
-                                                }
-
-
-                                } catch (InfException ettUndantag) {
-                                                JOptionPane.showMessageDialog(null, "Databasfel!");
-                                                System.out.println("1 Internt felmeddelande" + ettUndantag.getMessage());
-
-                                } catch (NumberFormatException ettUndantag) {
-                                                JOptionPane.showMessageDialog(null, "N�got gick fel!");
-                                                System.out.println("2 Internt felmeddelande" + ettUndantag.getMessage());
-                                }
-                                // S�tter en random som selected om n�got blir fel
-                                float lvR = 3 * Math.round(Math.random());
-                                return "" + Math.round(lvR);
-
-                }
-
-                //Anger texten i label lblinloggNamn
-                private void setLabelInloggNamn() {
-                                String hittaNamn = ("select namn from agent where agent_id = " + agentID);
-
-                                try {
-                                                inloggadSom.setText("Du �r inloggad som: " + mib.fetchSingle(hittaNamn));
-                                } catch (InfException ettUndantag) {
-                                                JOptionPane.showMessageDialog(null, "Databasfel!");
-                                                System.out.println("1,5 - Internt felmeddelande" + ettUndantag.getMessage());
-                                } catch (Exception ettUndantag) {
-                                                JOptionPane.showMessageDialog(null, "N�got gick fel!");
-                                                System.out.println("2 - Internt felmeddelande" + ettUndantag.getMessage());
-                                }
-                }
-
-
-                protected void skrivTabell() {
-                                skrivTabell(getAgentLista());
-                }
-
-                protected void skrivTabell(String specQuery) {
-                                ArrayList<HashMap<String, String>> kDat;
-                                Vector<Vector<String>> vV;
-                                int i = 0;
-
-                                try {
-                                                vV = new Vector<>();
-                                                vK = new Vector<>();
-                                                vL = new Vector<>();
-                                                kDat = mib.fetchRows(specQuery);
-                                                for (HashMap<String, String> lvHm : kDat) {
-                                                                vL.addAll(lvHm.keySet());
-                                                                while (i < 6) {
-                                                                                String key = vL.get(i);
-                                                                                vK.add(key);
-                                                                                System.out.println(key);
-                                                                                /*
-                                                                                 * if
-                                                                                 * (vK.retainAll(lvHm.keySet()))
-                                                                                 * {
-                                                                                 * break;
-                                                                                 * }
-                                                                                 */ i++;
-                                                                }
-                                                                vT = new Vector<>();
-                                                                vT.addAll(lvHm.values());
-                                                                vV.add(vT);
-                                                }
-                                                model.setDataVector(vV, vK);
-                                                tabell.setRowSorter(new TableRowSorter(model));
-                                                tabell.setAutoCreateRowSorter(true);
-                                                tabell.setAutoCreateColumnsFromModel(true);
-                                                tabell.setRowSelectionAllowed(true);
-                                                tC = new TableColumn(vK.lastIndexOf(vK), model.findColumn(tabell.getColumnName(0)), tabell.getDefaultRenderer(model.getColumnClass(0)), null);
-                                                TableCellEditor cellEditor = null;
-                                                tC.setCellEditor(cellEditor);
-                                                cmodel.addColumn(tC);
-
-                                                tabell.removeEditor();
-
-
-                                                model.fireTableStructureChanged();
-                                                model.fireTableDataChanged();
-                                                //    tabell.updateUI();
-                                                tabell.getColumnModel().moveColumn(2, 0);
-                                                tabell.getColumnModel().moveColumn(5, 4);
-                                                tabell.removeEditor();
-                                                tabell.enableInputMethods(false);
-
-
-                                } catch (InfException ettUndantag) {
-                                                JOptionPane.showMessageDialog(null, "Databasfel!");
-                                                System.out.println("inf fel 3 Internt felmeddelande" + ettUndantag.getMessage());
-                                } catch (IndexOutOfBoundsException ettUndantag) {
-                                                JOptionPane.showMessageDialog(null, "N�got gick fel!");
-                                                System.out.println("headFel --  " + ettUndantag.getMessage() + " -- " + ettUndantag.getLocalizedMessage());
-                                } catch (NullPointerException u) {
-
-                                                lblFel.setText("Inga resultat hittades...");
-                                                lblFel.setVisible(true);
-                                                System.err.println("-- NullPointerEx --");
-                                }
-
-
-                }
-
-                private ComboBoxModel setGetCbModel() {
-                                vC = new Vector<>();
-                                all = "Alla";
-                                try {
-                                                vC.addAll(mib.fetchColumn("SELECT BENAMNING FROM OMRADE"));
-                                } catch (InfException ex) {
-                                                Logger.getLogger(HuvudmenyAdmin.class.getName()).log(Level.SEVERE, null, ex);
-                                }
-                                vC.insertElementAt(all, 0);
-                                lvBox = new DefaultComboBoxModel(vC);
-                                lvBox.setSelectedItem(lvBox.getElementAt(0));
-                                omradeBox.setModel(lvBox);
-                                return lvBox;
-
-                }
-
-                private TableModel setGetTableModel() {
-                                setAgentLista("SELECT AGENT_ID, NAMN, TELEFON, ANSTALLNINGSDATUM, ADMINISTRATOR, OMRADE FROM AGENT");
-
-                                model = (DefaultTableModel) tabell.getModel();
-                                model.getDataVector().removeAllElements();
-                                tabell.setAutoCreateRowSorter(true);
-                                tabell.setModel(model);
-                                model.fireTableDataChanged();
-
-                                skrivTabell();
-                                return model;
-
-                }
-
-
-                private void avslut(boolean b) {
-                                new HanteraAgent(mib).setVisible(true);
-
-                                setEnabled(b);
-                                this.dispose();
-                                this.disable();
-                                this.setVisible(b);
-
-
-                }
-
-
-                /**
-                 * This method is called from within the constructor to
-                 * initialize the form. WARNING: Do NOT modify this code. The
-                 * content of this method is always regenerated by the Form
-                 * Editor.
-                 */
-                @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
-        lblAdmin = new javax.swing.JLabel();
-        inloggadSom = new javax.swing.JLabel();
-        hanteraAgent = new javax.swing.JButton();
-        tillbakaKnapp = new javax.swing.JButton();
-        hanteraUtrustning = new javax.swing.JButton();
-        omradeBox = new javax.swing.JComboBox<>();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tabell = new javax.swing.JTable();
-        lblOmrade = new javax.swing.JLabel();
-        sokruta = new javax.swing.JTextField();
-        hanteraAliens = new javax.swing.JButton();
-        lblFel = new javax.swing.JLabel();
+        btnTillbakaInlogg = new javax.swing.JButton();
+        btnListaAliens = new javax.swing.JButton();
+        btnMailaAgent = new javax.swing.JButton();
+        lblOmradeTillhorighet = new javax.swing.JLabel();
+        lblHuvudmenyAlien = new javax.swing.JLabel();
+        lblinloggNamn = new javax.swing.JLabel();
+        lblAlienOmrade = new javax.swing.JLabel();
+        lblOmradeschef = new javax.swing.JLabel();
+        btnTillbakaInlogg1 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Admin");
-        setBackground(new java.awt.Color(244, 247, 252));
-        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        setFont(new java.awt.Font("Berlin Sans FB", 0, 18)); // NOI18N
-        setMinimumSize(new java.awt.Dimension(800, 500));
-        setSize(new java.awt.Dimension(800, 500));
-
-        lblAdmin.setFont(new java.awt.Font("Berlin Sans FB", 0, 36)); // NOI18N
-        lblAdmin.setText("Administrat�r");
-
-        inloggadSom.setFont(new java.awt.Font("Berlin Sans FB", 0, 18)); // NOI18N
-        inloggadSom.setText("Agent 1");
-
-        hanteraAgent.setFont(new java.awt.Font("Berlin Sans FB", 0, 16)); // NOI18N
-        hanteraAgent.setText("AGENTER");
-        hanteraAgent.setToolTipText("Hantera...");
-        hanteraAgent.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        hanteraAgent.setMaximumSize(new java.awt.Dimension(150, 60));
-        hanteraAgent.setMinimumSize(new java.awt.Dimension(150, 60));
-        hanteraAgent.setPreferredSize(new java.awt.Dimension(150, 30));
-        hanteraAgent.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                hanteraAgentMouseClicked(evt);
-            }
-        });
-        hanteraAgent.addActionListener(new java.awt.event.ActionListener() {
+        btnTillbakaInlogg.setText("Tillbaka till inlogg");
+        btnTillbakaInlogg.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                hanteraAgentActionPerformed(evt);
+                btnTillbakaInloggActionPerformed(evt);
             }
         });
 
-        tillbakaKnapp.setFont(new java.awt.Font("Berlin Sans FB", 0, 16)); // NOI18N
-        tillbakaKnapp.setText("Tillbaka");
-        tillbakaKnapp.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        tillbakaKnapp.setMaximumSize(new java.awt.Dimension(150, 40));
-        tillbakaKnapp.setMinimumSize(new java.awt.Dimension(150, 40));
-        tillbakaKnapp.setPreferredSize(new java.awt.Dimension(150, 40));
-        tillbakaKnapp.addActionListener(new java.awt.event.ActionListener() {
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        btnListaAliens.setText("Lista aliens");
+        btnListaAliens.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tillbakaKnappActionPerformed(evt);
+                btnListaAliensActionPerformed(evt);
             }
         });
 
-        hanteraUtrustning.setFont(new java.awt.Font("Berlin Sans FB", 0, 16)); // NOI18N
-        hanteraUtrustning.setText("UTRUSTNING");
-        hanteraUtrustning.setToolTipText("Hantera...");
-        hanteraUtrustning.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        hanteraUtrustning.setMaximumSize(new java.awt.Dimension(150, 60));
-        hanteraUtrustning.setMinimumSize(new java.awt.Dimension(150, 60));
-        hanteraUtrustning.setPreferredSize(new java.awt.Dimension(130, 30));
-        hanteraUtrustning.addActionListener(new java.awt.event.ActionListener() {
+        btnMailaAgent.setText("Maila agent");
+        btnMailaAgent.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                hanteraUtrustningActionPerformed(evt);
+                btnMailaAgentActionPerformed(evt);
             }
         });
 
-        omradeBox.setFont(omradeBox.getFont());
-        omradeBox.setModel(setGetCbModel());
-        omradeBox.setSelectedIndex(omradeBox.getSelectedIndex());
-        omradeBox.setSelectedItem(omradeBox.getSelectedItem());
-        omradeBox.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                omradeBoxItemStateChanged(evt);
-            }
-        });
+        lblHuvudmenyAlien.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        lblHuvudmenyAlien.setText("Huvudmeny - Alien");
 
-        jScrollPane1.setFont(jScrollPane1.getFont());
+        lblinloggNamn.setText("Du är inloggad som: ");
 
-        tabell.setAutoCreateRowSorter(true);
-        tabell.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        tabell.setFont(new java.awt.Font("Berlin Sans FB", 0, 16)); // NOI18N
-        tabell.setModel(setGetTableModel());
-        tabell.setColumnSelectionAllowed(true);
-        tabell.setEnabled(tabell.isVisible());
-        tabell.setFocusable(false);
-        tabell.setIntercellSpacing(new java.awt.Dimension(10, 10));
-        tabell.setRequestFocusEnabled(false);
-        tabell.setRowHeight(24);
-        tabell.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        tabell.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        tabell.setShowGrid(true);
-        jScrollPane1.setViewportView(tabell);
-        tabell.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        lblAlienOmrade.setText("Du tillhör område: ");
 
-        lblOmrade.setFont(getFont());
-        lblOmrade.setText("Omr�de");
+        lblOmradeschef.setText("Din områdeschef är:");
 
-        sokruta.setColumns(12);
-        sokruta.setDocument(sokruta.getDocument());
-        sokruta.setFont(new java.awt.Font("Berlin Sans FB", 0, 14)); // NOI18N
-        sokruta.setText("S�K KODNAMN...");
-        sokruta.setToolTipText("S�k Agent...");
-        sokruta.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                sokrutaMouseClicked(evt);
-            }
-        });
-        sokruta.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-            }
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-                sokrutaInputMethodTextChanged(evt);
-            }
-        });
-        sokruta.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                sokrutaKeyPressed(evt);
-            }
-        });
-
-        hanteraAliens.setFont(new java.awt.Font("Berlin Sans FB", 0, 16)); // NOI18N
-        hanteraAliens.setText("ALIENS");
-        hanteraAliens.setToolTipText("Hantera...");
-        hanteraAliens.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        hanteraAliens.setMaximumSize(new java.awt.Dimension(150, 60));
-        hanteraAliens.setMinimumSize(new java.awt.Dimension(150, 60));
-        hanteraAliens.setPreferredSize(new java.awt.Dimension(150, 30));
-        hanteraAliens.addActionListener(new java.awt.event.ActionListener() {
+        btnTillbakaInlogg1.setText("Tillbaka till inlogg");
+        btnTillbakaInlogg1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                hanteraAliensActionPerformed(evt);
+                btnTillbakaInlogg1ActionPerformed(evt);
             }
         });
-
-        lblFel.setFont(new java.awt.Font("Berlin Sans FB", 0, 18)); // NOI18N
-        lblFel.setAlignmentY(0.0F);
-        lblFel.setMaximumSize(new java.awt.Dimension(250, 40));
-        lblFel.setMinimumSize(new java.awt.Dimension(250, 40));
-        lblFel.setPreferredSize(new java.awt.Dimension(250, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1)
-                        .addGap(33, 33, 33))
+                .addGap(22, 22, 22)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblOmradeschef, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 173, Short.MAX_VALUE)
+                        .addComponent(lblHuvudmenyAlien))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(inloggadSom)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(omradeBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(sokruta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(lblOmrade))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
-                        .addComponent(lblFel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(80, 80, 80)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(hanteraUtrustning, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(hanteraAgent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(hanteraAliens, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(55, 55, 55))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(lblAdmin)
-                        .addGap(310, 310, 310))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(tillbakaKnapp, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(46, 46, 46))))
+                                .addComponent(lblAlienOmrade, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblOmradeTillhorighet))
+                            .addComponent(lblinloggNamn, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(btnMailaAgent, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnListaAliens, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnTillbakaInlogg1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblAdmin)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(inloggadSom)
-                        .addGap(26, 26, 26)
-                        .addComponent(lblOmrade)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(omradeBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(sokruta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(20, 20, 20))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(hanteraAgent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(hanteraAliens, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(hanteraUtrustning, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(23, 23, 23))
-                    .addComponent(lblFel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblHuvudmenyAlien, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22)
+                .addComponent(lblinloggNamn)
                 .addGap(18, 18, 18)
-                .addComponent(tillbakaKnapp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addComponent(lblAlienOmrade)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblOmradeTillhorighet)
+                .addGap(15, 15, 15)
+                .addComponent(lblOmradeschef)
+                .addGap(156, 156, 156))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(46, 46, 46)
+                .addComponent(btnTillbakaInlogg1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnListaAliens)
+                .addGap(11, 11, 11)
+                .addComponent(btnMailaAgent)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>                        
 
-    private void hanteraAgentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hanteraAgentActionPerformed
+    //Anger texten i label lblinloggNamn
+    private void setLabelInloggNamn()
+    {
+        String hittaNamn = ("select namn from alien where alien_id = " + alienID);
+        
+        try {
+        lblinloggNamn.setText("Du är inloggad som: " + mib.fetchSingle(hittaNamn));
+            }
+        
+        catch (InfException ettUndantag) {
+            JOptionPane.showMessageDialog(null, "Databasfel!");
+            System.out.println("Internt felmeddelande" + ettUndantag.getMessage());
+        } catch (Exception ettUndantag) {
+            JOptionPane.showMessageDialog(null, "Något gick fel!");
+            System.out.println("Internt felmeddelande" + ettUndantag.getMessage());
+        }
+    }
+    
+    //Anger texten i label lblAlienOmrade
+    private void setLabelAlienOmrade()
+    {
+        String hittaOmrade = ("select omrade.benamning from alien, plats, omrade where " +
+                                "plats = plats_id and finns_i = omrades_id and " +
+                                "alien_id = " + alienID);
+        
+        try {
+        lblAlienOmrade.setText("Du tillhör område: " + mib.fetchSingle(hittaOmrade));
+            }
+        
+        catch (InfException ettUndantag) {
+            JOptionPane.showMessageDialog(null, "Databasfel!");
+            System.out.println("Internt felmeddelande" + ettUndantag.getMessage());
+        } catch (Exception ettUndantag) {
+            JOptionPane.showMessageDialog(null, "Något gick fel!");
+            System.out.println("Internt felmeddelande" + ettUndantag.getMessage());
+        }
+    }
+    
+   private void setLabelOmradeschef()
+    {
+        String hittaOmradeschefNamn = ("select agent.namn from agent, omradeschef " +
+                                   "where agent.agent_id = omradeschef.agent_id " +
+                                    "and omradeschef.omrade = ");
+        
+        String hittaOmradesId = ("(select omrades_id from alien, plats, omrade " +
+                "where plats = plats_id and finns_i = omrades_id and alien_id = " +
+                alienID + ")");
+        
+        String hittaOmradeschefTelefon = ("select agent.telefon from agent, omradeschef " +
+                                   "where agent.agent_id = omradeschef.agent_id " +
+                                    "and omradeschef.omrade = ");
+        
+        try {
+        lblOmradeschef.setText("Din områdeschef är: " + mib.fetchSingle(hittaOmradeschefNamn + hittaOmradesId)
+        + " (telefon: " + mib.fetchSingle(hittaOmradeschefTelefon + hittaOmradesId) + ")");
+            }
+        
+        catch (InfException ettUndantag) {
+            JOptionPane.showMessageDialog(null, "Databasfel!");
+            System.out.println("Internt felmeddelande" + ettUndantag.getMessage());
+        } catch (Exception ettUndantag) {
+            JOptionPane.showMessageDialog(null, "Något gick fel!");
+            System.out.println("Internt felmeddelande" + ettUndantag.getMessage());
+        }
+    }
+    
+    private void btnListaAliensActionPerformed(java.awt.event.ActionEvent evt) {                                               
+        // TODO add your handling code here:
+    }                                              
 
-                                avslut(false);
+    private void btnMailaAgentActionPerformed(java.awt.event.ActionEvent evt) {                                              
+        System.out.println(Login.getAlienID());
+    }                                             
 
-    }//GEN-LAST:event_hanteraAgentActionPerformed
+    private void btnTillbakaInloggActionPerformed(java.awt.event.ActionEvent evt) {                                                  
+        dispose();
+        new Login(mib).setVisible(true);
+    }                                                 
 
-    private void tillbakaKnappActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tillbakaKnappActionPerformed
-                                avslut(false);
-                                new Login(mib).setVisible(true);
-
-    }//GEN-LAST:event_tillbakaKnappActionPerformed
-
-    private void hanteraUtrustningActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hanteraUtrustningActionPerformed
-                                new HanteraUtrustning(mib).setVisible(true);
-                                dispose();
-    }//GEN-LAST:event_hanteraUtrustningActionPerformed
-
-    private void hanteraAliensActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hanteraAliensActionPerformed
-                                avslut(false);
-    }//GEN-LAST:event_hanteraAliensActionPerformed
-
-                private void omradeBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_omradeBoxItemStateChanged
-                                if (evt.getStateChange() == 1 && !omradeBox.getSelectedItem().toString().equals("Alla")) {
-                                                String agentL = getAgentLista() + " WHERE OMRADE = '" + valOmrade() + "'";
-                                                System.out.println(agentL);
-                                                skrivTabell(agentL);
-
-                                } else {
-                                                skrivTabell();
-                                }     // TODO add your handling code here:
-                }//GEN-LAST:event_omradeBoxItemStateChanged
-
-                private void sokrutaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_sokrutaKeyPressed
-                                String query = getAgentLista();
-                                String lvpString = " WHERE NAMN LIKE " + "'%" + sokruta.getText() + "%'";
-                                if (!omradeBox.getSelectedItem().toString().equals("Alla")) {
-                                                query = query + lvpString + " AND OMRADE LIKE '" + valOmrade() + "'";
-                                } else {
-                                                query += lvpString;
-                                }
-                                if (evt.getKeyCode() == 1) {
-                                                System.out.println(query);
-                                                skrivTabell(query);
-                                                }                }//GEN-LAST:event_sokrutaKeyPressed
-
-                private void hanteraAgentMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_hanteraAgentMouseClicked
-                                avslut(false);
+    private void btnTillbakaInlogg1ActionPerformed(java.awt.event.ActionEvent evt) {                                                   
+        dispose();
+        new Login(mib).setVisible(true);
+    }                                                  
 
 
-                                // TODO add your handling code here:
-                }//GEN-LAST:event_hanteraAgentMouseClicked
-
-                private void sokrutaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sokrutaMouseClicked
-
-                                lblFel.setVisible(false);
-                                sokruta.setText("");
-
-
-                }//GEN-LAST:event_sokrutaMouseClicked
-
-                private void sokrutaInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_sokrutaInputMethodTextChanged
-
-                                lblFel.setVisible(false);
-
-                                sokruta.setText("");
-
-
-                }//GEN-LAST:event_sokrutaInputMethodTextChanged
-
-                /**
-                 * @param args the command line arguments
-                 */
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JButton hanteraAgent;
-    public javax.swing.JButton hanteraAliens;
-    public javax.swing.JButton hanteraUtrustning;
-    public javax.swing.JLabel inloggadSom;
-    private javax.swing.JScrollPane jScrollPane1;
-    public javax.swing.JLabel lblAdmin;
-    private javax.swing.JLabel lblFel;
-    public javax.swing.JLabel lblOmrade;
-    public javax.swing.JComboBox<String> omradeBox;
-    public javax.swing.JTextField sokruta;
-    public javax.swing.JTable tabell;
-    public javax.swing.JButton tillbakaKnapp;
-    // End of variables declaration//GEN-END:variables
-
-                /**
-                 * @return the agentLista
-                 */
-                private String getAgentLista() {
-                                return agentLista;
-                }
-
-                /**
-                 * @param agentLista the agentLista to set
-                 */
-                private void setAgentLista(String agentLista) {
-                                this.agentLista = agentLista;
-                }
-
+    // Variables declaration - do not modify                     
+    private javax.swing.JButton btnListaAliens;
+    private javax.swing.JButton btnMailaAgent;
+    private javax.swing.JButton btnTillbakaInlogg;
+    private javax.swing.JButton btnTillbakaInlogg1;
+    private javax.swing.JLabel lblAlienOmrade;
+    private javax.swing.JLabel lblHuvudmenyAlien;
+    private javax.swing.JLabel lblOmradeTillhorighet;
+    private javax.swing.JLabel lblOmradeschef;
+    private javax.swing.JLabel lblinloggNamn;
+    // End of variables declaration                   
 }
