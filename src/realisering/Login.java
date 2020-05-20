@@ -1,9 +1,9 @@
 package realisering;
 
-import java.util.ArrayList;
-import javax.swing.JOptionPane;
-import oru.inf.InfDB;
-import oru.inf.InfException;
+import java.awt.*;
+import java.util.*;
+import javax.swing.*;
+import oru.inf.*;
 
 /**
  *
@@ -14,109 +14,115 @@ import oru.inf.InfException;
  */
 public class Login extends javax.swing.JFrame {
 
-    private InfDB mib;
-    //ID:t för den alien eller agent som är inloggad.
-    //Används för att kunna hitta rätt info med SQL-frågor i andra klasser
-    private static String alienID;
-    private static String agentID;
-    private static boolean isAdmin;
+                private InfDB mib;
+                //ID:t för den alien eller agent som är inloggad.
+                //Används för att kunna hitta rätt info med SQL-frågor i andra klasser
+                private static String alienID;
+                private static String agentID;
+                private static boolean isAdmin;
 
-    /**
-     * Konstruktor
-     */
-    public Login(InfDB mib) {
-        this.mib = mib;
-        initComponents();
-        isAdmin = true; //bara för test
-    }
-
-    public static boolean getAdmin()
-    {
-        return isAdmin;
-    }
-    
-    // Det som händer när man klickar enter/knappen
-    private void loggaIn() {
-        Boolean koll = false;
-        Boolean isAgent = false;
-        String hittaAlien = "SELECT LOSENORD FROM ALIEN;";
-        String hittaAgent = "SELECT LOSENORD FROM AGENT;";
-
-        ArrayList<String> allaLosenAgent;
-        ArrayList<String> allaLosenAlien;
-
-        try {
-
-            // Sparar lösenord i Arraylist.
-            allaLosenAgent = mib.fetchColumn(hittaAgent);
-            allaLosenAlien = mib.fetchColumn(hittaAlien);
-
-            // Kollar igenom alla Agenters lösenord
-            for (String l : allaLosenAgent) {
-                String agentLosenord = new String(losenord.getPassword());
-                if (l.equals(agentLosenord)) {
-                    dispose();
-                    System.out.println("Agent");
-                    koll = true;
-                    isAgent = true;
-                    //Registrera Agent-ID för att kunna användas i andra klasser
-                    String hittaAgentID = ("select agent_id from agent where " +
-                                           "losenord = " + "'" + agentLosenord + "'");
-                    agentID = mib.fetchSingle(hittaAgentID);
-                    System.out.println("AgentID: " + agentID);
-                    //Öppna huvudmenyn för agenter
-                    new HuvudmenyAgent(mib).setVisible(true);
+                /**
+                 * Konstruktor
+                 */
+                public Login(InfDB mib) {
+                                this.mib = mib;
+                                initComponents();
                 }
-            }
 
-           // Kollar igenom alla Aliens lösenord.
-            for (String l : allaLosenAlien) {
-                String alienLosenord = new String(losenord.getPassword());
-                if (l.equals(alienLosenord)) {
-                    dispose();
-                    System.out.println("Alien");
-                    koll = true;
-                    //Registrera Alien-ID för att kunna användas i andra klasser
-                    String hittaAlienID = ("select alien_id from alien where losenord = " + "'" + alienLosenord + "'");
-                    alienID = mib.fetchSingle(hittaAlienID);
-                    System.out.println("AlienID: " + alienID);
-                    // Öppna fönster HuvudmenyAlien
-                    new HuvudmenyAlien(mib).setVisible(true);
+                // Det som händer när man klickar enter/knappen
+                private void loggaIn() {
+                                Boolean koll = false;
+                                Boolean isAgent = false;
+                                String hittaAlien = "SELECT LOSENORD FROM ALIEN;";
+                                String hittaAgent = "SELECT LOSENORD FROM AGENT;";
+                                String hittaAdmin = "SELECT LOSENORD FROM AGENT WHERE ADMINISTRATOR LIKE 'J';";
+
+                                ArrayList<String> allaLosenAgent;
+                                ArrayList<String> allaLosenAlien;
+                                ArrayList<String> allaLosenAdmin;
+
+                                try {
+
+                                                // Sparar lösenord i Arraylist.
+                                                allaLosenAgent = mib.fetchColumn(hittaAgent);
+                                                allaLosenAlien = mib.fetchColumn(hittaAlien);
+                                                allaLosenAdmin = mib.fetchColumn(hittaAdmin);
+
+                                                // Kollar igenom alla Agenters lösenord
+                                                for (String l : allaLosenAdmin) {
+                                                                String adminLosenord = new String(losenord.getPassword());
+
+                                                                if (adminLosenord.equals(l)) {
+                                                                                isAdmin = true;
+                                                                } else {
+                                                                                isAdmin = false;
+                                                                }
+                                                }
+
+                                                // Kollar igenom alla Agenters lösenord
+                                                for (String l : allaLosenAgent) {
+                                                                String agentLosenord = new String(losenord.getPassword());
+                                                                if (l.equals(agentLosenord)) {
+                                                                                this.dispose();
+                                                                                //  System.out.println("Agent");
+                                                                                koll = true;
+                                                                                isAgent = true;
+                                                                                //Registrera Agent-ID för att kunna användas i andra klasser
+                                                                                String hittaAgentID = ("SELECT AGENT_ID FROM AGENT WHERE "
+                                                                                        + "LOSENORD LIKE '" + agentLosenord + "' ");
+                                                                                agentID = mib.fetchSingle(hittaAgentID);
+                                                                                //      System.out.println("AgentID: " + agentID);
+                                                                                //Öppna huvudmenyn för agenter
+                                                                                new HuvudmenyAdmin(mib).setVisible(true);
+
+                                                                }
+                                                }
+
+                                                // Kollar igenom alla Aliens lösenord.
+                                                for (String l : allaLosenAlien) {
+                                                                String alienLosenord = new String(losenord.getPassword());
+                                                                if (l.equals(alienLosenord)) {
+                                                                                dispose();
+                                                                                System.out.println("Alien");
+                                                                                koll = true;
+                                                                                //Registrera Alien-ID för att kunna användas i andra klasser
+                                                                                String hittaAlienID = ("SELECT ALIEN_ID FROM ALIEN WHERE LOSENORD LIKE " + "'" + alienLosenord + "'");
+                                                                                alienID = mib.fetchSingle(hittaAlienID);
+                                                                                System.out.println("AlienID: " + alienID);
+                                                                                // Öppna fönster HuvudmenyAlien
+                                                                                new HuvudmenyAlien(mib).setVisible(true);
+                                                                }
+                                                }
+
+                                                // Om lösenordet inte fanns - Meddelande om fel lösenord.
+                                                if (!koll) {
+                                                                JOptionPane.showMessageDialog(null, "Fel lösenord!");
+                                                }
+
+                                } catch (InfException ettUndantag) {
+                                                JOptionPane.showMessageDialog(null, "Databasfel!");
+                                                System.out.println("D Fel --  " + ettUndantag.getMessage() + " -- " + ettUndantag.getLocalizedMessage() + " -- " + ettUndantag.getCause().toString());
+                                } catch (HeadlessException ettUndantag) {
+                                                JOptionPane.showMessageDialog(null, "Något gick fel!");
+                                                System.out.println("Fel --  " + ettUndantag.getMessage() + " -- " + ettUndantag.getLocalizedMessage() + " -- " + ettUndantag.getCause().toString());
+                                }
+
                 }
-            }
-            
-            // Om lösenordet inte fanns - Meddelande om fel lösenord.
-            if (!koll) {
-                JOptionPane.showMessageDialog(null, "Fel lösenord!");
-            }
 
-        } catch (InfException ettUndantag) {
-            JOptionPane.showMessageDialog(null, "Databasfel!");
-            System.out.println("Internt felmeddelande" + ettUndantag.getMessage());
-        } catch (Exception ettUndantag) {
-            JOptionPane.showMessageDialog(null, "Något gick fel!");
-            System.out.println("Internt felmeddelande" + ettUndantag.getMessage());
-        }
+                //get-metoder för att returnera ID av den agent eller alien som är inloggad
+                //Kommer användas i andra klasser
+                public static String getAlienID() {
+                                return alienID;
+                }
 
-    }
+                public static String getAgentID() {
+                                return agentID;
+                }
 
-    //get-metoder för att returnera ID av den agent eller alien som är inloggad
-    //Kommer användas i andra klasser
-    public static String getAlienID()
-    {
-        return alienID;
-    }
-    
-    public static String getAgentID()
-    {
-        return agentID;
-    }
-    
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
+                public static Boolean getAdmin() {
+                                return isAdmin;
+                }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {

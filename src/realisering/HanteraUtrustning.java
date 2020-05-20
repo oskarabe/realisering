@@ -14,6 +14,7 @@ import oru.inf.InfException;
 public class HanteraUtrustning extends javax.swing.JFrame {
 
     private InfDB mib;
+    private boolean isAdmin;
     
     /**
      * Creates new form LaggTillNyUtrustning
@@ -21,18 +22,24 @@ public class HanteraUtrustning extends javax.swing.JFrame {
     public HanteraUtrustning(InfDB mib) {
         this.mib = mib;
         initComponents();
+        isAdmin = Login.getAdmin();
         checkAdminStatus();
     }
 
-    //Ifall användaren inte har adminstatus inaktiveras btnTaBort
+    //Ifall användaren inte har adminstatus inaktiveras btnTaBort och btnLaggTill
     private void checkAdminStatus()
     {
-        if(!Login.getAdmin())
+        if(isAdmin == false)
         {
             btnTaBort.setEnabled(false);
+            btnLaggTill.setEnabled(false);
+            
         }
-        else
+        else if(isAdmin == true)
+        {
             btnTaBort.setEnabled(true);
+            btnLaggTill.setEnabled(true);
+        }
     }
     
     @SuppressWarnings("unchecked")
@@ -48,6 +55,7 @@ public class HanteraUtrustning extends javax.swing.JFrame {
         btnReg = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         tble.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -104,23 +112,20 @@ public class HanteraUtrustning extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(sokruta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 428, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(btnLaggTill)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnReg)
+                        .addGap(10, 10, 10)
+                        .addComponent(btnLaggTill)
                         .addGap(18, 18, 18)
-                        .addComponent(btnTaBort))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(188, 188, 188)
-                        .addComponent(lblUtrustning)))
-                .addContainerGap(23, Short.MAX_VALUE))
+                        .addComponent(btnTaBort)
+                        .addGap(26, 26, 26))
+                    .addComponent(sokruta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 428, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(187, 187, 187)
+                .addComponent(lblUtrustning))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -133,9 +138,9 @@ public class HanteraUtrustning extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnLaggTill)
                     .addComponent(btnReg)
-                    .addComponent(btnTaBort))
+                    .addComponent(btnTaBort)
+                    .addComponent(btnLaggTill))
                 .addContainerGap(44, Short.MAX_VALUE))
         );
 

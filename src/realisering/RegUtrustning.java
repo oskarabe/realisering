@@ -37,9 +37,9 @@ public class RegUtrustning extends javax.swing.JFrame {
         btnLaggTill = new javax.swing.JButton();
         lblMeddelande = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        lblRubrik.setText("Ange namnet på den utrustning du vill registrera i din utrustningssamling");
+        lblRubrik.setText("Ange namnet på den utrustning du vill registrera i din samling");
 
         lblNamn.setText("Namn: ");
 
@@ -67,7 +67,7 @@ public class RegUtrustning extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(89, 89, 89)
                         .addComponent(lblMeddelande, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addContainerGap(96, Short.MAX_VALUE))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(102, 102, 102)
