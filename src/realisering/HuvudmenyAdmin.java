@@ -13,9 +13,7 @@ import oru.inf.*;
 public class HuvudmenyAdmin extends javax.swing.JFrame {
 
                 private final InfDB mib;
-                private ComboBoxModel lvBox;
-                private TableColumnModel cmodel;
-                private TableColumn tC;
+    private ComboBoxModel lvBox;
                 private String omID, omCB, all, agentLista;
                 private final String agentID;
     private Vector<String> vC, vKolumn, vData;
@@ -25,15 +23,7 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
                 public HuvudmenyAdmin(InfDB mib) {
 
                                 this.mib = mib;
-                                model = new DefaultTableModel() {
 
-                                                @Override
-                                                public boolean isCellEditable(int row, int column) {
-                                                                return false;
-                                                }
-
-
-                                };
                                 agentID = Login.getAgentID();
                                 initComponents();
                                 setLabelInloggNamn();
