@@ -15,7 +15,7 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
     private String agentID, omID, omCB, all, agentLista;
     private boolean isAdmin;
     private InfDB mib;
-    private ComboBoxModel lvBox;
+    private ComboBoxModel lvBox, rasModell;
     private Vector<String> vC, vKolumn, vData;
     private DefaultTableModel model;
 
@@ -29,6 +29,7 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
         setLabelInloggNamn();
         setcBoxPlats();
         setGetCbModel();
+        setcBoxRas();
         setGetTableModel();
     }
 
@@ -73,6 +74,16 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Något gick fel!");
             System.out.println("Internt felmeddelande" + ettUndantag.getMessage());
         }
+    }
+
+    private void setcBoxRas() {
+        Vector<String> vRas = new Vector<>();
+        vRas.add("Alla");
+        vRas.add("Boglodite");
+        vRas.add("Squid");
+        vRas.add("Worm");
+        rasModell = new DefaultComboBoxModel(vRas);
+        cBoxRas.setModel(rasModell);
     }
 
     protected void skrivTabell() {
@@ -183,6 +194,12 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
         txtFldSokruta = new javax.swing.JTextField();
         btnTillbakaInlogg = new javax.swing.JButton();
         lblRasVald = new javax.swing.JLabel();
+        attributKnapp = new javax.swing.JButton();
+        attributVarde = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        attributVal = new javax.swing.JComboBox<>();
+        jLabel7 = new javax.swing.JLabel();
+        attributKnapp1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(800, 500));
@@ -254,6 +271,33 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
 
         lblRasVald.setText("Ras på vald Alien: ");
 
+        attributKnapp.setText("Ändra");
+        attributKnapp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                attributKnappActionPerformed(evt);
+            }
+        });
+
+        attributVarde.setColumns(12);
+        attributVarde.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                attributVardeActionPerformed(evt);
+            }
+        });
+
+        jLabel9.setText("Ange nytt värde:");
+
+        attributVal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel7.setText("Välj attribut att ändra");
+
+        attributKnapp1.setText("Byt");
+        attributKnapp1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                attributKnapp1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -262,12 +306,24 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
                 .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(lblRasVald)
+                        .addComponent(jLabel9)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(attributVarde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(attributKnapp, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
+                                .addComponent(attributVal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(attributKnapp1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lblRasVald))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(lblOmrade)
@@ -347,8 +403,19 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lblRasVald)
-                .addContainerGap(104, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(lblRasVald))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(attributVal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(attributKnapp1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(attributVarde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9)
+                    .addComponent(attributKnapp))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
 
         pack();
@@ -393,16 +460,34 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tabellMouseClicked
 
+    private void attributKnappActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_attributKnappActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_attributKnappActionPerformed
+
+    private void attributVardeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_attributVardeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_attributVardeActionPerformed
+
+    private void attributKnapp1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_attributKnapp1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_attributKnapp1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton attributKnapp;
+    private javax.swing.JButton attributKnapp1;
+    private javax.swing.JComboBox<String> attributVal;
+    private javax.swing.JTextField attributVarde;
     private javax.swing.JButton btnHanteraAliens;
     private javax.swing.JButton btnHanteraUtrustning;
     private javax.swing.JButton btnTillbakaInlogg;
     private javax.swing.JComboBox<String> cBoxOmrade;
     private javax.swing.JComboBox<String> cBoxPlats;
     private javax.swing.JComboBox<String> cBoxRas;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblDatum;
     private javax.swing.JLabel lblHuvudmenyAgent;
