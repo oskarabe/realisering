@@ -23,8 +23,8 @@ public class Main {
             JOptionPane.showMessageDialog(null, "Något gick fel!");
             System.out.println("Internt felmeddelande" + ettUndantag.getMessage());
         }
-        //new HanteraUtrustning(mib).setVisible(true);
-        new Login(mib).setVisible(true);
+        new LaggTillNyUtrustning(mib).setVisible(true);
+        //new Login(mib).setVisible(true);
     }
 
 }

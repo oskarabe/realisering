@@ -74,6 +74,11 @@ public class HanteraUtrustning extends javax.swing.JFrame {
         lblUtrustning.setText("Utrustning");
 
         sokruta.setText("Sök utrustning...");
+        sokruta.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                sokrutaMouseClicked(evt);
+            }
+        });
         sokruta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 sokrutaActionPerformed(evt);
@@ -152,6 +157,10 @@ public class HanteraUtrustning extends javax.swing.JFrame {
     private void btnRegActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegActionPerformed
         new RegUtrustning(mib).setVisible(true);
     }//GEN-LAST:event_btnRegActionPerformed
+
+    private void sokrutaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sokrutaMouseClicked
+        sokruta.setText("");
+    }//GEN-LAST:event_sokrutaMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

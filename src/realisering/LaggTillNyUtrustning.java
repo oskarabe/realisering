@@ -59,6 +59,7 @@ public class LaggTillNyUtrustning extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel2 = new javax.swing.JLabel();
+        lblRubrik1 = new javax.swing.JLabel();
         btnLaggTill = new javax.swing.JButton();
         txtValjUtrustning = new javax.swing.JTextField();
         rdiobtnVapen = new javax.swing.JRadioButton();
@@ -70,11 +71,15 @@ public class LaggTillNyUtrustning extends javax.swing.JFrame {
         txtTyp = new javax.swing.JLabel();
         txtEgenskap = new javax.swing.JLabel();
         txtValjEgenskap = new javax.swing.JTextField();
+        lblRubrik2 = new javax.swing.JLabel();
 
         jLabel2.setText("Lägg till utrustning i din samling");
 
+        lblRubrik1.setText("Ange namn, typ av utrustning och egenskap för utrustningen");
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(420, 280));
+        setPreferredSize(new java.awt.Dimension(400, 330));
+        setResizable(false);
 
         btnLaggTill.setText("Lägg till");
         btnLaggTill.addActionListener(new java.awt.event.ActionListener() {
@@ -106,7 +111,7 @@ public class LaggTillNyUtrustning extends javax.swing.JFrame {
 
         lblMeddelande.setText("Meddelande");
 
-        lblRubrik.setText("Ange namn och typ av utrustning att lägga till i företagets förråd");
+        lblRubrik.setText("Ange namn, typ och egenskap för utrustningen");
 
         lblNamn.setText("Namn: ");
 
@@ -120,48 +125,50 @@ public class LaggTillNyUtrustning extends javax.swing.JFrame {
             }
         });
 
+        lblRubrik2.setText("Utrustningen läggs sedan till i förrådsregistret");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(36, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblMeddelande, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(lblRubrik, javax.swing.GroupLayout.PREFERRED_SIZE, 273, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblRubrik2, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(txtTyp, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(rdiobtnVapen)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(rdiobtnTeknik)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(rdiobtnKom))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(16, 16, 16)
+                            .addComponent(txtEgenskap)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(txtValjEgenskap, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(29, 29, 29)
+                            .addComponent(lblNamn)
+                            .addGap(18, 18, 18)
+                            .addComponent(txtValjUtrustning, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(39, 39, 39))
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(38, 38, 38)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(txtTyp, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(rdiobtnVapen)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(rdiobtnTeknik)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(rdiobtnKom))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(txtEgenskap)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(txtValjEgenskap, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(13, 13, 13)
-                                        .addComponent(lblNamn)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(txtValjUtrustning, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(lblMeddelande, javax.swing.GroupLayout.PREFERRED_SIZE, 257, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(116, 116, 116)
-                                .addComponent(btnLaggTill, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(65, 65, 65))
-                    .addComponent(lblRubrik, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addGap(142, 142, 142)
+                .addComponent(btnLaggTill, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lblRubrik, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblRubrik2, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtValjUtrustning, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -180,7 +187,7 @@ public class LaggTillNyUtrustning extends javax.swing.JFrame {
                 .addComponent(btnLaggTill)
                 .addGap(18, 18, 18)
                 .addComponent(lblMeddelande)
-                .addContainerGap(56, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         pack();
@@ -229,7 +236,7 @@ public class LaggTillNyUtrustning extends javax.swing.JFrame {
                     mib.insert(insertIntoKom);
                 }
                 
-                lblMeddelande.setText(utrustningNamn + " har lagts till i företagets förråd!");
+                lblMeddelande.setText("Ny utrustning " + utrustningNamn + " har lagts till i förrådsregistret!");
                         }
         
         catch (InfException ettUndantag) {
@@ -264,6 +271,8 @@ public class LaggTillNyUtrustning extends javax.swing.JFrame {
     private javax.swing.JLabel lblMeddelande;
     private javax.swing.JLabel lblNamn;
     private javax.swing.JLabel lblRubrik;
+    private javax.swing.JLabel lblRubrik1;
+    private javax.swing.JLabel lblRubrik2;
     private javax.swing.JRadioButton rdiobtnKom;
     private javax.swing.JRadioButton rdiobtnTeknik;
     private javax.swing.JRadioButton rdiobtnVapen;
