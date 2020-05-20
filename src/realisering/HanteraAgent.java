@@ -5,7 +5,6 @@
  */
 package realisering;
 
-import java.awt.*;
 import java.util.*;
 import java.util.logging.*;
 import javax.swing.*;
@@ -16,220 +15,200 @@ import oru.inf.*;
  *
  * @author oskar
  */
-public class HanteraAgent extends javax.swing.JFrame {
+public class HanteraAgent
+        extends javax.swing.JFrame {
 
-                private final InfDB mib;
-                private final String agentID;
-                private String agentLista;
-                private ArrayList<String> AyL, sList;
-                private DefaultTableModel model;
-                private DefaultComboBoxModel cbmod;
-                private Vector<String> vK, vT;
+    private final InfDB mib;
+    private final String agentID;
+    private String agentLista, agID;
+    private ArrayList< String> AyL, sList;
+    private DefaultTableModel model;
+    private DefaultComboBoxModel cbmod;
+    private Vector< String> vKolumn, vData, vL;
 
-                public HanteraAgent(InfDB mib) {
+    public HanteraAgent(InfDB mib) {
 
-                                this.mib = mib;
-                                initComponents();
-                                agentID = Login.getAgentID();
-                                setAgentLista("SELECT AGENT_ID, NAMN, TELEFON, ANSTALLNINGSDATUM, ADMINISTRATOR, OMRADE FROM AGENT");
-                                setTableModel();
-                                vK = new Vector<>();
-                                vT = new Vector<>();
-                                cBM(vK, vT);
-                                setOmradeCB();
-                }
+        this.mib = mib;
+        initComponents();
+        agentID = Login.getAgentID();
+        setAgentLista("SELECT AGENT_ID, NAMN, TELEFON, ANSTALLNINGSDATUM, ADMINISTRATOR, OMRADE FROM AGENT");
+        setTableModel();
+        vKolumn = new Vector<>();
+        vData = new Vector<>();
+        cBM(vKolumn, vData);
+        setOmradeCB();
+    }
 
-                /**
-                 * @return the agentLista
-                 */
-                private String getAgentLista() {
-                                return agentLista;
-                }
+    /**
+     * @return the agentLista
+     */
+    private String getAgentLista() {
+        return agentLista;
+    }
 
+    /**
+     * @param agentLista the agentLista to set
+     */
+    private void setAgentLista(String agentLista) {
+        this.agentLista = agentLista;
+    }
 
-                /**
-                 * @param agentLista the agentLista to set
-                 */
-                private void setAgentLista(String agentLista) {
-                                this.agentLista = agentLista;
-                }
+    /**
+     * @return the agentLista
+     */
+    private String getAgID() {
+        return agID;
+    }
 
+    /**
+     * @param agentLista the agentLista to set
+     */
+    private void setAgID(String id) {
+        this.agID = id;
+    }
 
-                private DefaultComboBoxModel cBM(Vector<String> vQ, Vector<String> vW) {
-                                try {
+    private DefaultComboBoxModel cBM(Vector< String> vQ, Vector< String> vW) {
+        try {
 
-                                                AyL = new ArrayList<>();
-                                                sList = new ArrayList<>();
-                                                String sK = "SELECT NAMN, TELEFON, ANSTALLNINGSDATUM, ADMINISTRATOR, OMRADE FROM AGENT";
+            AyL = new ArrayList<>();
+            sList = new ArrayList<>();
+            String sK = "SELECT NAMN, TELEFON, ANSTALLNINGSDATUM, ADMINISTRATOR, OMRADE FROM AGENT";
 
-                                                AyL.addAll(mib.fetchRow(getAgentLista()).keySet());
-                                                sList.addAll(AyL.subList(0, 5));
-                                                Collections.sort(sList);
+            AyL.addAll(mib.fetchRow(getAgentLista()).keySet());
+            sList.addAll(AyL.subList(0, 5));
+            Collections.sort(sList);
 
+            vQ.addAll(sList);
+            vW.addAll(mib.fetchRow(sK).values());
 
-                                                vQ.addAll(sList);
-                                                vW.addAll(mib.fetchRow(sK).values());
+            cbmod = (DefaultComboBoxModel) aCB.getModel();
+            cbmod.removeAllElements();
+            cbmod.addAll(sList);
+            aCB.setModel(cbmod);
+            aCB.getModel().setSelectedItem(sList.get(0));
+            return cbmod;
 
+            // 3 till 1, 2 till tre. 1 te tvÃ¥
+        } catch (InfException ex) {
+            Logger.getLogger(HanteraAgent.class.getName()).log(Level.SEVERE, null, ex);
+            return cbmod;
 
-                                                cbmod = (DefaultComboBoxModel) aCB.getModel();
-                                                cbmod.removeAllElements();
-                                                cbmod.addAll(sList);
-                                                aCB.setModel(cbmod);
-                                                aCB.getModel().setSelectedItem(sList.get(0));
-                                                return cbmod;
+        }
+    }
 
-                                                // 3 till 1, 2 till tre. 1 te två
+    private void editAgent() {
+        int rad = tabell.getSelectedRow();
+        setAgID(tabell.getValueAt(rad, 0).toString());
+        String attr = cbmod.getSelectedItem().toString();
+        String nyttV = "'" + attributVarde.getText() + "'";
+        System.err.println(attr + " - " + nyttV + nyttV.length() + " " + agID + rad);
+        if (nyttV.length() == 3) {
+            nyttV = nyttV.toUpperCase();
+        }
+        String fraga = "UPDATE AGENT SET " + attr + " = " + nyttV + " WHERE AGENT_ID = " + agID + ";";
+        try {
+            mib.update(fraga);
+            model.fireTableDataChanged();
+            model.fireTableStructureChanged();
+            setTableModel();
+            tabell.updateUI();
 
-                                } catch (InfException ex) {
-                                                Logger.getLogger(HanteraAgent.class.getName()).log(Level.SEVERE, null, ex);
-                                                return cbmod;
+        } catch (InfException ex) {
+            Logger.getLogger(HanteraAgent.class.getName()).log(Level.SEVERE, getWarningString(), ex);
+            System.out.println("InfFel " + ex.getSQLState() + " " + ex.getMessage() + " " + ex.getLocalizedMessage());
+        }
 
-                                }
-                }
+    }
 
-                private void editAgent() {
-                                int rad = tabell.getSelectedRow();
-                                String agID = tabell.getValueAt(rad, 0).toString();
-                                String attr = cbmod.getSelectedItem().toString();
-                                String nyttV = "'" + attributVarde.getText() + "'";
-                                System.err.println(attr + " - " + nyttV + nyttV.length() + " " + agID + rad);
-                                if (nyttV.length() == 3) {
-                                                nyttV = nyttV.toUpperCase();
-                                }
-                                String fraga = "UPDATE AGENT SET " + attr + " = " + nyttV + " WHERE AGENT_ID = " + agID + ";";
-                                try {
-                                                mib.update(fraga);
-                                                model.fireTableDataChanged();
-                                                model.fireTableStructureChanged();
-                                                setTableModel();
-                                                tabell.updateUI();
+    //Anger omrÃ¥den i combobox
+    private void setOmradeCB() {
 
-                                } catch (InfException ex) {
-                                                Logger.getLogger(HanteraAgent.class.getName()).log(Level.SEVERE, getWarningString(), ex);
-                                                System.out.println("InfFel " + ex.getSQLState() + " " + ex.getMessage() + " " + ex.getLocalizedMessage());
-                                }
+        try {
 
-                }
+            Vector< String> vc = new Vector<>();
+            vc.addAll(mib.fetchColumn("SELECT BENAMNING FROM OMRADE"));
+            ComboBoxModel lvBox = new DefaultComboBoxModel(vc);
+            omrade.getModel().setSelectedItem(vc.firstElement());
+            omrade.setModel(lvBox);
 
-                //Anger områden i combobox
-                private void setOmradeCB() {
+        } catch (InfException ettUndantag) {
+            JOptionPane.showMessageDialog(null, "Databasfel!");
+            System.out.println("3 Internt felmeddelande" + ettUndantag.getMessage());
+        } catch (IndexOutOfBoundsException ettUndantag) {
+            JOptionPane.showMessageDialog(null, "NÃ¥got gick fel!");
+            System.out.println("");
+        }
 
-                                try {
+    }
 
-                                                Vector<String> vc = new Vector<>();
-                                                vc.addAll(mib.fetchColumn("SELECT BENAMNING FROM OMRADE"));
-                                                ComboBoxModel lvBox = new DefaultComboBoxModel(vc);
-                                                omrade.getModel().setSelectedItem(vc.firstElement());
-                                                omrade.setModel(lvBox);
+    private void skrivTabell() {
+        skrivTabell(getAgentLista());
+    }
 
-                                } catch (InfException ettUndantag) {
-                                                JOptionPane.showMessageDialog(null, "Databasfel!");
-                                                System.out.println("3 Internt felmeddelande" + ettUndantag.getMessage());
-                                } catch (IndexOutOfBoundsException ettUndantag) {
-                                                JOptionPane.showMessageDialog(null, "Något gick fel!");
-                                                System.out.println("");
-                                }
+    private void skrivTabell(String specQuery) {
+        ArrayList< HashMap< String, String>> hmData;
+        Vector< Vector< String>> vRad = new Vector<>();
 
-                }
+        try {
+            vKolumn = new Vector<>();
+            hmData = mib.fetchRows(specQuery);
 
-                private void skrivTabell() {
-                                skrivTabell(getAgentLista());
-                }
+            for (HashMap<String, String> hm : hmData) {
+                vData = new Vector<>();
+                vData.addAll(hm.values());
+                vRad.add(vData);
+            }
 
+            vKolumn.addAll(hmData.get(0).keySet());
 
-                private void skrivTabell(String querySQL) {
-                                model = (DefaultTableModel) tabell.getModel();
-                                model.getDataVector().removeAllElements();
-                                tabell.setAutoCreateRowSorter(true);
-                                tabell.setModel(model);
-                                model.fireTableDataChanged();
+            model.setDataVector(vRad, vKolumn);
+            tabell.setRowSelectionAllowed(true);
+            tabell.getColumnModel().moveColumn(2, 0);
+            tabell.getColumnModel().moveColumn(5, 4);
 
-                                try {
+        } catch (InfException ettUndantag) {
+            JOptionPane.showMessageDialog(null, "Databasfel!");
+            System.out.println("inf fel 3 Internt felmeddelande" + ettUndantag.getMessage());
+        } catch (IndexOutOfBoundsException ettUndantag) {
+            JOptionPane.showMessageDialog(null, "NÃ¥got gick fel!");
+            System.out.println("headFel --  " + ettUndantag.getMessage() + " -- " + ettUndantag.getLocalizedMessage());
+        } catch (NullPointerException u) {
+            JOptionPane.showMessageDialog(null, "Inga resultat...");
 
+            System.err.println("-- NullPointerEx --");
+        }
 
-                                                //        ArrayList<HashMap<String, String>> kDat;  new ArrayList<HashMap<String, String>>();
-                                                Vector<Vector> vV = new Vector<>();
-                                                System.out.println(querySQL);
-                                                ArrayList<HashMap<String, String>> kDat = mib.fetchRows(querySQL);
+    }
 
+    private ComboBoxModel getCbModel() {
 
-                                                for (HashMap<String, String> lvHm : kDat) {
+        return cbmod;
 
-                                                                Iterator iKeys = lvHm.keySet().iterator();
-                                                                vK = new Vector<>();
-                                                                while (iKeys.hasNext()) {
-                                                                                String key = (String) iKeys.next();
-                                                                                vK.add(key);
-                                                                }
+    }
 
-                                                                vT = new Vector<>();
-                                                                vT.addAll(lvHm.values());
-                                                                vV = new Vector<>();
-                                                                vV.add(vT);
+    private void setTableModel() {
+        setAgentLista("SELECT AGENT_ID, NAMN, TELEFON, ANSTALLNINGSDATUM, ADMINISTRATOR, OMRADE FROM AGENT");
+        model = (DefaultTableModel) tabell.getModel();
+        model.getDataVector().removeAllElements();
+        tabell.setModel(model);
+        skrivTabell();
+    }
 
-                                                }
-                                                model.setDataVector(vV, vK);
-                                                tabell.setRowSorter(new TableRowSorter(model));
-                                                tabell.setAutoCreateRowSorter(true);
-                                                tabell.setAutoCreateColumnsFromModel(true);
-                                                tabell.setRowSelectionAllowed(true);
+    private TableModel getTableModel() {
 
+        return model;
 
-                                                model.fireTableStructureChanged();
-                                                model.fireTableDataChanged();
-                                                tabell.updateUI();
-                                                tabell.getColumnModel().moveColumn(2, 0);
-                                                tabell.getColumnModel().moveColumn(5, 4);
+    }
 
+    private void avslut(boolean b) {
+        new HuvudmenyAdmin(mib).setVisible(Login.getAdmin());
+        new HuvudmenyAgent(mib).setVisible(!Login.getAdmin());
 
-                                } catch (InfException ettUndantag) {
-                                                JOptionPane.showMessageDialog(null, "Databasfel!");
-                                                System.out.println("3 Internt felmeddelande" + ettUndantag.getMessage());
-                                } catch (HeadlessException ettUndantag) {
-                                                JOptionPane.showMessageDialog(null, "Något gick fel!");
-                                                System.out.println("Fel --  " + ettUndantag.getMessage() + " -- " + ettUndantag.getLocalizedMessage());
-                                } catch (NullPointerException ettUndantag) {
-                                                JOptionPane.showMessageDialog(null, "Något gick fel!");
-                                                System.out.println("Fel --  " + ettUndantag.getMessage() + " -- " + ettUndantag.getLocalizedMessage());
-                                }
+        this.dispose();
+        this.disable();
+        this.setVisible(b);
 
-
-                }
-
-
-                private ComboBoxModel getCbModel() {
-
-                                return cbmod;
-
-                }
-
-                private void setTableModel() {
-                                model = (DefaultTableModel) tabell.getModel();
-                                model.getDataVector().removeAllElements();
-                                tabell.setAutoCreateRowSorter(true);
-
-                                tabell.setModel(model);
-                                skrivTabell(agentID);
-                                model.fireTableDataChanged();
-
-                }
-
-                private TableModel getTableModel() {
-
-                                return tabell.getModel();
-
-                }
-
-                private void avslut(boolean b) {
-                                new HuvudmenyAdmin(mib).setVisible(Login.getAdmin());
-                                new HuvudmenyAgent(mib).setVisible(!Login.getAdmin());
-
-                                this.dispose();
-                                this.disable();
-                                this.setVisible(b);
-
-
-                }
+    }
 
 
                 /**
@@ -239,7 +218,7 @@ public class HanteraAgent extends javax.swing.JFrame {
                  * Editor.
                  */
                 @SuppressWarnings("unchecked")
-                private void initComponents() {//GEN-BEGIN:initComponents
+                private void initComponents() {                          
 
                                 jLabel1 = new javax.swing.JLabel();
                                 attributKnapp = new javax.swing.JButton();
@@ -264,7 +243,7 @@ public class HanteraAgent extends javax.swing.JFrame {
                                 jLabel1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
                                 jLabel1.setText("Hantera agent");
 
-                                attributKnapp.setText("Ändra");
+                                attributKnapp.setText("Ã„ndra");
                                 attributKnapp.addActionListener(new java.awt.event.ActionListener() {
                                                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                                                                 attributKnappActionPerformed(evt);
@@ -294,9 +273,9 @@ public class HanteraAgent extends javax.swing.JFrame {
                                 tabell.setModel(tabell.getModel());
                                 jScrollPane1.setViewportView(tabell);
 
-                                jLabel6.setText("Välj agent");
+                                jLabel6.setText("VÃ¤lj agent");
 
-                                jLabel7.setText("Välj attribut att ändra");
+                                jLabel7.setText("VÃ¤lj attribut att Ã¤ndra");
 
                                 attributVarde.setColumns(12);
                                 attributVarde.addActionListener(new java.awt.event.ActionListener() {
@@ -305,9 +284,9 @@ public class HanteraAgent extends javax.swing.JFrame {
                                                 }
                                 });
 
-                                jLabel9.setText("Ange nytt värde:");
+                                jLabel9.setText("Ange nytt vÃ¤rde:");
 
-                                addAgent.setText("Lägg till agent");
+                                addAgent.setText("LÃ¤gg till agent");
                                 addAgent.addActionListener(new java.awt.event.ActionListener() {
                                                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                                                                 addAgentActionPerformed(evt);
@@ -321,14 +300,14 @@ public class HanteraAgent extends javax.swing.JFrame {
                                                 }
                                 });
 
-                                kontorschef.setText("Gör till kontorschef");
+                                kontorschef.setText("GÃ¶r till kontorschef");
                                 kontorschef.addActionListener(new java.awt.event.ActionListener() {
                                                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                                                                 kontorschefActionPerformed(evt);
                                                 }
                                 });
 
-                                omradeschef.setText("Gör till områdeschef i");
+                                omradeschef.setText("GÃ¶r till omrÃ¥deschef i");
                                 omradeschef.addActionListener(new java.awt.event.ActionListener() {
                                                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                                                                 omradeschefActionPerformed(evt);
@@ -416,83 +395,106 @@ public class HanteraAgent extends javax.swing.JFrame {
                                 );
 
                                 pack();
-                }//GEN-END:initComponents
+                }                        
 
-    private void attributKnappActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_attributKnappActionPerformed
+    private void attributKnappActionPerformed(java.awt.event.ActionEvent evt) {                                              
                                 editAgent();      // TODO add your handling code here:
-    }//GEN-LAST:event_attributKnappActionPerformed
+    }                                             
 
-    private void attributVardeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_attributVardeActionPerformed
+    private void attributVardeActionPerformed(java.awt.event.ActionEvent evt) {                                              
                                 // TODO add your handling code here:
-    }//GEN-LAST:event_attributVardeActionPerformed
+    }                                             
 
-    private void tillbakaKnappActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tillbakaKnappActionPerformed
+    private void tillbakaKnappActionPerformed(java.awt.event.ActionEvent evt) {                                              
                                 avslut(false);
-    }//GEN-LAST:event_tillbakaKnappActionPerformed
+    }                                             
 
-    private void kontorschefActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kontorschefActionPerformed
+    private void kontorschefActionPerformed(java.awt.event.ActionEvent evt) {                                            
+
+        try {
+                                setAgID(tabell.getValueAt(tabell.getSelectedRow(), 0).toString());
+            mib.update("UPDATE KONTORSCHEF SET AGENT_ID = " + getAgID() + " WHERE KONTORSBETECKNING LIKE 'Ã–rebrokontoret'");
+            JOptionPane.showMessageDialog(null, "Vald agent Ã¤r nu kontorschef");
+        } catch (InfException ex) {
+            Logger.getLogger(HanteraAgent.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }                                           
+
+    private void omradeschefActionPerformed(java.awt.event.ActionEvent evt) {                                            
+        if (omrade.getSelectedItem() == null) {
+            omrade.setSelectedIndex(0);
+        }
+
+        try {
+
+            int rad = tabell.getSelectedRow();
+            String a = (String) tabell.getValueAt(rad, 0);
+            setAgID(a);
+
+            ArrayList < String > vS, vO;
+            String oi = mib.fetchSingle("SELECT OMRADES_ID FROM OMRADE WHERE BENAMNING LIKE '" + omrade.getSelectedItem() + "'");
+            vS = mib.fetchColumn("SELECT AGENT_ID FROM OMRADESCHEF");
+            vO = mib.fetchColumn("SELECT OMRADE FROM OMRADESCHEF");
+
+            if (vS.contains(agID) || vO.contains(oi)) {
+
+                mib.delete("DELETE FROM OMRADESCHEF WHERE OMRADE = " + oi + " OR AGENT_ID = " + agID);
+                mib.insert("INSERT INTO OMRADESCHEF VALUES(" + agID + ", " + oi + ");");
+            } else {
+                mib.insert("INSERT INTO OMRADESCHEF VALUES(" + agID + ", " + oi + ");");
+
+            }
+
+            JOptionPane.showMessageDialog(null, "Vald Agent Ã¤r nu omrÃ¥deschef Ã¶ver valt omrÃ¥de");
+
+            //  mib.insert("INSERT INTO OMRADESCHEF VALUES(" + s + ", " + agID + ");");
+        } catch (InfException ex) {
+            System.err.println(ex.getMessage() + ex.getLocalizedMessage() + ex.getSQLState() + ex.getErrorCode() + ex.getNextException());
+            Logger.getLogger(HanteraAgent.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }                                           
+
+                private void addAgentActionPerformed(java.awt.event.ActionEvent evt) {                                         
+
+                    try {
+                                                String losen = JOptionPane.showInputDialog(null, "Ange lÃ¶senord fÃ¶r ny agent");
+                                                int radAntal = model.getRowCount() +1;
+                        String id = "" + radAntal;
+                        mib.insert("INSERT INTO AGENT VALUES(" + id + ", 'Agent NY', '0', DATE '2020-05-01', 'N', '" + losen + "', 1)");
+                                            skrivTabell();
+                    } catch (InfException ex) {
+                        Logger.getLogger(HanteraAgent.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                }                                        
+
+                private void deleteAgentActionPerformed(java.awt.event.ActionEvent evt) {                                            
+
+                    try {
+                        setAgID(tabell.getValueAt(tabell.getSelectedRow(), 0).toString());
+                        mib.delete("DELETE FROM AGENT WHERE AGENT_ID = " + getAgID());
+                        skrivTabell();
+                    } catch (InfException ex) {
+                        Logger.getLogger(HanteraAgent.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+                }                                           
+
+                private void aCBItemStateChanged(java.awt.event.ItemEvent evt) {                                     
+
+
                                 // TODO add your handling code here:
-    }//GEN-LAST:event_kontorschefActionPerformed
+                }                                    
 
-    private void omradeschefActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_omradeschefActionPerformed
-                                if (omrade.getSelectedItem() == null) {
-                                                omrade.setSelectedIndex(0);
-                                }
-
-                                try {
-                                                tabell.setRowSelectionAllowed(true);
-                                                model.fireTableDataChanged();
-                                                model.fireTableStructureChanged();
-                                                String agID = (String) tabell.getValueAt(tabell.getSelectedRow(), 0);
-                                                int agIN = Integer.parseInt(agID);
-
-                                                ArrayList<String> vS = new ArrayList<>();
-                                                String oi = mib.fetchSingle("SELECT OMRADES_ID FROM OMRADE WHERE BENAMNING LIKE '" + omrade.getSelectedItem() + "'");
-                                                int omid = Integer.parseInt((String) oi);
-                                                System.err.println(" " + agID + " - " + agIN + " " + omid + " " + oi);
-                                                vS.addAll(mib.fetchColumn("SELECT a.AGENT_ID FROM AGENT as a, OMRADESCHEF as o WHERE a.AGENT_ID = o.AGENT_ID ORDER BY a.AGENT_ID DESC"));
-                                                System.out.println(vS.size());
-                                                if (agID.equals(vS.get(0)) || agID.equals(vS.get(1))) {
-                                                                mib.update("UPDATE OMRADESCHEF SET OMRADE = " + omid + " WHERE AGENT_ID = " + agIN);
-                                                                System.out.println("Nådde if");
-                                                } else {
-                                                                mib.insert("INSERT INTO OMRADESCHEF VALUES(" + oi + ", " + agID + ");");
-                                                                System.out.println("Nådde else");
-
-                                                }
-
-
-                                                //  mib.insert("INSERT INTO OMRADESCHEF VALUES(" + s + ", " + agID + ");");
-                                } catch (InfException ex) {
-                                                System.err.println(ex.getMessage() + ex.getLocalizedMessage() + ex.getSQLState() + ex.getErrorCode() + ex.getNextException());
-                                                Logger.getLogger(HanteraAgent.class.getName()).log(Level.SEVERE, null, ex);
-                                }
-
-
-    }//GEN-LAST:event_omradeschefActionPerformed
-
-                private void addAgentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addAgentActionPerformed
+                private void aCBInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {                                           
                                 // TODO add your handling code here:
-                }//GEN-LAST:event_addAgentActionPerformed
-
-                private void deleteAgentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteAgentActionPerformed
-                                // TODO add your handling code here:
-                }//GEN-LAST:event_deleteAgentActionPerformed
-
-                private void aCBItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_aCBItemStateChanged
-
-
-                                // TODO add your handling code here:
-                }//GEN-LAST:event_aCBItemStateChanged
-
-                private void aCBInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_aCBInputMethodTextChanged
-                                // TODO add your handling code here:
-                }//GEN-LAST:event_aCBInputMethodTextChanged
+                }                                          
 
                 /**
                  * @param args the command line arguments
                  */
-                // Variables declaration - do not modify//GEN-BEGIN:variables
+                // Variables declaration - do not modify                     
                 private javax.swing.JComboBox<String> aCB;
                 private javax.swing.JButton addAgent;
                 private javax.swing.JButton attributKnapp;
@@ -508,5 +510,5 @@ public class HanteraAgent extends javax.swing.JFrame {
                 private javax.swing.JButton omradeschef;
                 private javax.swing.JTable tabell;
                 private javax.swing.JButton tillbakaKnapp;
-                // End of variables declaration//GEN-END:variables
+                // End of variables declaration                   
 }
