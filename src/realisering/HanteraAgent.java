@@ -88,7 +88,7 @@ public class HanteraAgent
             aCB.getModel().setSelectedItem(sList.get(0));
             return cbmod;
 
-            // 3 till 1, 2 till tre. 1 te tvÃ¥
+            // 3 till 1, 2 till tre. 1 te två
         } catch (InfException ex) {
             Logger.getLogger(HanteraAgent.class.getName()).log(Level.SEVERE, null, ex);
             return cbmod;
@@ -98,6 +98,7 @@ public class HanteraAgent
 
     private void editAgent() {
         int rad = tabell.getSelectedRow();
+
         setAgID(tabell.getValueAt(rad, 0).toString());
         String attr = cbmod.getSelectedItem().toString();
         String nyttV = "'" + attributVarde.getText() + "'";
@@ -120,7 +121,7 @@ public class HanteraAgent
 
     }
 
-    //Anger omrÃ¥den i combobox
+    //Anger områden i combobox
     private void setOmradeCB() {
 
         try {
@@ -135,7 +136,7 @@ public class HanteraAgent
             JOptionPane.showMessageDialog(null, "Databasfel!");
             System.out.println("3 Internt felmeddelande" + ettUndantag.getMessage());
         } catch (IndexOutOfBoundsException ettUndantag) {
-            JOptionPane.showMessageDialog(null, "NÃ¥got gick fel!");
+            JOptionPane.showMessageDialog(null, "Något gick fel!");
             System.out.println("");
         }
 
@@ -170,7 +171,7 @@ public class HanteraAgent
             JOptionPane.showMessageDialog(null, "Databasfel!");
             System.out.println("inf fel 3 Internt felmeddelande" + ettUndantag.getMessage());
         } catch (IndexOutOfBoundsException ettUndantag) {
-            JOptionPane.showMessageDialog(null, "NÃ¥got gick fel!");
+            JOptionPane.showMessageDialog(null, "Något gick fel!");
             System.out.println("headFel --  " + ettUndantag.getMessage() + " -- " + ettUndantag.getLocalizedMessage());
         } catch (NullPointerException u) {
             JOptionPane.showMessageDialog(null, "Inga resultat...");
@@ -218,7 +219,7 @@ public class HanteraAgent
                  * Editor.
                  */
                 @SuppressWarnings("unchecked")
-                private void initComponents() {                          
+                private void initComponents() {//GEN-BEGIN:initComponents
 
                                 jLabel1 = new javax.swing.JLabel();
                                 attributKnapp = new javax.swing.JButton();
@@ -243,7 +244,7 @@ public class HanteraAgent
                                 jLabel1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
                                 jLabel1.setText("Hantera agent");
 
-                                attributKnapp.setText("Ã„ndra");
+                                attributKnapp.setText("Ändra");
                                 attributKnapp.addActionListener(new java.awt.event.ActionListener() {
                                                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                                                                 attributKnappActionPerformed(evt);
@@ -273,9 +274,9 @@ public class HanteraAgent
                                 tabell.setModel(tabell.getModel());
                                 jScrollPane1.setViewportView(tabell);
 
-                                jLabel6.setText("VÃ¤lj agent");
+                                jLabel6.setText("Välj agent");
 
-                                jLabel7.setText("VÃ¤lj attribut att Ã¤ndra");
+                                jLabel7.setText("Välj attribut att ändra");
 
                                 attributVarde.setColumns(12);
                                 attributVarde.addActionListener(new java.awt.event.ActionListener() {
@@ -284,9 +285,9 @@ public class HanteraAgent
                                                 }
                                 });
 
-                                jLabel9.setText("Ange nytt vÃ¤rde:");
+                                jLabel9.setText("Ange nytt värde:");
 
-                                addAgent.setText("LÃ¤gg till agent");
+                                addAgent.setText("Lägg till agent");
                                 addAgent.addActionListener(new java.awt.event.ActionListener() {
                                                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                                                                 addAgentActionPerformed(evt);
@@ -300,14 +301,14 @@ public class HanteraAgent
                                                 }
                                 });
 
-                                kontorschef.setText("GÃ¶r till kontorschef");
+                                kontorschef.setText("Gör till kontorschef");
                                 kontorschef.addActionListener(new java.awt.event.ActionListener() {
                                                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                                                                 kontorschefActionPerformed(evt);
                                                 }
                                 });
 
-                                omradeschef.setText("GÃ¶r till omrÃ¥deschef i");
+                                omradeschef.setText("Gör till områdeschef i");
                                 omradeschef.addActionListener(new java.awt.event.ActionListener() {
                                                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                                                                 omradeschefActionPerformed(evt);
@@ -395,33 +396,33 @@ public class HanteraAgent
                                 );
 
                                 pack();
-                }                        
+                }//GEN-END:initComponents
 
-    private void attributKnappActionPerformed(java.awt.event.ActionEvent evt) {                                              
+    private void attributKnappActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_attributKnappActionPerformed
                                 editAgent();      // TODO add your handling code here:
-    }                                             
+    }//GEN-LAST:event_attributKnappActionPerformed
 
-    private void attributVardeActionPerformed(java.awt.event.ActionEvent evt) {                                              
+    private void attributVardeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_attributVardeActionPerformed
                                 // TODO add your handling code here:
-    }                                             
+    }//GEN-LAST:event_attributVardeActionPerformed
 
-    private void tillbakaKnappActionPerformed(java.awt.event.ActionEvent evt) {                                              
+    private void tillbakaKnappActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tillbakaKnappActionPerformed
                                 avslut(false);
-    }                                             
+    }//GEN-LAST:event_tillbakaKnappActionPerformed
 
-    private void kontorschefActionPerformed(java.awt.event.ActionEvent evt) {                                            
+    private void kontorschefActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kontorschefActionPerformed
 
         try {
                                 setAgID(tabell.getValueAt(tabell.getSelectedRow(), 0).toString());
-            mib.update("UPDATE KONTORSCHEF SET AGENT_ID = " + getAgID() + " WHERE KONTORSBETECKNING LIKE 'Ã–rebrokontoret'");
-            JOptionPane.showMessageDialog(null, "Vald agent Ã¤r nu kontorschef");
+            mib.update("UPDATE KONTORSCHEF SET AGENT_ID = " + getAgID() + " WHERE KONTORSBETECKNING LIKE 'Örebrokontoret'");
+            JOptionPane.showMessageDialog(null, "Vald agent är nu kontorschef");
         } catch (InfException ex) {
             Logger.getLogger(HanteraAgent.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-    }                                           
+    }//GEN-LAST:event_kontorschefActionPerformed
 
-    private void omradeschefActionPerformed(java.awt.event.ActionEvent evt) {                                            
+    private void omradeschefActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_omradeschefActionPerformed
         if (omrade.getSelectedItem() == null) {
             omrade.setSelectedIndex(0);
         }
@@ -446,19 +447,19 @@ public class HanteraAgent
 
             }
 
-            JOptionPane.showMessageDialog(null, "Vald Agent Ã¤r nu omrÃ¥deschef Ã¶ver valt omrÃ¥de");
+            JOptionPane.showMessageDialog(null, "Vald Agent är nu områdeschef över valt område");
 
             //  mib.insert("INSERT INTO OMRADESCHEF VALUES(" + s + ", " + agID + ");");
         } catch (InfException ex) {
             System.err.println(ex.getMessage() + ex.getLocalizedMessage() + ex.getSQLState() + ex.getErrorCode() + ex.getNextException());
             Logger.getLogger(HanteraAgent.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }                                           
+    }//GEN-LAST:event_omradeschefActionPerformed
 
-                private void addAgentActionPerformed(java.awt.event.ActionEvent evt) {                                         
+                private void addAgentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addAgentActionPerformed
 
                     try {
-                                                String losen = JOptionPane.showInputDialog(null, "Ange lÃ¶senord fÃ¶r ny agent");
+                                                String losen = JOptionPane.showInputDialog(null, "Ange lösenord för ny agent");
                                                 int radAntal = model.getRowCount() +1;
                         String id = "" + radAntal;
                         mib.insert("INSERT INTO AGENT VALUES(" + id + ", 'Agent NY', '0', DATE '2020-05-01', 'N', '" + losen + "', 1)");
@@ -467,9 +468,9 @@ public class HanteraAgent
                         Logger.getLogger(HanteraAgent.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
-                }                                        
+                }//GEN-LAST:event_addAgentActionPerformed
 
-                private void deleteAgentActionPerformed(java.awt.event.ActionEvent evt) {                                            
+                private void deleteAgentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteAgentActionPerformed
 
                     try {
                         setAgID(tabell.getValueAt(tabell.getSelectedRow(), 0).toString());
@@ -479,22 +480,22 @@ public class HanteraAgent
                         Logger.getLogger(HanteraAgent.class.getName()).log(Level.SEVERE, null, ex);
                     }
 
-                }                                           
+                }//GEN-LAST:event_deleteAgentActionPerformed
 
-                private void aCBItemStateChanged(java.awt.event.ItemEvent evt) {                                     
+                private void aCBItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_aCBItemStateChanged
 
 
                                 // TODO add your handling code here:
-                }                                    
+                }//GEN-LAST:event_aCBItemStateChanged
 
-                private void aCBInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {                                           
+                private void aCBInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_aCBInputMethodTextChanged
                                 // TODO add your handling code here:
-                }                                          
+                }//GEN-LAST:event_aCBInputMethodTextChanged
 
                 /**
                  * @param args the command line arguments
                  */
-                // Variables declaration - do not modify                     
+                // Variables declaration - do not modify//GEN-BEGIN:variables
                 private javax.swing.JComboBox<String> aCB;
                 private javax.swing.JButton addAgent;
                 private javax.swing.JButton attributKnapp;
@@ -510,5 +511,5 @@ public class HanteraAgent
                 private javax.swing.JButton omradeschef;
                 private javax.swing.JTable tabell;
                 private javax.swing.JButton tillbakaKnapp;
-                // End of variables declaration                   
+                // End of variables declaration//GEN-END:variables
 }
