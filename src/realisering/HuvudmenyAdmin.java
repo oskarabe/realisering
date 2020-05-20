@@ -18,7 +18,7 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
                 private TableColumn tC;
                 private String omID, omCB, all, agentLista;
                 private final String agentID;
-                private Vector<String> vC, vK, vL, vT;
+    private Vector<String> vC, vKolumn, vData;
 
                 DefaultTableModel model;
 
@@ -89,70 +89,38 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
                                 skrivTabell(getAgentLista());
                 }
 
-                protected void skrivTabell(String specQuery) {
-                                ArrayList<HashMap<String, String>> kDat;
-                                Vector<Vector<String>> vV;
-                                int i = 0;
+    protected void skrivTabell(String specQuery) {
+        ArrayList< HashMap< String, String>> hmData;
+        Vector< Vector< String>> vRad = new Vector<>();
 
-                                try {
-                                                vV = new Vector<>();
-                                                vK = new Vector<>();
-                                                vL = new Vector<>();
-                                                kDat = mib.fetchRows(specQuery);
-                                                for (HashMap<String, String> lvHm : kDat) {
-                                                                vL.addAll(lvHm.keySet());
-                                                                while (i < 6) {
-                                                                                String key = vL.get(i);
-                                                                                vK.add(key);
-                                                                                System.out.println(key);
-                                                                                /*
-                                                                                 * if
-                                                                                 * (vK.retainAll(lvHm.keySet()))
-                                                                                 * {
-                                                                                 * break;
-                                                                                 * }
-                                                                                 */ i++;
-                                                                }
-                                                                vT = new Vector<>();
-                                                                vT.addAll(lvHm.values());
-                                                                vV.add(vT);
-                                                }
-                                                model.setDataVector(vV, vK);
-                                                tabell.setRowSorter(new TableRowSorter(model));
-                                                tabell.setAutoCreateRowSorter(true);
-                                                tabell.setAutoCreateColumnsFromModel(true);
-                                                tabell.setRowSelectionAllowed(true);
-                                                tC = new TableColumn(vK.lastIndexOf(vK), model.findColumn(tabell.getColumnName(0)), tabell.getDefaultRenderer(model.getColumnClass(0)), null);
-                                                TableCellEditor cellEditor = null;
-                                                tC.setCellEditor(cellEditor);
-                                                cmodel.addColumn(tC);
+        try {
+            vKolumn = new Vector<>();
+            hmData = mib.fetchRows(specQuery);
 
-                                                tabell.removeEditor();
+            for (HashMap<String, String> hm : hmData) {
+                vData = new Vector<>();
+                vData.addAll(hm.values());
+                vRad.add(vData);
+            }
 
+            vKolumn.addAll(hmData.get(0).keySet());
 
-                                                model.fireTableStructureChanged();
-                                                model.fireTableDataChanged();
-                                                //    tabell.updateUI();
-                                                tabell.getColumnModel().moveColumn(2, 0);
-                                                tabell.getColumnModel().moveColumn(5, 4);
-                                                tabell.removeEditor();
-                                                tabell.enableInputMethods(false);
+            model.setDataVector(vRad, vKolumn);
+            tabell.setRowSelectionAllowed(true);
+            tabell.getColumnModel().moveColumn(2, 0);
+            tabell.getColumnModel().moveColumn(5, 4);
 
+        } catch (InfException ettUndantag) {
+            JOptionPane.showMessageDialog(null, "Databasfel!");
+            System.out.println("inf fel 3 Internt felmeddelande" + ettUndantag.getMessage());
+        } catch (IndexOutOfBoundsException ettUndantag) {
+            JOptionPane.showMessageDialog(null, "Något gick fel!");
+            System.out.println("headFel --  " + ettUndantag.getMessage() + " -- " + ettUndantag.getLocalizedMessage());
+        } catch (NullPointerException u) {
+            JOptionPane.showMessageDialog(null, "Inga resultat...");
 
-                                } catch (InfException ettUndantag) {
-                                                JOptionPane.showMessageDialog(null, "Databasfel!");
-                                                System.out.println("inf fel 3 Internt felmeddelande" + ettUndantag.getMessage());
-                                } catch (IndexOutOfBoundsException ettUndantag) {
-                                                JOptionPane.showMessageDialog(null, "Något gick fel!");
-                                                System.out.println("headFel --  " + ettUndantag.getMessage() + " -- " + ettUndantag.getLocalizedMessage());
-                                } catch (NullPointerException u) {
-
-                                                lblFel.setText("Inga resultat hittades...");
-                                                lblFel.setVisible(true);
-                                                System.err.println("-- NullPointerEx --");
-                                }
-
-
+            System.err.println("-- NullPointerEx --");
+        }
                 }
 
                 private ComboBoxModel setGetCbModel() {
@@ -172,14 +140,10 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
                 }
 
                 private TableModel setGetTableModel() {
-                                setAgentLista("SELECT AGENT_ID, NAMN, TELEFON, ANSTALLNINGSDATUM, ADMINISTRATOR, OMRADE FROM AGENT");
-
+                    setAgentLista("SELECT AGENT_ID, NAMN, TELEFON, ANSTALLNINGSDATUM, ADMINISTRATOR, OMRADE FROM AGENT");
                                 model = (DefaultTableModel) tabell.getModel();
                                 model.getDataVector().removeAllElements();
-                                tabell.setAutoCreateRowSorter(true);
-                                tabell.setModel(model);
-                                model.fireTableDataChanged();
-
+                    tabell.setModel(model);
                                 skrivTabell();
                                 return model;
 
@@ -457,13 +421,13 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
 
                 private void sokrutaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_sokrutaKeyPressed
                                 String query = getAgentLista();
-                                String lvpString = " WHERE NAMN LIKE " + "'%" + sokruta.getText() + "%'";
+                    String lvpString = " WHERE LOWER (NAMN) LIKE " + "LOWER ('%" + sokruta.getText() + "%')";
                                 if (!omradeBox.getSelectedItem().toString().equals("Alla")) {
                                                 query = query + lvpString + " AND OMRADE LIKE '" + valOmrade() + "'";
                                 } else {
                                                 query += lvpString;
                                 }
-                                if (evt.getKeyCode() == 1) {
+                    if (evt.getKeyCode() == 10 || sokruta.getText().length() > 2) {
                                                 System.out.println(query);
                                                 skrivTabell(query);
                                                 }                }//GEN-LAST:event_sokrutaKeyPressed
