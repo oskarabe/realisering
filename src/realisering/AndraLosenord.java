@@ -5,17 +5,73 @@
  */
 package realisering;
 
+import oru.inf.InfDB;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import oru.inf.InfException;
 /**
  *
  * @author linneafolkesson
  */
 public class AndraLosenord extends javax.swing.JFrame {
 
+    private InfDB mib;
+    private ArrayList<String> allaLosenordAgent;
+    private ArrayList<String> allaLosenordAlien;
+    
     /**
      * Creates new form AndraLosenord
      */
-    public AndraLosenord() {
+    public AndraLosenord(InfDB mib) {
+        this.mib = mib;
+        allaLosenordAgent = new ArrayList<>();
+        allaLosenordAlien = new ArrayList<>();
         initComponents();
+    }
+    
+    public void gammaltLosenord() 
+    {
+        
+        
+        lblLosenordtext.setText("Det gammla lösenordet finns inte!");
+    }
+    
+    public void nyttLosenord() 
+    { 
+        String uppdateraLosenAgent= "UPDATE agent SET losenord = " + "'" + txtNyttLosenord + "'" + " WHERE losenord = " + "'" + txtGammaltLosenord + "'";
+        String uppdateraLosenAlien = "UPDATE alien SET losenord = " + "'" + txtNyttLosenord + "'" + " WHERE losenord = " + "'" + txtGammaltLosenord + "'"; 
+        
+        String nyttLosen = txtNyttLosenord.getText();
+        
+        for(String losen : allaLosenordAgent) {
+            if(losen.equals(nyttLosen)) {
+                lblLosenordtext.setText("Lösenordet finns redan!");
+            } else {
+                try {
+                    mib.update(uppdateraLosenAgent);
+                    lblLosenordtext.setText("Nytt lösenord registrerat!"); 
+                } catch(InfException ettUndantag) {
+                    JOptionPane.showMessageDialog(null, "Databasfel!");
+                    System.out.println("Internt felmeddelande" + ettUndantag.getMessage());
+                }
+            }
+        }
+        
+        for(String losen : allaLosenordAlien) {
+            if(losen.equals(nyttLosen)) {
+                lblLosenordtext.setText("Lösenordet finns redan!");
+            } else {
+                 try {
+                    mib.update(uppdateraLosenAlien);
+                    lblLosenordtext.setText("Nytt lösenord registrerat!"); 
+                } catch(InfException ettUndantag) {
+                    JOptionPane.showMessageDialog(null, "Databasfel!");
+                    System.out.println("Internt felmeddelande" + ettUndantag.getMessage());
+                }
+                
+            }
+        }
+        
     }
 
     /**
@@ -27,22 +83,87 @@ public class AndraLosenord extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        lblRubrik = new javax.swing.JLabel();
+        lblGammaltLosenord = new javax.swing.JLabel();
+        lblNyttLosenord = new javax.swing.JLabel();
+        txtGammaltLosenord = new javax.swing.JTextField();
+        txtNyttLosenord = new javax.swing.JTextField();
+        lblLosenordtext = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        lblRubrik.setFont(new java.awt.Font("Lucida Grande", 1, 18)); // NOI18N
+        lblRubrik.setText("Ändra lösenord");
+
+        lblGammaltLosenord.setText("Gammalt lösenord:");
+
+        lblNyttLosenord.setText("Nytt lösenord:");
+
+        txtGammaltLosenord.setColumns(10);
+
+        txtNyttLosenord.setColumns(10);
+        txtNyttLosenord.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNyttLosenordActionPerformed(evt);
+            }
+        });
+
+        lblLosenordtext.setText("Lösenordtext");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(96, 96, 96)
+                        .addComponent(lblRubrik))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(39, 39, 39)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblGammaltLosenord)
+                            .addComponent(lblNyttLosenord))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtNyttLosenord, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtGammaltLosenord, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(121, 121, 121)
+                        .addComponent(lblLosenordtext)))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addComponent(lblRubrik)
+                .addGap(30, 30, 30)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblGammaltLosenord)
+                    .addComponent(txtGammaltLosenord, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(23, 23, 23)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblNyttLosenord)
+                    .addComponent(txtNyttLosenord, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(38, 38, 38)
+                .addComponent(lblLosenordtext)
+                .addContainerGap(54, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void txtNyttLosenordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNyttLosenordActionPerformed
+        nyttLosenord();
+    }//GEN-LAST:event_txtNyttLosenordActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel lblGammaltLosenord;
+    private javax.swing.JLabel lblLosenordtext;
+    private javax.swing.JLabel lblNyttLosenord;
+    private javax.swing.JLabel lblRubrik;
+    private javax.swing.JTextField txtGammaltLosenord;
+    private javax.swing.JTextField txtNyttLosenord;
     // End of variables declaration//GEN-END:variables
 }
