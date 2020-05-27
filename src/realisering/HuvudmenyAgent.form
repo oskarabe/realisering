@@ -39,79 +39,84 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="attributKnapp" min="-2" pref="136" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
+                      <Component id="addAgent" min="-2" pref="136" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="deleteAgent" min="-2" pref="136" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
+                      <Component id="attributVal" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="bytRas" min="-2" pref="136" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="lblRasVald" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
                       <Group type="103" groupAlignment="1" attributes="0">
-                          <Group type="102" attributes="0">
-                              <Component id="attributVal" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Component id="attributKnapp1" min="-2" pref="136" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
+                              <Component id="lblInloggNamn" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Group type="102" attributes="0">
-                              <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
-                              <Component id="lblRasVald" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="1" attributes="0">
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Component id="cBoxOmrade" min="-2" pref="82" max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Component id="cBoxPlats" min="-2" pref="77" max="-2" attributes="0"/>
+                                  </Group>
                                   <Group type="102" alignment="1" attributes="0">
                                       <Component id="lblOmrade" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
                                       <Component id="lblPlats" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                                   </Group>
-                                  <Group type="102" alignment="1" attributes="0">
-                                      <Component id="cBoxOmrade" min="-2" pref="82" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="cBoxPlats" min="-2" pref="77" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+                                      <Component id="lblRas" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
-                                      <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
-                                      <Component id="lblInloggNamn" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Group type="102" alignment="1" attributes="0">
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="102" attributes="0">
-                                              <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
-                                              <Component id="lblRas" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                                              <Component id="cBoxRas" min="-2" pref="79" max="-2" attributes="0"/>
-                                          </Group>
-                                      </Group>
-                                      <EmptySpace pref="43" max="32767" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="lblDatum" alignment="0" min="-2" max="-2" attributes="0"/>
-                                          <Group type="102" alignment="0" attributes="0">
-                                              <Component id="txtFldDatumFran" min="-2" pref="94" max="-2" attributes="0"/>
-                                              <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="txtFldDatumTill" min="-2" pref="94" max="-2" attributes="0"/>
-                                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                                              <Component id="txtFldSokruta" min="-2" max="-2" attributes="0"/>
-                                          </Group>
-                                      </Group>
-                                      <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
-                                      <Component id="btnHanteraUtrustning" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="1" attributes="0">
-                                      <EmptySpace min="-2" pref="73" max="-2" attributes="0"/>
-                                      <Component id="lblHuvudmenyAgent" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace max="32767" attributes="0"/>
-                                      <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="btnHanteraAliens" alignment="1" min="-2" pref="136" max="-2" attributes="0"/>
-                                          <Component id="btnTillbakaInlogg" alignment="1" min="-2" pref="136" max="-2" attributes="0"/>
-                                      </Group>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="cBoxRas" min="-2" pref="79" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
                       </Group>
-                      <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Component id="lblHuvudmenyAgent" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="btnTillbakaInlogg" min="-2" pref="136" max="-2" attributes="0"/>
+                                  <Component id="sokruta" alignment="1" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Group type="102" attributes="0">
+                              <EmptySpace type="separate" pref="83" max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <Component id="txtFldDatumFran" min="-2" pref="94" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="txtFldDatumTill" min="-2" pref="94" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="visaDatumKnapp" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace pref="195" max="32767" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" attributes="0">
+                                      <Component id="lblDatum" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="32767" attributes="0"/>
+                                      <Component id="btnHanteraUtrustning" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                          </Group>
+                      </Group>
                   </Group>
               </Group>
+              <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -144,16 +149,15 @@
                           <Component id="cBoxRas" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="txtFldDatumFran" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="txtFldDatumTill" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtFldSokruta" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="cBoxPlats" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="visaDatumKnapp" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="sokruta" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="81" max="-2" attributes="0"/>
                       <Component id="btnTillbakaInlogg" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="btnHanteraAliens" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnHanteraUtrustning" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -167,15 +171,17 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="attributVal" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="attributKnapp1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="bytRas" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="attributVarde" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="attributKnapp" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="deleteAgent" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="addAgent" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="39" max="32767" attributes="0"/>
+              <EmptySpace pref="38" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -194,14 +200,6 @@
         <Property name="text" type="java.lang.String" value="Du &#xe4;r inloggad som:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="btnHanteraAliens">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Hantera aliens"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnHanteraAliensActionPerformed"/>
-      </Events>
-    </Component>
     <Component class="javax.swing.JButton" name="btnHanteraUtrustning">
       <Properties>
         <Property name="text" type="java.lang.String" value="Hantera utrustning"/>
@@ -217,6 +215,7 @@
         </Property>
       </Properties>
       <Events>
+        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="cBoxPlatsItemStateChanged"/>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cBoxPlatsActionPerformed"/>
       </Events>
       <AuxValues>
@@ -229,6 +228,9 @@
           <StringArray count="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="cBoxOmradeItemStateChanged"/>
+      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
@@ -239,6 +241,9 @@
           <StringArray count="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="cBoxRasItemStateChanged"/>
+      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
@@ -271,11 +276,17 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Fr&#xe5;n"/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="txtFldDatumFranMouseClicked"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="txtFldDatumTill">
       <Properties>
         <Property name="text" type="java.lang.String" value="Till"/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="txtFldDatumTillMouseClicked"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="lblOmrade">
       <Properties>
@@ -297,10 +308,14 @@
         <Property name="text" type="java.lang.String" value="Datum"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="txtFldSokruta">
+    <Component class="javax.swing.JTextField" name="sokruta">
       <Properties>
         <Property name="text" type="java.lang.String" value="S&#xf6;k alien..."/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="sokrutaMouseClicked"/>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="sokrutaKeyPressed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnTillbakaInlogg">
       <Properties>
@@ -356,12 +371,37 @@
         <Property name="text" type="java.lang.String" value="V&#xe4;lj attribut att &#xe4;ndra"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="attributKnapp1">
+    <Component class="javax.swing.JButton" name="bytRas">
       <Properties>
         <Property name="text" type="java.lang.String" value="Byt"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="attributKnapp1ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bytRasActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="visaDatumKnapp">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Visa"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
+      </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="visaDatumKnappMouseClicked"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="deleteAgent">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Ta bort agent"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="deleteAgentActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="addAgent">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="L&#xe4;gg till agent"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addAgentActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
