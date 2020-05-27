@@ -6,11 +6,9 @@ import javax.swing.*;
 import oru.inf.*;
 
 /**
- *
- * @author oskar
  * Denna klass utgör loginfönstret för programmet. Användaren anger sitt
  * lösenord och beroende på ifall användaren är en agent, administratör eller
- * alien kommer olika fönster öppnas upp
+ * alien kommer en huvudmeny att öppnas upp
  */
 public class Login extends javax.swing.JFrame {
 
@@ -33,7 +31,7 @@ public class Login extends javax.swing.JFrame {
                 private void loggaIn() {
                                 Boolean koll = false;
                                 String hittaAlien = "SELECT LOSENORD FROM ALIEN;";
-                                String hittaAgent = "SELECT LOSENORD FROM AGENT;";
+                                String hittaAgent = "SELECT LOSENORD FROM AGENT WHERE ADMINISTRATOR LIKE 'N';";
                                 String hittaAdmin = "SELECT LOSENORD FROM AGENT WHERE ADMINISTRATOR LIKE 'J';";
 
                                 ArrayList<String> allaLosenAgent;
@@ -46,53 +44,50 @@ public class Login extends javax.swing.JFrame {
                                                 allaLosenAgent = mib.fetchColumn(hittaAgent);
                                                 allaLosenAlien = mib.fetchColumn(hittaAlien);
                                                 allaLosenAdmin = mib.fetchColumn(hittaAdmin);
-
-                                                // Kollar igenom alla Agenters lösenord
+                                                
+                                                //Tre st for-loopar används, som kollar igenom admin, agenter respektive aliens lösenord
+                                                //Ifall lösenordet stämmer överens sparas info om användaren (isAdmin och ID-nummer)
+                                                //Denna info används i andra klasser
+                                                //Sist öppnas huvudmenyn för användaren
+                                                
                                                 for (String l : allaLosenAdmin) {
                                                                 String adminLosenord = new String(losenord.getPassword());
-
                                                                 if (adminLosenord.equals(l)) {
                                                                                 isAdmin = true;
+                                                                                koll = true;
+                                                                                String hittaAdminID = ("SELECT AGENT_ID FROM AGENT WHERE "
+                                                                                        + "LOSENORD LIKE '" + adminLosenord + "'");
+                                                                                agentID = mib.fetchSingle(hittaAdminID);
                                                                                 System.out.println("Admin");
-                                                                                //Öppnar upp huvudmenyn för admin
+                                                                                System.out.println("agentID: " + agentID);
                                                                                 new HuvudmenyAdmin(mib).setVisible(true);
-                                                                                this.dispose();
-                                                                } else {
-                                                                                isAdmin = false;
+                                                                                dispose();
                                                                 }
                                                 }
-
-                                                // Kollar igenom alla Agenters lösenord
+                                                
                                                 for (String l : allaLosenAgent) {
                                                                 String agentLosenord = new String(losenord.getPassword());
                                                                 if (l.equals(agentLosenord)) {
-                                                                                System.out.println("Agent");
+                                                                                isAdmin = false;
                                                                                 koll = true;
-                                                                                //Registrera Agent-ID för att kunna användas i andra klasser
+                                                                                System.out.println("Agent");
                                                                                 String hittaAgentID = ("SELECT AGENT_ID FROM AGENT WHERE "
-                                                                                        + "LOSENORD LIKE '" + agentLosenord + "' ");
+                                                                                        + "LOSENORD LIKE '" + agentLosenord + "'");
                                                                                 agentID = mib.fetchSingle(hittaAgentID);
                                                                                 System.out.println("AgentID: " + agentID);
-                                                                                //Öppna huvudmenyn för agenter
-                                                                                if(isAdmin == false)
-                                                                                {
-                                                                                new HuvudmenyAgent(mib).setVisible(true);
-                                                                                this.dispose();
-                                                                                }
+                                                                                    new HuvudmenyAgent(mib).setVisible(true);
+                                                                                    dispose();
                                                                 }
-                                                }
+                                                         }
 
-                                                // Kollar igenom alla Aliens lösenord.
                                                 for (String l : allaLosenAlien) {
                                                                 String alienLosenord = new String(losenord.getPassword());
                                                                 if (l.equals(alienLosenord)) {
                                                                                 System.out.println("Alien");
                                                                                 koll = true;
-                                                                                //Registrera Alien-ID för att kunna användas i andra klasser
                                                                                 String hittaAlienID = ("SELECT ALIEN_ID FROM ALIEN WHERE LOSENORD LIKE " + "'" + alienLosenord + "'");
                                                                                 alienID = mib.fetchSingle(hittaAlienID);
                                                                                 System.out.println("AlienID: " + alienID);
-                                                                                // Öppna fönster HuvudmenyAlien
                                                                                 new HuvudmenyAlien(mib).setVisible(true);
                                                                                 dispose();
                                                                 }
@@ -134,9 +129,9 @@ public class Login extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         losenord = new javax.swing.JPasswordField();
         knapp = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
+        andraLosenord = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(47, 59, 94));
         setBounds(new java.awt.Rectangle(0, 0, 0, 0));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -170,10 +165,10 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setText("Ändra lösenord");
-        jLabel2.addMouseListener(new java.awt.event.MouseAdapter() {
+        andraLosenord.setText("Ändra lösenord");
+        andraLosenord.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel2MouseClicked(evt);
+                andraLosenordMouseClicked(evt);
             }
         });
 
@@ -188,12 +183,13 @@ public class Login extends javax.swing.JFrame {
                         .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(125, 125, 125)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(knapp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(losenord)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(143, 143, 143)
-                        .addComponent(jLabel2)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(andraLosenord))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(knapp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(losenord)))))
                 .addContainerGap(19, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -206,7 +202,7 @@ public class Login extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(knapp, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2)
+                .addComponent(andraLosenord)
                 .addContainerGap(56, Short.MAX_VALUE))
         );
 
@@ -223,17 +219,19 @@ public class Login extends javax.swing.JFrame {
                                 }
     }//GEN-LAST:event_losenordKeyPressed
 
-    private void jLabel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel2MouseClicked
+    private void andraLosenordMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_andraLosenordMouseClicked
+                                new AndraLosenord(mib).setVisible(true);
                                 dispose();
-    }//GEN-LAST:event_jLabel2MouseClicked
+                                //Öppnar upp fönster för att ändra lösenord
+    }//GEN-LAST:event_andraLosenordMouseClicked
 
     private void losenordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_losenordActionPerformed
 
     }//GEN-LAST:event_losenordActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel andraLosenord;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JButton knapp;
     private javax.swing.JPasswordField losenord;
     // End of variables declaration//GEN-END:variables
