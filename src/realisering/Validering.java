@@ -4,8 +4,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 /**
- *
- * @author oskar
+ * Klass för att validera input
  */
 public class Validering {
 
@@ -18,7 +17,11 @@ public class Validering {
             return true;
         }
     }
-
-    //static public boolean 
+    
+    /** Metod för att göra input icke-case-sensitive
+    static public boolean textEjCaseSensitive(JTextField tf) {
+        tf = tf.toLowerCase();
+    }
+    */
     
 }

@@ -2,8 +2,7 @@ package realisering;
 import oru.inf.InfDB;
 
 /**
- *
- * @author oskar
+ * Klass för att hantera alien...
  */
 public class HanteraAlien extends javax.swing.JFrame {
 

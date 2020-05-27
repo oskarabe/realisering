@@ -7,7 +7,7 @@ import javax.swing.table.*;
 import oru.inf.*;
 
 /**
- * Klass för att..
+ * Klass för att hantera agenter...
  */
 public class HanteraAgent
         extends javax.swing.JFrame {

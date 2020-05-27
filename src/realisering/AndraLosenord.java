@@ -4,6 +4,7 @@ import oru.inf.InfDB;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import oru.inf.InfException;
+
 /**
  * Klass för att ändra lösenord för agenter, admin och aliens
  * Användaren anger det gamla och det nya lösenordet för att kunna ändra det

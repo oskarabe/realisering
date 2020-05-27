@@ -28,7 +28,7 @@
               <EmptySpace pref="31" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <Component id="btnLaggTill" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnRegistrera" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
                       <Component id="btnTaBort" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="221" max="-2" attributes="0"/>
@@ -78,7 +78,7 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="btnTaBort" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btnLaggTill" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnRegistrera" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="btnTillbaka" min="-2" max="-2" attributes="0"/>
@@ -112,12 +112,12 @@
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="sokrutaMouseClicked"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="btnLaggTill">
+    <Component class="javax.swing.JButton" name="btnRegistrera">
       <Properties>
         <Property name="text" type="java.lang.String" value="Registrera utrustning"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLaggTillActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRegistreraActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnTillbaka">

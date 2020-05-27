@@ -141,7 +141,7 @@ public class HanteraUtrustning extends javax.swing.JFrame {
         btnTaBort = new javax.swing.JButton();
         lblUtrustning = new javax.swing.JLabel();
         sokruta = new javax.swing.JTextField();
-        btnLaggTill = new javax.swing.JButton();
+        btnRegistrera = new javax.swing.JButton();
         btnTillbaka = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         tabell = new javax.swing.JTable();
@@ -168,10 +168,10 @@ public class HanteraUtrustning extends javax.swing.JFrame {
             }
         });
 
-        btnLaggTill.setText("Registrera utrustning");
-        btnLaggTill.addActionListener(new java.awt.event.ActionListener() {
+        btnRegistrera.setText("Registrera utrustning");
+        btnRegistrera.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLaggTillActionPerformed(evt);
+                btnRegistreraActionPerformed(evt);
             }
         });
 
@@ -214,7 +214,7 @@ public class HanteraUtrustning extends javax.swing.JFrame {
                 .addContainerGap(31, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnLaggTill)
+                        .addComponent(btnRegistrera)
                         .addGap(40, 40, 40)
                         .addComponent(btnTaBort)
                         .addGap(221, 221, 221))
@@ -253,7 +253,7 @@ public class HanteraUtrustning extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnTaBort)
-                    .addComponent(btnLaggTill))
+                    .addComponent(btnRegistrera))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnTillbaka)
                 .addContainerGap())
@@ -268,11 +268,11 @@ public class HanteraUtrustning extends javax.swing.JFrame {
         //Öppna fönster för att ta bort utrustning
     }//GEN-LAST:event_btnTaBortActionPerformed
 
-    private void btnLaggTillActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLaggTillActionPerformed
+    private void btnRegistreraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistreraActionPerformed
         dispose();
         new RegUtrustning(mib).setVisible(true);
         //Öppna fönster för att lägga till utrustning
-    }//GEN-LAST:event_btnLaggTillActionPerformed
+    }//GEN-LAST:event_btnRegistreraActionPerformed
 
     private void sokrutaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sokrutaMouseClicked
         sokruta.setText("");
@@ -312,7 +312,7 @@ public class HanteraUtrustning extends javax.swing.JFrame {
     }//GEN-LAST:event_seAllaActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnLaggTill;
+    private javax.swing.JButton btnRegistrera;
     private javax.swing.JButton btnSok;
     private javax.swing.JButton btnTaBort;
     private javax.swing.JButton btnTillbaka;
