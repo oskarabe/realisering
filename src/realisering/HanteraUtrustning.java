@@ -13,6 +13,7 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import oru.inf.InfDB;
 import oru.inf.InfException;
+
 /**
  * Denna klass används för att se vilka utrustningar som finns registrerade.
  * Klassen ger även möjlighet att ta sig till nya fönster som kan
