@@ -5,8 +5,6 @@ import oru.inf.InfException;
 import oru.inf.InfDB;
 
 /**
- *
- * @author lovee
  * Klassen förser användaren, i det här fallet en alien, med ett gränssnitt
  * där de kan se information om sitt område och sin områdeschef
  */
@@ -16,7 +14,7 @@ public class HuvudmenyAlien extends javax.swing.JFrame {
     private InfDB mib;
     
     /**
-     * Creates new form HuvudmenyAlien
+     * Konstruktor för HuvudmenyAlien
      */
     public HuvudmenyAlien(InfDB mib) {
         initComponents();
@@ -32,14 +30,12 @@ public class HuvudmenyAlien extends javax.swing.JFrame {
     private void initComponents() {
 
         btnTillbakaInlogg = new javax.swing.JButton();
-        btnListaAliens = new javax.swing.JButton();
-        btnMailaAgent = new javax.swing.JButton();
         lblOmradeTillhorighet = new javax.swing.JLabel();
         lblHuvudmenyAlien = new javax.swing.JLabel();
         lblinloggNamn = new javax.swing.JLabel();
         lblAlienOmrade = new javax.swing.JLabel();
         lblOmradeschef = new javax.swing.JLabel();
-        btnTillbakaInlogg1 = new javax.swing.JButton();
+        Tillbaka = new javax.swing.JButton();
 
         btnTillbakaInlogg.setText("Tillbaka till inlogg");
         btnTillbakaInlogg.addActionListener(new java.awt.event.ActionListener() {
@@ -50,20 +46,6 @@ public class HuvudmenyAlien extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        btnListaAliens.setText("Lista aliens");
-        btnListaAliens.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnListaAliensActionPerformed(evt);
-            }
-        });
-
-        btnMailaAgent.setText("Maila agent");
-        btnMailaAgent.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnMailaAgentActionPerformed(evt);
-            }
-        });
-
         lblHuvudmenyAlien.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         lblHuvudmenyAlien.setText("Huvudmeny - Alien");
 
@@ -73,10 +55,10 @@ public class HuvudmenyAlien extends javax.swing.JFrame {
 
         lblOmradeschef.setText("Din områdeschef är:");
 
-        btnTillbakaInlogg1.setText("Tillbaka till inlogg");
-        btnTillbakaInlogg1.addActionListener(new java.awt.event.ActionListener() {
+        Tillbaka.setText("Tillbaka");
+        Tillbaka.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTillbakaInlogg1ActionPerformed(evt);
+                TillbakaActionPerformed(evt);
             }
         });
 
@@ -99,12 +81,8 @@ public class HuvudmenyAlien extends javax.swing.JFrame {
                                 .addComponent(lblOmradeTillhorighet))
                             .addComponent(lblinloggNamn, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(btnMailaAgent, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnListaAliens, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btnTillbakaInlogg1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(41, 41, 41)
+                .addComponent(Tillbaka, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27))
         );
         layout.setVerticalGroup(
@@ -123,18 +101,14 @@ public class HuvudmenyAlien extends javax.swing.JFrame {
                 .addGap(156, 156, 156))
             .addGroup(layout.createSequentialGroup()
                 .addGap(46, 46, 46)
-                .addComponent(btnTillbakaInlogg1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnListaAliens)
-                .addGap(11, 11, 11)
-                .addComponent(btnMailaAgent)
+                .addComponent(Tillbaka)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    //Anger texten i label lblinloggNamn
+    //Anger namnet på alien i label lblinloggNamn
     private void setLabelInloggNamn()
     {
         String hittaNamn = ("select namn from alien where alien_id = " + alienID);
@@ -152,7 +126,7 @@ public class HuvudmenyAlien extends javax.swing.JFrame {
         }
     }
     
-    //Anger texten i label lblAlienOmrade
+    //Anger området alien tillhör i label lblAlienOmrade
     private void setLabelAlienOmrade()
     {
         String hittaOmrade = ("select omrade.benamning from alien, plats, omrade where " +
@@ -172,6 +146,7 @@ public class HuvudmenyAlien extends javax.swing.JFrame {
         }
     }
     
+   //Anger områdeschefen för aktuell alien i label lblOmradesChef
    private void setLabelOmradeschef()
     {
         String hittaOmradeschefNamn = ("select agent.namn from agent, omradeschef " +
@@ -200,30 +175,19 @@ public class HuvudmenyAlien extends javax.swing.JFrame {
         }
     }
     
-    private void btnListaAliensActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListaAliensActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnListaAliensActionPerformed
-
-    private void btnMailaAgentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMailaAgentActionPerformed
-        System.out.println(Login.getAlienID());
-    }//GEN-LAST:event_btnMailaAgentActionPerformed
-
     private void btnTillbakaInloggActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTillbakaInloggActionPerformed
-        dispose();
-        new Login(mib).setVisible(true);
+        //Används ej
     }//GEN-LAST:event_btnTillbakaInloggActionPerformed
 
-    private void btnTillbakaInlogg1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTillbakaInlogg1ActionPerformed
+    private void TillbakaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TillbakaActionPerformed
         dispose();
         new Login(mib).setVisible(true);
-    }//GEN-LAST:event_btnTillbakaInlogg1ActionPerformed
-
+        //Återvänder till Login-fönstret
+    }//GEN-LAST:event_TillbakaActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnListaAliens;
-    private javax.swing.JButton btnMailaAgent;
+    private javax.swing.JButton Tillbaka;
     private javax.swing.JButton btnTillbakaInlogg;
-    private javax.swing.JButton btnTillbakaInlogg1;
     private javax.swing.JLabel lblAlienOmrade;
     private javax.swing.JLabel lblHuvudmenyAlien;
     private javax.swing.JLabel lblOmradeTillhorighet;

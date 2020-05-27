@@ -53,14 +53,8 @@
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" attributes="0">
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="btnMailaAgent" alignment="0" min="-2" pref="133" max="-2" attributes="0"/>
-                      <Component id="btnListaAliens" min="-2" pref="133" max="-2" attributes="0"/>
-                  </Group>
-                  <Component id="btnTillbakaInlogg1" min="-2" pref="136" max="-2" attributes="0"/>
-              </Group>
+              <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
+              <Component id="Tillbaka" min="-2" pref="105" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -82,33 +76,13 @@
           </Group>
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="46" max="-2" attributes="0"/>
-              <Component id="btnTillbakaInlogg1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Component id="btnListaAliens" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
-              <Component id="btnMailaAgent" min="-2" max="-2" attributes="0"/>
+              <Component id="Tillbaka" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JButton" name="btnListaAliens">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Lista aliens"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnListaAliensActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JButton" name="btnMailaAgent">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Maila agent"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnMailaAgentActionPerformed"/>
-      </Events>
-    </Component>
     <Component class="javax.swing.JLabel" name="lblOmradeTillhorighet">
     </Component>
     <Component class="javax.swing.JLabel" name="lblHuvudmenyAlien">
@@ -134,12 +108,12 @@
         <Property name="text" type="java.lang.String" value="Din omr&#xe5;deschef &#xe4;r:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="btnTillbakaInlogg1">
+    <Component class="javax.swing.JButton" name="Tillbaka">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Tillbaka till inlogg"/>
+        <Property name="text" type="java.lang.String" value="Tillbaka"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTillbakaInlogg1ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="TillbakaActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
