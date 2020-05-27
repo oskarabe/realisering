@@ -7,8 +7,7 @@ import javax.swing.table.*;
 import oru.inf.*;
 
 /**
- *
- * @author oskar
+ * Klass för att...
  */
 public class HuvudmenyAgent extends javax.swing.JFrame {
 
