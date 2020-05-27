@@ -15,7 +15,7 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
     private String agentID, rasID, omCB, all, agentLista, plats, platsID;
     private boolean isAdmin;
     private InfDB mib;
-    private ComboBoxModel lvBox, rasModell, platsModell;
+    private ComboBoxModel lvBox, rasModell, platsModell, attrModell, rasModellByt;
     private Vector<String> vC, vKolumn, vData, allaPlatser;
     private DefaultTableModel model;
 
@@ -30,7 +30,11 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
         setcBoxPlats();
         setGetCbModel();
         setcBoxRas();
+        setAttributVal();
         setGetTableModel();
+        if (!Login.getAdmin()) {
+            deleteAlien.setVisible(false);
+        }
     }
 
     //Anger texten i lblInloggNamn
@@ -78,14 +82,29 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
 
     private void setcBoxRas() {
         Vector<String> vRas = new Vector<>();
+        Vector<String> vRasByt = new Vector<>();
         vRas.add("Boglodite");
         vRas.add("Squid");
         vRas.add("Worm");
+        vRasByt.addAll(vRas);
         vRas.add(0, "Alla");
 
         rasModell = new DefaultComboBoxModel(vRas);
+        rasModellByt = new DefaultComboBoxModel(vRasByt);
         cBoxRas.setModel(rasModell);
+        cBoxBytRas.setModel(rasModellByt);
         cBoxRas.setSelectedIndex(0);
+    }
+
+    private void setAttributVal() {
+        Vector<String> attributVector = new Vector<>();
+        attributVector.add("NAMN");
+        attributVector.add("PLATS");
+        attributVector.add("TELEFON");
+        attributVector.add("ANSVARIG_AGENT");
+
+        attrModell = new DefaultComboBoxModel(attributVector);
+        attributVal.setModel(attrModell);
     }
 
     protected void skrivTabell() {
@@ -204,8 +223,9 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         bytRas = new javax.swing.JButton();
         visaDatumKnapp = new javax.swing.JButton();
-        deleteAgent = new javax.swing.JButton();
-        addAgent = new javax.swing.JButton();
+        deleteAlien = new javax.swing.JButton();
+        addAlien = new javax.swing.JButton();
+        cBoxBytRas = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(800, 500));
@@ -308,6 +328,11 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
         lblRasVald.setText("Ras på vald Alien: ");
 
         attributKnapp.setText("Ändra");
+        attributKnapp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                attributKnappMouseClicked(evt);
+            }
+        });
         attributKnapp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 attributKnappActionPerformed(evt);
@@ -327,7 +352,12 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
 
         jLabel7.setText("Välj attribut att ändra");
 
-        bytRas.setText("Byt");
+        bytRas.setText("Byt ras");
+        bytRas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                bytRasMouseClicked(evt);
+            }
+        });
         bytRas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bytRasActionPerformed(evt);
@@ -342,19 +372,31 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
             }
         });
 
-        deleteAgent.setText("Ta bort agent");
-        deleteAgent.addActionListener(new java.awt.event.ActionListener() {
+        deleteAlien.setText("Ta bort alien");
+        deleteAlien.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                deleteAlienMouseClicked(evt);
+            }
+        });
+        deleteAlien.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteAgentActionPerformed(evt);
+                deleteAlienActionPerformed(evt);
             }
         });
 
-        addAgent.setText("Lägg till agent");
-        addAgent.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addAgentActionPerformed(evt);
+        addAlien.setText("Lägg till alien");
+        addAlien.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                addAlienMouseClicked(evt);
             }
         });
+        addAlien.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addAlienActionPerformed(evt);
+            }
+        });
+
+        cBoxBytRas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -370,12 +412,14 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(attributKnapp, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(addAgent, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(deleteAgent, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(deleteAlien, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(addAlien, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(attributVal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(cBoxBytRas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(bytRas, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel7)
@@ -470,14 +514,15 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(attributVal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(bytRas))
+                    .addComponent(bytRas)
+                    .addComponent(cBoxBytRas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(attributVarde, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9)
                     .addComponent(attributKnapp)
-                    .addComponent(deleteAgent)
-                    .addComponent(addAgent))
+                    .addComponent(addAlien)
+                    .addComponent(deleteAlien))
                 .addContainerGap(38, Short.MAX_VALUE))
         );
 
@@ -606,13 +651,54 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
       txtFldDatumTill.setText("");
     }//GEN-LAST:event_txtFldDatumTillMouseClicked
 
-    private void deleteAgentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteAgentActionPerformed
+    private void deleteAlienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteAlienActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_deleteAgentActionPerformed
+    }//GEN-LAST:event_deleteAlienActionPerformed
 
-    private void addAgentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addAgentActionPerformed
+    private void addAlienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addAlienActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_addAgentActionPerformed
+    }//GEN-LAST:event_addAlienActionPerformed
+
+    private void attributKnappMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_attributKnappMouseClicked
+
+        editAlien();
+
+    }//GEN-LAST:event_attributKnappMouseClicked
+
+    private void addAlienMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addAlienMouseClicked
+
+         try {
+                                                String losen = JOptionPane.showInputDialog(null, "Ange lösenord för ny alien");
+             int radAntal = model.getRowCount() + 1;
+                        String id = "" + radAntal;
+             mib.insert("INSERT INTO ALIEN VALUES(" + id + ", DATE '2020-05-01', '" + losen + "', 'Alien NY', '0', '1', '1')");
+             skrivTabell();
+                    } catch (InfException ex) {
+                        Logger.getLogger(HanteraAgent.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+    }//GEN-LAST:event_addAlienMouseClicked
+
+    private void deleteAlienMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteAlienMouseClicked
+
+        try {
+                      String aID = tabell.getValueAt(tabell.getSelectedRow(), 0).toString();
+                        mib.delete("DELETE FROM ALIEN WHERE ALIEN_ID = " + aID);
+                        skrivTabell();
+                    } catch (InfException ex) {
+                        Logger.getLogger(HanteraAgent.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+
+    }//GEN-LAST:event_deleteAlienMouseClicked
+
+    private void bytRasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bytRasMouseClicked
+
+        int rad = tabell.getSelectedRow();
+        String ras = "";
+        String id = (String) tabell.getValueAt(rad, 0);
+        
+
+    }//GEN-LAST:event_bytRasMouseClicked
 
     private String valOmrade() {
 
@@ -689,23 +775,48 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
 
     }
 
+private void editAlien() {
+    
+     int rad = tabell.getSelectedRow();
+
+        String alienID = tabell.getValueAt(rad, 0).toString();
+        String attr = attributVal.getSelectedItem().toString();
+        String nyttV = "'" + attributVarde.getText() + "'";
+        System.err.println(attr + " - " + nyttV + nyttV.length() + " " + alienID + rad);
+       
+    String fraga = "UPDATE ALIEN SET " + attr + " = " + nyttV + " WHERE ALIEN_ID = " + alienID + ";";
+        try {
+            mib.update(fraga);
+            model.fireTableDataChanged();
+            model.fireTableStructureChanged();
+            tabell.updateUI();
+            skrivTabell();
+
+        } catch (InfException ex) {
+            Logger.getLogger(HanteraAgent.class.getName()).log(Level.SEVERE, getWarningString(), ex);
+            System.out.println("InfFel " + ex.getSQLState() + " " + ex.getMessage() + " " + ex.getLocalizedMessage());
+        }
+
+    
+    }
 
 
     /**
      * @param args the command line arguments
      */
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addAgent;
+    private javax.swing.JButton addAlien;
     private javax.swing.JButton attributKnapp;
     private javax.swing.JComboBox<String> attributVal;
     private javax.swing.JTextField attributVarde;
     private javax.swing.JButton btnHanteraUtrustning;
     private javax.swing.JButton btnTillbakaInlogg;
     private javax.swing.JButton bytRas;
+    private javax.swing.JComboBox<String> cBoxBytRas;
     private javax.swing.JComboBox<String> cBoxOmrade;
     private javax.swing.JComboBox<String> cBoxPlats;
     private javax.swing.JComboBox<String> cBoxRas;
-    private javax.swing.JButton deleteAgent;
+    private javax.swing.JButton deleteAlien;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;

@@ -39,13 +39,15 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="attributKnapp" min="-2" pref="136" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
-                      <Component id="addAgent" min="-2" pref="136" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="deleteAgent" min="-2" pref="136" max="-2" attributes="0"/>
+                      <Component id="deleteAlien" min="-2" pref="136" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="addAlien" min="-2" pref="136" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <Component id="attributVal" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
+                      <Component id="cBoxBytRas" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="bytRas" min="-2" pref="136" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
@@ -172,14 +174,15 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="attributVal" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="bytRas" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="cBoxBytRas" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="attributVarde" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="attributKnapp" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="deleteAgent" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="addAgent" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="addAlien" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="deleteAlien" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="38" max="32767" attributes="0"/>
           </Group>
@@ -335,6 +338,7 @@
         <Property name="text" type="java.lang.String" value="&#xc4;ndra"/>
       </Properties>
       <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="attributKnappMouseClicked"/>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="attributKnappActionPerformed"/>
       </Events>
     </Component>
@@ -373,9 +377,10 @@
     </Component>
     <Component class="javax.swing.JButton" name="bytRas">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Byt"/>
+        <Property name="text" type="java.lang.String" value="Byt ras"/>
       </Properties>
       <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="bytRasMouseClicked"/>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bytRasActionPerformed"/>
       </Events>
     </Component>
@@ -388,21 +393,38 @@
         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="visaDatumKnappMouseClicked"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="deleteAgent">
+    <Component class="javax.swing.JButton" name="deleteAlien">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Ta bort agent"/>
+        <Property name="text" type="java.lang.String" value="Ta bort alien"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="deleteAgentActionPerformed"/>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="deleteAlienMouseClicked"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="deleteAlienActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="addAgent">
+    <Component class="javax.swing.JButton" name="addAlien">
       <Properties>
-        <Property name="text" type="java.lang.String" value="L&#xe4;gg till agent"/>
+        <Property name="text" type="java.lang.String" value="L&#xe4;gg till alien"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addAgentActionPerformed"/>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="addAlienMouseClicked"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addAlienActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="cBoxBytRas">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="4">
+            <StringItem index="0" value="Item 1"/>
+            <StringItem index="1" value="Item 2"/>
+            <StringItem index="2" value="Item 3"/>
+            <StringItem index="3" value="Item 4"/>
+          </StringArray>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>
