@@ -208,6 +208,9 @@ public class AndraLosenord extends javax.swing.JFrame {
                             JOptionPane.showMessageDialog(null, "Något gick fel!");
                             System.out.println("Internt felmeddelande" + ettUndantag.getMessage());
                             }
+                            //Refreshar fönstret för att undvika errors
+                            dispose();
+                            new AndraLosenord(mib).setVisible(true);
             }
         
             if(hittatGmltLosen == false)

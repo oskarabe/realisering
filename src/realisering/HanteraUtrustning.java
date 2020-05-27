@@ -217,7 +217,7 @@ public class HanteraUtrustning extends javax.swing.JFrame {
                         .addComponent(btnLaggTill)
                         .addGap(40, 40, 40)
                         .addComponent(btnTaBort)
-                        .addGap(231, 231, 231))
+                        .addGap(221, 221, 221))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 681, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(24, 24, 24))

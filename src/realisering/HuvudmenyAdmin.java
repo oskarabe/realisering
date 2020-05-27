@@ -9,7 +9,7 @@ import oru.inf.*;
 /**
  * Huvudmenyn för administratörer. Visar en tabell över alla agenter
  * Ger även möjlighet att ta sig vidare till fönster för att hantera
- * agenter, aliens eller utrustning
+* agenter, aliens eller utrustning
  */
 public class HuvudmenyAdmin extends javax.swing.JFrame {
 
@@ -172,16 +172,16 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setFont(new java.awt.Font("Berlin Sans FB", 0, 18)); // NOI18N
         setMinimumSize(new java.awt.Dimension(800, 500));
+        setPreferredSize(new java.awt.Dimension(750, 438));
         setSize(new java.awt.Dimension(800, 500));
 
-        lblAdmin.setFont(new java.awt.Font("Berlin Sans FB", 0, 36)); // NOI18N
+        lblAdmin.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         lblAdmin.setText("Administratör");
 
-        inloggadSom.setFont(new java.awt.Font("Berlin Sans FB", 0, 18)); // NOI18N
+        inloggadSom.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         inloggadSom.setText("Agent 1");
 
-        hanteraAgent.setFont(new java.awt.Font("Berlin Sans FB", 0, 16)); // NOI18N
-        hanteraAgent.setText("AGENTER");
+        hanteraAgent.setText("Agenter");
         hanteraAgent.setToolTipText("Hantera...");
         hanteraAgent.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         hanteraAgent.setMaximumSize(new java.awt.Dimension(150, 60));
@@ -193,7 +193,6 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
             }
         });
 
-        tillbakaKnapp.setFont(new java.awt.Font("Berlin Sans FB", 0, 16)); // NOI18N
         tillbakaKnapp.setText("Tillbaka");
         tillbakaKnapp.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         tillbakaKnapp.setMaximumSize(new java.awt.Dimension(150, 40));
@@ -205,8 +204,7 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
             }
         });
 
-        hanteraUtrustning.setFont(new java.awt.Font("Berlin Sans FB", 0, 16)); // NOI18N
-        hanteraUtrustning.setText("UTRUSTNING");
+        hanteraUtrustning.setText("Utrustning");
         hanteraUtrustning.setToolTipText("Hantera...");
         hanteraUtrustning.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         hanteraUtrustning.setMaximumSize(new java.awt.Dimension(150, 60));
@@ -232,7 +230,7 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
 
         tabell.setAutoCreateRowSorter(true);
         tabell.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        tabell.setFont(new java.awt.Font("Berlin Sans FB", 0, 16)); // NOI18N
+        tabell.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
         tabell.setModel(setGetTableModel());
         tabell.setColumnSelectionAllowed(true);
         tabell.setEnabled(tabell.isVisible());
@@ -246,13 +244,12 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tabell);
         tabell.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
-        lblOmrade.setFont(getFont());
+        lblOmrade.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         lblOmrade.setText("Område");
 
         sokruta.setColumns(12);
         sokruta.setDocument(sokruta.getDocument());
-        sokruta.setFont(new java.awt.Font("Berlin Sans FB", 0, 14)); // NOI18N
-        sokruta.setText("SÖK KODNAMN...");
+        sokruta.setText("Sök kodnamn...");
         sokruta.setToolTipText("Sök Agent...");
         sokruta.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -272,8 +269,7 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
             }
         });
 
-        hanteraAlien.setFont(new java.awt.Font("Berlin Sans FB", 0, 16)); // NOI18N
-        hanteraAlien.setText("ALIENS");
+        hanteraAlien.setText("Aliens");
         hanteraAlien.setToolTipText("Hantera...");
         hanteraAlien.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         hanteraAlien.setMaximumSize(new java.awt.Dimension(150, 60));
@@ -297,65 +293,63 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(30, 30, 30)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1)
-                        .addGap(33, 33, 33))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(inloggadSom)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(omradeBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(sokruta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(lblOmrade))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 69, Short.MAX_VALUE)
-                        .addComponent(lblFel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(80, 80, 80)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(hanteraUtrustning, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(hanteraAgent, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(hanteraAlien, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(55, 55, 55))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(lblAdmin)
-                        .addGap(310, 310, 310))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(tillbakaKnapp, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(46, 46, 46))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(omradeBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(sokruta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(lblOmrade))
+                                .addGap(81, 81, 81)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblAdmin)
+                                    .addComponent(lblFel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(hanteraAlien, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addComponent(hanteraAgent, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(hanteraUtrustning, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(tillbakaKnapp, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 652, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(32, 32, 32)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
                         .addComponent(lblAdmin)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(inloggadSom)
-                        .addGap(26, 26, 26)
-                        .addComponent(lblOmrade)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(omradeBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(sokruta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(20, 20, 20))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(hanteraAgent, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(20, 20, 20)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(inloggadSom)
+                                .addGap(26, 26, 26)
+                                .addComponent(lblOmrade)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(omradeBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(sokruta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(20, 20, 20))
+                            .addComponent(lblFel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(hanteraAgent, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(hanteraAlien, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(hanteraUtrustning, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(23, 23, 23))
-                    .addComponent(lblFel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(hanteraAlien, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(hanteraUtrustning, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(19, 19, 19)))
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(tillbakaKnapp, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addComponent(tillbakaKnapp, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(50, Short.MAX_VALUE))
         );
 
         pack();
