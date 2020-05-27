@@ -14,9 +14,9 @@ import javax.swing.table.TableRowSorter;
 import oru.inf.InfDB;
 import oru.inf.InfException;
 /**
- * Denna klass anvÃ¤nds fÃ¶r att se vilka utrustningar som finns registrerade.
- * Klassen ger Ã¤ven mÃ¶jlighet att ta sig till nya fÃ¶nster som kan
- * lÃ¤gga till, registrera och ta bort utrustning
+ * Denna klass används för att se vilka utrustningar som finns registrerade.
+ * Klassen ger även möjlighet att ta sig till nya fönster som kan
+ * lägga till, registrera och ta bort utrustning
  */
 public class HanteraUtrustning extends javax.swing.JFrame {
 
@@ -29,8 +29,8 @@ public class HanteraUtrustning extends javax.swing.JFrame {
 
     DefaultTableModel model;
     
-    //Konstruktor fÃ¶r HanteraUtrustning
-    //BehÃ¶ver ha en beskrivning av hur tabellerna Ã¤r skapta
+    //Konstruktor för HanteraUtrustning
+    //Behöver ha en beskrivning av hur tabellerna är skapta
     public HanteraUtrustning(InfDB mib) {
         
         this.mib = mib;
@@ -100,7 +100,7 @@ public class HanteraUtrustning extends javax.swing.JFrame {
                                                 JOptionPane.showMessageDialog(null, "Databasfel!");
                                                 System.out.println("inf fel 3 Internt felmeddelande" + ettUndantag.getMessage());
                                 } catch (IndexOutOfBoundsException ettUndantag) {
-                                                JOptionPane.showMessageDialog(null, "NÃ¥got gick fel!");
+                                                JOptionPane.showMessageDialog(null, "Något gick fel!");
                                                 System.out.println("headFel --  " + ettUndantag.getMessage() + " -- " + ettUndantag.getLocalizedMessage());
                                 } catch (NullPointerException u) {
                                                 System.err.println("-- NullPointerEx --");
@@ -120,7 +120,7 @@ public class HanteraUtrustning extends javax.swing.JFrame {
                                 return model;
                 }
                 
-    //Ifall anvÃ¤ndaren inte har adminstatus inaktiveras btnTaBort
+    //Ifall användaren inte har adminstatus inaktiveras btnTaBort
     private void checkAdminStatus()
     {
         if(isAdmin == true)
@@ -134,7 +134,7 @@ public class HanteraUtrustning extends javax.swing.JFrame {
     }
     
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         btnTaBort = new javax.swing.JButton();
@@ -160,7 +160,7 @@ public class HanteraUtrustning extends javax.swing.JFrame {
         lblUtrustning.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         lblUtrustning.setText("Utrustning");
 
-        sokruta.setText("SÃ¶k utrustning...");
+        sokruta.setText("Sök utrustning...");
         sokruta.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 sokrutaMouseClicked(evt);
@@ -191,7 +191,7 @@ public class HanteraUtrustning extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(tabell);
 
-        btnSok.setText("SÃ¶k");
+        btnSok.setText("Sök");
         btnSok.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSokActionPerformed(evt);
@@ -259,28 +259,28 @@ public class HanteraUtrustning extends javax.swing.JFrame {
         );
 
         pack();
-    }// </editor-fold>                        
+    }// </editor-fold>//GEN-END:initComponents
 
-    private void btnTaBortActionPerformed(java.awt.event.ActionEvent evt) {                                          
+    private void btnTaBortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaBortActionPerformed
         dispose();
         new TaBortUtrustning(mib).setVisible(true);
-        //Ã–ppna fÃ¶nster fÃ¶r att ta bort utrustning
-    }                                         
+        //Öppna fönster för att ta bort utrustning
+    }//GEN-LAST:event_btnTaBortActionPerformed
 
-    private void btnLaggTillActionPerformed(java.awt.event.ActionEvent evt) {                                            
+    private void btnLaggTillActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLaggTillActionPerformed
         dispose();
         new RegUtrustning(mib).setVisible(true);
-        //Ã–ppna fÃ¶nster fÃ¶r att lÃ¤gga till utrustning
-    }                                           
+        //Öppna fönster för att lägga till utrustning
+    }//GEN-LAST:event_btnLaggTillActionPerformed
 
-    private void sokrutaMouseClicked(java.awt.event.MouseEvent evt) {                                     
+    private void sokrutaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sokrutaMouseClicked
         sokruta.setText("");
-        //Rensar sÃ¶krutan nÃ¤r man klickar i den
-    }                                    
+        //Rensar sökrutan när man klickar i den
+    }//GEN-LAST:event_sokrutaMouseClicked
 
-    private void btnTillbakaActionPerformed(java.awt.event.ActionEvent evt) {                                            
-        //Tar anvÃ¤ndaren tillbaka till huvudmenyn nÃ¤r knappen "Tillbaka" trycks
-        //Beroende pÃ¥ adminstatus Ã¶ppnas olika fÃ¶nster
+    private void btnTillbakaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTillbakaActionPerformed
+        //Tar användaren tillbaka till huvudmenyn när knappen "Tillbaka" trycks
+        //Beroende på adminstatus öppnas olika fönster
         if(isAdmin == true)
         {
             new HuvudmenyAdmin(mib).setVisible(true);
@@ -291,26 +291,26 @@ public class HanteraUtrustning extends javax.swing.JFrame {
             new HuvudmenyAgent(mib).setVisible(true);
             dispose();
         }
-    }                                           
+    }//GEN-LAST:event_btnTillbakaActionPerformed
 
-    private void btnSokActionPerformed(java.awt.event.ActionEvent evt) {                                       
-        //Filtrerar tabellen pÃ¥ angivet namn pÃ¥ utrustning i sÃ¶krutan
+    private void btnSokActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSokActionPerformed
+        //Filtrerar tabellen på angivet namn på utrustning i sökrutan
         String sokOrd = sokruta.getText();
         String SQLsokord = "SELECT AGENT_ID, UTKVITTERINGSDATUM, UTRUSTNING.UTRUSTNINGS_ID, BENAMNING FROM UTRUSTNING, " +
                                               "INNEHAR_UTRUSTNING WHERE UTRUSTNING.UTRUSTNINGS_ID = INNEHAR_UTRUSTNING.UTRUSTNINGS_ID " +
                                               "AND BENAMNING = '" + sokOrd + "' ORDER BY UTRUSTNINGS_ID ASC;";
         setGetTableModel(SQLsokord);
-    }                                      
+    }//GEN-LAST:event_btnSokActionPerformed
 
-    private void seAllaActionPerformed(java.awt.event.ActionEvent evt) {                                       
-        //NÃ¤r knappen "Se alla" trycks visas all registrerad utrustning i databasen
+    private void seAllaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seAllaActionPerformed
+        //När knappen "Se alla" trycks visas all registrerad utrustning i databasen
         String allUtrustning = "SELECT AGENT_ID, UTKVITTERINGSDATUM, UTRUSTNING.UTRUSTNINGS_ID, BENAMNING FROM UTRUSTNING, " +
                                               "INNEHAR_UTRUSTNING WHERE UTRUSTNING.UTRUSTNINGS_ID = INNEHAR_UTRUSTNING.UTRUSTNINGS_ID " +
                                               "ORDER BY UTRUSTNINGS_ID ASC;";
         setGetTableModel(allUtrustning);
-    }                                      
+    }//GEN-LAST:event_seAllaActionPerformed
 
-    // Variables declaration - do not modify                     
+    // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLaggTill;
     private javax.swing.JButton btnSok;
     private javax.swing.JButton btnTaBort;
@@ -320,14 +320,14 @@ public class HanteraUtrustning extends javax.swing.JFrame {
     private javax.swing.JButton seAlla;
     private javax.swing.JTextField sokruta;
     private javax.swing.JTable tabell;
-    // End of variables declaration                   
+    // End of variables declaration//GEN-END:variables
                 
                 //Returnerar utrustningslistan
                 private String getUtrustningLista() {
                                 return utrustningLista;
                 }
 
-                //Set-metod fÃ¶r utrustningslistan
+                //Set-metod för utrustningslistan
                 private void setUtrustningLista(String utrustningLista) {
                                 this.utrustningLista = utrustningLista;
                 }
