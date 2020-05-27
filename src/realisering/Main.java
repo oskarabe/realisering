@@ -5,8 +5,9 @@ import oru.inf.InfDB;
 import oru.inf.InfException;
 
 /**
- *
- * @author oskar
+ * Main-klassen som är starten på programmet
+ * Skapar en connection med databasfilen, utifrån en relativ sökväg
+ * Kallar på en metod för att öppna Login-fönstret
  */
 public class Main {
 
@@ -23,7 +24,6 @@ public class Main {
             JOptionPane.showMessageDialog(null, "Något gick fel!");
             System.out.println("Internt felmeddelande" + ettUndantag.getMessage());
         }
-        //new HanteraUtrustning(mib).setVisible(true);
         new Login(mib).setVisible(true);
     }
 
