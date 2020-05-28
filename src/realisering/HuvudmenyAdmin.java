@@ -415,10 +415,12 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
                                 } else {
                                                 query += lvpString;
                                 }
+                                if (Validering.finnsText(sokruta)) {
                     if (evt.getKeyCode() == 10 || sokruta.getText().length() > 2) {
                                                 System.out.println(query);
                                                 skrivTabell(query);
                                                 }                }//GEN-LAST:event_sokrutaKeyPressed
+    }
 
                 // Rensar text
                 private void sokrutaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sokrutaMouseClicked
