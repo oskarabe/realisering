@@ -111,13 +111,13 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
     }
 
     // Metod för att skriva ut tabellen utan parametrar. Standardfråga för att lista alla alien används som parameter för metoden som tar parameter.
-    protected void skrivTabell() {
+    private void skrivTabell() {
         setAlienLista("SELECT ALIEN_ID, REGISTRERINGSDATUM, NAMN, TELEFON, PLATS, ANSVARIG_AGENT FROM ALIEN ");
         skrivTabell(getAlienLista());
     }
 
     // Metod för att skriva ut tabellen.
-    protected void skrivTabell(String specQuery) {
+    private void skrivTabell(String specQuery) {
         // Lokala variablar för at hämta data från databasen samt för att kunna använda konstruktorn för tabellmodellen.
         ArrayList< HashMap< String, String>> hmData;
         Vector< Vector< String>> vRad = new Vector<>();
