@@ -68,32 +68,21 @@ public class HanteraAgent
 
     // Returnerar modellen för en combobox med attribut
     private DefaultComboBoxModel cBM(Vector< String> vQ, Vector< String> vW) {
-        try {
 
-            AyL = new ArrayList<>();
-            sList = new ArrayList<>();
-            String sK = "SELECT NAMN, TELEFON, ANSTALLNINGSDATUM, ADMINISTRATOR, OMRADE FROM AGENT";
 
-            AyL.addAll(mib.fetchRow(getAgentLista()).keySet());
-            sList.addAll(AyL.subList(0, 5));
-            Collections.sort(sList);
+        Vector<String> attributVector = new Vector<>();
+        attributVector.add("NAMN");
+        attributVector.add("TELEFON");
+        attributVector.add("ANSTÄLLNINGSDATUM");
+        attributVector.add("ADMINISTRATÖR");
+        attributVector.add("OMRADE");
 
-            vQ.addAll(sList);
-            vW.addAll(mib.fetchRow(sK).values());
+        cbmod = (DefaultComboBoxModel) aCB.getModel();
+        cbmod.removeAllElements();
+        cbmod.addAll(attributVector);
+        aCB.setModel(cbmod);
+        return cbmod;
 
-            cbmod = (DefaultComboBoxModel) aCB.getModel();
-            cbmod.removeAllElements();
-            cbmod.addAll(sList);
-            aCB.setModel(cbmod);
-            aCB.getModel().setSelectedItem(sList.get(0));
-            return cbmod;
-
-            // 3 till 1, 2 till tre. 1 te två
-        } catch (InfException ex) {
-            Logger.getLogger(HanteraAgent.class.getName()).log(Level.SEVERE, null, ex);
-            return cbmod;
-
-        }
     }
 
     // Metod för att ändra valt attribut för vald agent
@@ -118,6 +107,14 @@ public class HanteraAgent
         String fraga = "UPDATE AGENT SET " + attr + " = " + nyttV + " WHERE AGENT_ID = " + agID + ";";
         try {
             // Uppdatera och skriv ut ny tabell
+            if (!attr.equalsIgnoreCase("Omrade")) {
+                mib.update(fraga);
+            } else {
+                String omr = mib.fetchSingle("SELECT OMRADES_ID FROM OMRADE WHERE BENAMNING LIKE " + nyttV);
+                fraga = "UPDATE AGENT SET " + attr + " = " + omr + " WHERE AGENT_ID = " + agID + ";";
+                mib.update(fraga);
+
+            }
             mib.update(fraga);
             model.fireTableDataChanged();
             model.fireTableStructureChanged();
@@ -503,7 +500,7 @@ public class HanteraAgent
                         mib.delete("DELETE FROM AGENT WHERE AGENT_ID = " + getAgID());
                         skrivTabell();
                     } catch (InfException ex) {
-                        Logger.getLogger(HanteraAgent.class.getName()).log(Level.SEVERE, null, ex);
+                        JOptionPane.showMessageDialog(null, "Agenten är ansvarig över Aliens. Byt ansvarig agent först.");
                     }
 
                 }//GEN-LAST:event_deleteAgentActionPerformed

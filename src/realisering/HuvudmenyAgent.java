@@ -13,7 +13,7 @@ import oru.inf.*;
 public class HuvudmenyAgent extends javax.swing.JFrame {
 
     // Deklaration av variabler som behövs.
-    private String agentID, rasID, all, alienLista, plats, platsID, ras;
+    private String agentID, rasID, all, alienLista, plats, platsID, ras, omID;
     private InfDB mib;
     private ComboBoxModel lvBox, rasModell, platsModell, attrModell, rasModellByt;
     private Vector<String> vC, vKolumn, vData, allaPlatser;
@@ -243,6 +243,7 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
         deleteAlien = new javax.swing.JButton();
         addAlien = new javax.swing.JButton();
         cBoxBytRas = new javax.swing.JComboBox<>();
+        lblChef = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(800, 500));
@@ -415,6 +416,8 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
 
         cBoxBytRas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        lblChef.setText("Områdeschef: ");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -446,9 +449,6 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGap(31, 31, 31)
-                                .addComponent(lblInloggNamn))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(cBoxOmrade, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -465,7 +465,12 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
                                         .addComponent(lblRas))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(18, 18, 18)
-                                        .addComponent(cBoxRas, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                        .addComponent(cBoxRas, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addGap(31, 31, 31)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblChef)
+                                    .addComponent(lblInloggNamn))))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(lblHuvudmenyAgent)
@@ -502,7 +507,9 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(lblInloggNamn)
-                                .addGap(49, 49, 49)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblChef)
+                                .addGap(23, 23, 23)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblPlats)
                             .addComponent(lblOmrade)
@@ -647,10 +654,15 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
     // Skriver ut en lista med aliens som finns i valt område.
     private void cBoxOmradeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cBoxOmradeItemStateChanged
 
-        String faOmrade = "SELECT PLATS_ID FROM PLATS WHERE FINNS_I = (" + valOmrade() + ")";
-         if (evt.getStateChange() == 1 && !cBoxOmrade.getSelectedItem().toString().equals("Alla")) {
+        String aktiv = cBoxOmrade.getSelectedItem().toString();
+        if (evt.getStateChange() == 1 && !cBoxOmrade.getSelectedItem().toString().equals("Alla")) {
              skrivTabell(getAlienLista() + " WHERE PLATS = ANY " + valOmrade());
-            System.out.println("Kom hit");
+             try {
+                 String s = mib.fetchSingle("SELECT NAMN FROM AGENT WHERE AGENT_ID = (SELECT AGENT_ID FROM OMRADESCHEF WHERE OMRADE = " + "(SELECT OMRADES_ID FROM OMRADE WHERE BENAMNING LIKE '" + aktiv + "'))");
+                 lblChef.setText("Områdeschef: " + s);
+             } catch (InfException ex) {
+                 Logger.getLogger(HuvudmenyAgent.class.getName()).log(Level.SEVERE, null, ex);
+             }
 
         } else {
             skrivTabell();
@@ -792,7 +804,7 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
 
                                 try {
                                                 String aktiv = (String) cBoxOmrade.getSelectedItem();
-                                                String omID = ("SELECT OMRADES_ID FROM OMRADE");
+                                    omID = ("SELECT OMRADES_ID FROM OMRADE");
                                                 if (cBoxOmrade.getSelectedIndex() != 0) {
                                                                 omID = omID + " WHERE BENAMNING LIKE '" + aktiv + "'";
                                                     String oID = "(SELECT PLATS_ID FROM PLATS WHERE FINNS_I = " + mib.fetchSingle(omID) + ")";
@@ -857,7 +869,14 @@ private void editAlien() {
     String fraga = "UPDATE ALIEN SET " + attr + " = " + nyttV + " WHERE ALIEN_ID = " + alienID + ";";
     try {
         // uppdatera tabell
+        if (!attr.equalsIgnoreCase("Plats")) {
             mib.update(fraga);
+        } else {
+            String omr = mib.fetchSingle("SELECT PLATS_ID FROM PLATS WHERE BENAMNING LIKE " + nyttV);
+            fraga = "UPDATE ALIEN SET " + attr + " = " + omr + " WHERE ALIEN_ID = " + alienID + ";";
+            mib.update(fraga);
+
+        }
             model.fireTableDataChanged();
             model.fireTableStructureChanged();
             tabell.updateUI();
@@ -891,6 +910,7 @@ private void editAlien() {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblChef;
     private javax.swing.JLabel lblDatum;
     private javax.swing.JLabel lblHuvudmenyAgent;
     private javax.swing.JLabel lblInloggNamn;
