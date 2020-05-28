@@ -74,7 +74,7 @@ public class HanteraAgent
         attributVector.add("NAMN");
         attributVector.add("TELEFON");
         attributVector.add("ANSTALLNINGSDATUM");
-        attributVector.add("ADMINISTRATÖR");
+        attributVector.add("ADMINISTRATOR");
         attributVector.add("OMRADE");
 
         cbmod = (DefaultComboBoxModel) aCB.getModel();
