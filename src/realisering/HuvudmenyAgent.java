@@ -7,19 +7,21 @@ import javax.swing.table.*;
 import oru.inf.*;
 
 /**
- * Klass för att...
+ * Klass för agenter samt för administratörer för att hantera aliens.
+ * Huvudfönster för agenter utan administratörsbehörighet.
  */
 public class HuvudmenyAgent extends javax.swing.JFrame {
 
-    private String agentID, rasID, omCB, all, alienLista, plats, platsID, ras;
-    private boolean isAdmin;
+    // Deklaration av variabler som behövs.
+    private String agentID, rasID, all, alienLista, plats, platsID, ras;
     private InfDB mib;
     private ComboBoxModel lvBox, rasModell, platsModell, attrModell, rasModellByt;
     private Vector<String> vC, vKolumn, vData, allaPlatser;
     private DefaultTableModel model;
 
     /**
-     * Creates new form HuvudmenyAgent
+     * Konstruktor. Kallar metoder för att sätta rätt värden på text och
+     * comboboxes. Kollar även om användaren är vanlig agent eller admin.
      */
     public HuvudmenyAgent(InfDB mib) {
         initComponents();
@@ -79,6 +81,7 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
 
     }
 
+    // Anger värdena i cBoxRas
     private void setcBoxRas() {
         Vector<String> vRas = new Vector<>();
         Vector<String> vRasByt = new Vector<>();
@@ -95,6 +98,7 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
         cBoxRas.setSelectedIndex(0);
     }
 
+    // Anger värderna i cBoxAttrVal
     private void setAttributVal() {
         Vector<String> attributVector = new Vector<>();
         attributVector.add("NAMN");
@@ -103,15 +107,18 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
         attributVector.add("ANSVARIG_AGENT");
 
         attrModell = new DefaultComboBoxModel(attributVector);
-        attributVal.setModel(attrModell);
+        cBoxAttrVal.setModel(attrModell);
     }
 
+    // Metod för att skriva ut tabellen utan parametrar. Standardfråga för att lista alla alien används som parameter för metoden som tar parameter.
     protected void skrivTabell() {
         setAlienLista("SELECT ALIEN_ID, REGISTRERINGSDATUM, NAMN, TELEFON, PLATS, ANSVARIG_AGENT FROM ALIEN ");
         skrivTabell(getAlienLista());
     }
 
+    // Metod för att skriva ut tabellen.
     protected void skrivTabell(String specQuery) {
+        // Lokala variablar för at hämta data från databasen samt för att kunna använda konstruktorn för tabellmodellen.
         ArrayList< HashMap< String, String>> hmData;
         Vector< Vector< String>> vRad = new Vector<>();
 
@@ -119,18 +126,25 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
             vKolumn = new Vector<>();
             hmData = mib.fetchRows(specQuery);
 
+            //        Lägger till all data rad för rad till vektorn vRad
             for (HashMap<String, String> hm : hmData) {
                 vData = new Vector<>();
                 vData.addAll(hm.values());
                 vRad.add(vData);
             }
 
+            // Läger till kolumnerna
             vKolumn.addAll(hmData.get(0).keySet());
 
+            // Anropar konstruktorn för en modell med de tidigare vektorerna som parametrar. Sätter denna modell som mall för tabellen.
             model.setDataVector(vRad, vKolumn);
             tabell.setRowSelectionAllowed(true);
+
+            // Snyggar till ordningen på kolumnerna
             tabell.getColumnModel().moveColumn(3, 0);
             tabell.getColumnModel().moveColumn(4, 2);
+
+            // Om något går fel
         } catch (InfException ettUndantag) {
             JOptionPane.showMessageDialog(null, "Databasfel!");
             System.out.println("inf fel 3 Internt felmeddelande" + ettUndantag.getMessage());
@@ -145,6 +159,7 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
         }
     }
 
+    // Metod som skapar och returnerar en modell för hur cBoxOmrade ska se ut
     private ComboBoxModel setGetCbModel() {
         vC = new Vector<>();
         try {
@@ -152,6 +167,8 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
         } catch (InfException ex) {
             Logger.getLogger(HuvudmenyAdmin.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        // lägger till ett alternativ för alla områden
         all = "Alla";
         vC.insertElementAt(all, 0);
         lvBox = new DefaultComboBoxModel(vC);
@@ -161,6 +178,7 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
 
     }
 
+    // metod som rensar, skapar och returnerar en basmodell för tabellen.
     private TableModel setGetTableModel() {
         setAlienLista("SELECT ALIEN_ID, REGISTRERINGSDATUM, NAMN, TELEFON, PLATS, ANSVARIG_AGENT FROM ALIEN");
         model = (DefaultTableModel) tabell.getModel();
@@ -171,24 +189,24 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
 
     }
 
+    // Metod för att stänga fönstret
     private void avslut(boolean b) {
 
         setEnabled(b);
         this.dispose();
-        this.disable();
         this.setVisible(b);
 
     }
 
     /**
-     * @return the agentLista
+     * @return the agentLista, SQL-fråga för att lista alla aliens.
      */
     private String getAlienLista() {
         return alienLista;
     }
 
     /**
-     * @param agentLista the agentLista to set
+     * @param agentLista the agentLista to set. Metod för att ändra SQL-frågan
      */
     private void setAlienLista(String agentLista) {
         this.alienLista = agentLista;
@@ -218,7 +236,7 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
         attributKnapp = new javax.swing.JButton();
         attributVarde = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        attributVal = new javax.swing.JComboBox<>();
+        cBoxAttrVal = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
         bytRas = new javax.swing.JButton();
         visaDatumKnapp = new javax.swing.JButton();
@@ -347,7 +365,7 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
 
         jLabel9.setText("Ange nytt värde:");
 
-        attributVal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cBoxAttrVal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel7.setText("Välj attribut att ändra");
 
@@ -415,7 +433,7 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(addAlien, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(attributVal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cBoxAttrVal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(cBoxBytRas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -512,7 +530,7 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
                     .addComponent(lblRasVald))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(attributVal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cBoxAttrVal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(bytRas)
                     .addComponent(cBoxBytRas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -528,20 +546,27 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     *
+     * Stäng fönster och öppna HanteraUtrustning
+     */
     private void btnHanteraUtrustningActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHanteraUtrustningActionPerformed
         new HanteraUtrustning(mib).setVisible(true);
-        dispose();
+        avslut(false);
     }//GEN-LAST:event_btnHanteraUtrustningActionPerformed
 
+    // Autogenererad
     private void cBoxPlatsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cBoxPlatsActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cBoxPlatsActionPerformed
 
+    // Stäng och gå tillbaka till login
     private void btnTillbakaInloggActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTillbakaInloggActionPerformed
         dispose();
         new Login(mib).setVisible(true);
     }//GEN-LAST:event_btnTillbakaInloggActionPerformed
 
+    // Metod för att visa vald aliens ras
     private void tabellMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabellMouseClicked
 
         int rad = tabell.getSelectedRow();
@@ -549,13 +574,15 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
         String id =  (String) tabell.getValueAt(rad, 0);
 
         try {
+            // Skapar ArrayList:s och lägger till Alien_ID för de olika raserna
             ArrayList<String> bog = new ArrayList<>();
-            addAllIfNotNull(bog, mib.fetchColumn("SELECT ALIEN_ID FROM BOGLODITE"));
+            addNotNull(bog, mib.fetchColumn("SELECT ALIEN_ID FROM BOGLODITE"));
             ArrayList<String> squid = new ArrayList<>();
-            addAllIfNotNull(squid, mib.fetchColumn("SELECT ALIEN_ID FROM SQUID"));
+            addNotNull(squid, mib.fetchColumn("SELECT ALIEN_ID FROM SQUID"));
             ArrayList<String> worm = new ArrayList<>();
-            addAllIfNotNull(worm, mib.fetchColumn("SELECT ALIEN_ID FROM WORM"));
+            addNotNull(worm, mib.fetchColumn("SELECT ALIEN_ID FROM WORM"));
 
+            // Kollar vilken ras vald alien tillhör och ändrar lblRasVald utefter
             if (bog.contains(id)) {
                 ras = "Boglodite";
             } else if (squid.contains(id)) {
@@ -571,23 +598,27 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tabellMouseClicked
 
+    // Auto
     private void attributKnappActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_attributKnappActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_attributKnappActionPerformed
 
+    // Auto
     private void attributVardeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_attributVardeActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_attributVardeActionPerformed
 
+    // Auto
     private void bytRasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bytRasActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_bytRasActionPerformed
 
+    // Skriver ut en lista över aliens med de som tillhör vald ras. Skriver ut alla om ingen ras är vald.
     private void cBoxRasItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cBoxRasItemStateChanged
-     
+
+         String aktiv = cBoxRas.getSelectedItem().toString().toUpperCase();
         if (evt.getStateChange() == 1 && !cBoxRas.getSelectedItem().toString().equals("Alla")) {
-            skrivTabell("SELECT ALIEN_ID, REGISTRERINGSDATUM, NAMN, TELEFON, PLATS, ANSVARIG_AGENT FROM ALIEN where ALIEN_ID = " + valRas());
-            System.out.println("Kom hit");
+            skrivTabell("SELECT ALIEN_ID, REGISTRERINGSDATUM, NAMN, TELEFON, PLATS, ANSVARIG_AGENT FROM ALIEN where ALIEN_ID = ANY (SELECT ALIEN_ID FROM " + aktiv + ")");
 
         } else {
             skrivTabell();
@@ -597,6 +628,7 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
         cBoxPlats.setSelectedIndex(0);
     }//GEN-LAST:event_cBoxRasItemStateChanged
 
+    // Skriver ut en lista med de aliens som finns på vald plats.
     private void cBoxPlatsItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cBoxPlatsItemStateChanged
 
         if (evt.getStateChange() == 1 && !cBoxPlats.getSelectedItem().toString().equals("Alla")) {
@@ -612,6 +644,7 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
 
     }//GEN-LAST:event_cBoxPlatsItemStateChanged
 
+    // Skriver ut en lista med aliens som finns i valt område.
     private void cBoxOmradeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cBoxOmradeItemStateChanged
 
         String faOmrade = "SELECT PLATS_ID FROM PLATS WHERE FINNS_I = (" + valOmrade() + ")";
@@ -627,6 +660,7 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
 
     }//GEN-LAST:event_cBoxOmradeItemStateChanged
 
+    // Söker efter alien med namn när man klivkar enter. Skriver ut resultatet.
     private void sokrutaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_sokrutaKeyPressed
 
 
@@ -640,40 +674,48 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
 
     }//GEN-LAST:event_sokrutaKeyPressed
 
+    // Rensar texten i sökrutan vid klick.
     private void sokrutaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sokrutaMouseClicked
 
         sokruta.setText("");
 
     }//GEN-LAST:event_sokrutaMouseClicked
 
+    // Skriver ut en lista över aliens registrerade mellan valda datum.
     private void visaDatumKnappMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_visaDatumKnappMouseClicked
 
         skrivTabell(getAlienLista() + " WHERE REGISTRERINGSDATUM BETWEEN '" + txtFldDatumFran.getText() + "' AND '" + txtFldDatumTill.getText() + "'");
 
     }//GEN-LAST:event_visaDatumKnappMouseClicked
 
+    // Rensar text vid klick
     private void txtFldDatumFranMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtFldDatumFranMouseClicked
         txtFldDatumFran.setText("");
     }//GEN-LAST:event_txtFldDatumFranMouseClicked
 
+    // Rensar text vid klick.
     private void txtFldDatumTillMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtFldDatumTillMouseClicked
       txtFldDatumTill.setText("");
     }//GEN-LAST:event_txtFldDatumTillMouseClicked
 
+    // Auto
     private void deleteAlienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteAlienActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_deleteAlienActionPerformed
 
+    // Auto
     private void addAlienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addAlienActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_addAlienActionPerformed
 
+    // Anropar metoden editAlien() när man klickar på attributKnapp.
     private void attributKnappMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_attributKnappMouseClicked
 
         editAlien();
 
     }//GEN-LAST:event_attributKnappMouseClicked
 
+    // Lägger till en ny alien med standardvärden och ras Boglodite.
     private void addAlienMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addAlienMouseClicked
 
          try {
@@ -681,6 +723,7 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
              int radAntal = model.getRowCount() + 1;
                         String id = "" + radAntal;
              mib.insert("INSERT INTO ALIEN VALUES(" + id + ", DATE '2020-05-01', '" + losen + "', 'Alien NY', '0', '1', '1')");
+             mib.insert("INSERT INTO BOGLODITE VALUES (" + id + ", 2)");
              skrivTabell();
                     } catch (InfException ex) {
                         Logger.getLogger(HanteraAgent.class.getName()).log(Level.SEVERE, null, ex);
@@ -688,6 +731,7 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
 
     }//GEN-LAST:event_addAlienMouseClicked
 
+    // Tar bort vald alien från databasen.
     private void deleteAlienMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteAlienMouseClicked
 
         try {
@@ -700,16 +744,18 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
 
     }//GEN-LAST:event_deleteAlienMouseClicked
 
+    // Metod för att byta ras.
     private void bytRasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bytRasMouseClicked
 
         int rad = tabell.getSelectedRow();
         String id = (String) tabell.getValueAt(rad, 0);
 
         try {
+            // Lägger till alla ALIEN_ID från rastabellerna. För att komma undan nullPointerEx efter den gamla rasen tagits bort.
             ArrayList<String> alla = new ArrayList<>();
-            addAllIfNotNull(alla, mib.fetchColumn("SELECT ALIEN_ID FROM BOGLODITE"));
-            addAllIfNotNull(alla, mib.fetchColumn("SELECT ALIEN_ID FROM SQUID"));
-            addAllIfNotNull(alla, mib.fetchColumn("SELECT ALIEN_ID FROM WORM"));
+            addNotNull(alla, mib.fetchColumn("SELECT ALIEN_ID FROM BOGLODITE"));
+            addNotNull(alla, mib.fetchColumn("SELECT ALIEN_ID FROM SQUID"));
+            addNotNull(alla, mib.fetchColumn("SELECT ALIEN_ID FROM WORM"));
 
 
             String vald = cBoxBytRas.getSelectedItem().toString().toUpperCase();
@@ -721,7 +767,8 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
 
                 
             } else {
-                                String ben = JOptionPane.showInputDialog("Antal ben:");
+                // Är rasen inte worm är antalet kolumner två istället för en. Lägger till val för detta.
+                String ben = JOptionPane.showInputDialog("Antal boogies/ben:");
 
                 mib.insert("INSERT INTO " + vald + " VALUES(" + id + ", " + ben + ")");
             }
@@ -734,12 +781,14 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
 
     }//GEN-LAST:event_bytRasMouseClicked
 
-    public static <E> void addAllIfNotNull(List<E> list, Collection<? extends E> c) {
+    // För att undvika problem med SQL-frågor som returnerar null
+    public static <E> void addNotNull(List<E> list, Collection<? extends E> c) {
     if (c != null) {
         list.addAll(c);
     }
 }
 
+    // Metod som returnerar valt områdes områdes_ID. Returnerar ett slumpvis om det inte fungerar.
     private String valOmrade() {
 
                                 try {
@@ -766,31 +815,7 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
 
                 }
 
-     private String valRas() {
-
-                                try {
-                                                String aktiv = (String) cBoxRas.getSelectedItem();
-                                    if (cBoxRas.getSelectedIndex() != 0) {
-                                                             rasID = ("SELECT ALIEN_ID FROM " + aktiv);
-                                                                omCB = mib.fetchSingle(rasID);
-                                                                return omCB;
-                                                }
-
-
-                                } catch (InfException ettUndantag) {
-                                                JOptionPane.showMessageDialog(null, "Databasfel!");
-                                                System.out.println("1 Internt felmeddelande" + ettUndantag.getMessage());
-
-                                } catch (NumberFormatException ettUndantag) {
-                                                JOptionPane.showMessageDialog(null, "Något gick fel!");
-                                                System.out.println("2 Internt felmeddelande" + ettUndantag.getMessage());
-                                }
-                                // Sätter en random som selected om något blir fel
-                                float lvR = 3 * Math.round(Math.random());
-                                return "" + Math.round(lvR);
-
-    }
-
+// Metod som returnerar Plats_ID för vald plats.
     private String valPlats() {
 
         try {
@@ -815,17 +840,24 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
 
     }
 
+    // Metod för att ändra valt attribut för vald alien
 private void editAlien() {
     
      int rad = tabell.getSelectedRow();
 
-        String alienID = tabell.getValueAt(rad, 0).toString();
-        String attr = attributVal.getSelectedItem().toString();
+    // Få ID för vald alien
+    String alienID = tabell.getValueAt(rad, 0).toString();
+
+    // Få valt attribut
+    String attr = cBoxAttrVal.getSelectedItem().toString();
+
+    // Ifyllt värde
         String nyttV = "'" + attributVarde.getText() + "'";
-        System.err.println(attr + " - " + nyttV + nyttV.length() + " " + alienID + rad);
-       
+
+    // SQL-fråga för att ändra valt attribut till valt värde.
     String fraga = "UPDATE ALIEN SET " + attr + " = " + nyttV + " WHERE ALIEN_ID = " + alienID + ";";
-        try {
+    try {
+        // uppdatera tabell
             mib.update(fraga);
             model.fireTableDataChanged();
             model.fireTableStructureChanged();
@@ -847,11 +879,11 @@ private void editAlien() {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addAlien;
     private javax.swing.JButton attributKnapp;
-    private javax.swing.JComboBox<String> attributVal;
     private javax.swing.JTextField attributVarde;
     private javax.swing.JButton btnHanteraUtrustning;
     private javax.swing.JButton btnTillbakaInlogg;
     private javax.swing.JButton bytRas;
+    private javax.swing.JComboBox<String> cBoxAttrVal;
     private javax.swing.JComboBox<String> cBoxBytRas;
     private javax.swing.JComboBox<String> cBoxOmrade;
     private javax.swing.JComboBox<String> cBoxPlats;
