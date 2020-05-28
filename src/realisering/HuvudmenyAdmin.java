@@ -416,7 +416,7 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
                                                 query += lvpString;
                                 }
                                 if (Validering.finnsText(sokruta)) {
-                    if (evt.getKeyCode() == 10 || sokruta.getText().length() > 2) {
+                    if (evt.getKeyCode() == 10) {
                                                 System.out.println(query);
                                                 skrivTabell(query);
                                                 }                }//GEN-LAST:event_sokrutaKeyPressed
