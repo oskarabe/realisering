@@ -137,8 +137,8 @@ public class HanteraAlien extends javax.swing.JFrame {
                         .addGap(44, 44, 44))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(315, 315, 315)
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

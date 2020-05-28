@@ -37,7 +37,9 @@ public class Login extends javax.swing.JFrame {
                                 ArrayList<String> allaLosenAgent;
                                 ArrayList<String> allaLosenAlien;
                                 ArrayList<String> allaLosenAdmin;
-
+                                
+                                //Validering för att text ska finnas
+                                if(Validering.finnsText(losenord))
                                 try {
 
                                                 // Sparar lösenord i Arraylist.
@@ -97,7 +99,7 @@ public class Login extends javax.swing.JFrame {
                                                 if (!koll) {
                                                                 JOptionPane.showMessageDialog(null, "Fel lösenord!");
                                                 }
-
+                                
                                 } catch (InfException ettUndantag) {
                                                 JOptionPane.showMessageDialog(null, "Databasfel!");
                                                 System.out.println("D Fel --  " + ettUndantag.getMessage() + " -- " + ettUndantag.getLocalizedMessage() + " -- " + ettUndantag.getCause().toString());
