@@ -176,6 +176,7 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
         sokruta = new javax.swing.JTextField();
         hanteraAlien = new javax.swing.JButton();
         lblFel = new javax.swing.JLabel();
+        lblAdmin1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Admin");
@@ -186,7 +187,7 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
         setPreferredSize(new java.awt.Dimension(750, 438));
         setSize(new java.awt.Dimension(800, 500));
 
-        lblAdmin.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        lblAdmin.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
         lblAdmin.setText("Administratör");
 
         inloggadSom.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -298,6 +299,9 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
         lblFel.setMinimumSize(new java.awt.Dimension(250, 40));
         lblFel.setPreferredSize(new java.awt.Dimension(250, 40));
 
+        lblAdmin1.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
+        lblAdmin1.setText("Huvudmeny");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -318,7 +322,10 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
                                 .addGap(81, 81, 81)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lblAdmin)
-                                    .addComponent(lblFel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(lblFel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(8, 8, 8)
+                                        .addComponent(lblAdmin1)))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(hanteraAlien, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
@@ -332,11 +339,11 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(lblAdmin1)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addComponent(lblAdmin)
-                        .addGap(20, 20, 20)
+                        .addGap(34, 34, 34)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(inloggadSom)
@@ -347,16 +354,16 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
                                     .addComponent(omradeBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(sokruta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(20, 20, 20))
-                            .addComponent(lblFel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(hanteraAgent, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblFel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(hanteraAgent, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblAdmin))
                         .addGap(18, 18, 18)
                         .addComponent(hanteraAlien, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(hanteraUtrustning, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(19, 19, 19)))
+                        .addComponent(hanteraUtrustning, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(tillbakaKnapp, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -441,6 +448,7 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
     public javax.swing.JLabel inloggadSom;
     private javax.swing.JScrollPane jScrollPane1;
     public javax.swing.JLabel lblAdmin;
+    public javax.swing.JLabel lblAdmin1;
     private javax.swing.JLabel lblFel;
     public javax.swing.JLabel lblOmrade;
     public javax.swing.JComboBox<String> omradeBox;

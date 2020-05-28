@@ -35,6 +35,12 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
         setGetTableModel();
         if (!Login.getAdmin()) {
             deleteAlien.setVisible(false);
+            tillbakaHvdmeny.setVisible(false);
+        }
+        //Ifall användaren tagit sig till klassen genom HuvudmenyAdmin ändras
+        //rubriken till "Hantera alien"
+        if (Login.getAdmin()) {
+            lblHuvudmenyAgent.setText("Hantera alien");
         }
     }
 
@@ -244,13 +250,14 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
         addAlien = new javax.swing.JButton();
         cBoxBytRas = new javax.swing.JComboBox<>();
         lblChef = new javax.swing.JLabel();
+        tillbakaHvdmeny = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(800, 500));
         setSize(new java.awt.Dimension(800, 500));
 
         lblHuvudmenyAgent.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        lblHuvudmenyAgent.setText("Huvudmeny - Agent");
+        lblHuvudmenyAgent.setText("Agent");
 
         lblInloggNamn.setText("Du är inloggad som:");
 
@@ -418,6 +425,13 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
 
         lblChef.setText("Områdeschef: ");
 
+        tillbakaHvdmeny.setText("Tillbaka till huvudmeny");
+        tillbakaHvdmeny.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tillbakaHvdmenyActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -473,12 +487,6 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
                                     .addComponent(lblInloggNamn))))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblHuvudmenyAgent)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnTillbakaInlogg, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(sokruta, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
                                 .addGap(18, 83, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
@@ -491,7 +499,17 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(lblDatum)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(btnHanteraUtrustning)))))))
+                                        .addComponent(btnHanteraUtrustning))))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(btnTillbakaInlogg, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(sokruta, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(lblHuvudmenyAgent, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(148, 148, 148)
+                                        .addComponent(tillbakaHvdmeny)))))))
                 .addGap(33, 33, 33))
         );
         layout.setVerticalGroup(
@@ -499,17 +517,11 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(42, 42, 42)
-                                .addComponent(lblHuvudmenyAgent)
-                                .addGap(79, 79, 79))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lblInloggNamn)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(lblChef)
-                                .addGap(23, 23, 23)))
+                        .addGap(96, 96, 96)
+                        .addComponent(lblInloggNamn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblChef)
+                        .addGap(23, 23, 23)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblPlats)
                             .addComponent(lblOmrade)
@@ -525,7 +537,11 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
                             .addComponent(visaDatumKnapp)
                             .addComponent(sokruta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(81, 81, 81)
+                        .addGap(42, 42, 42)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(tillbakaHvdmeny)
+                            .addComponent(lblHuvudmenyAgent))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnTillbakaInlogg)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnHanteraUtrustning)))
@@ -792,6 +808,12 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
 
     }//GEN-LAST:event_bytRasMouseClicked
 
+    //Tar användaren tillbaka till HuvudmenyAdmin
+    private void tillbakaHvdmenyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tillbakaHvdmenyActionPerformed
+        dispose();
+        new HuvudmenyAdmin(mib).setVisible(true);
+    }//GEN-LAST:event_tillbakaHvdmenyActionPerformed
+
     // För att undvika problem med SQL-frågor som returnerar null
     public static <E> void addNotNull(List<E> list, Collection<? extends E> c) {
     if (c != null) {
@@ -920,6 +942,7 @@ private void editAlien() {
     private javax.swing.JLabel lblRasVald;
     private javax.swing.JTextField sokruta;
     private javax.swing.JTable tabell;
+    private javax.swing.JButton tillbakaHvdmeny;
     private javax.swing.JTextField txtFldDatumFran;
     private javax.swing.JTextField txtFldDatumTill;
     private javax.swing.JButton visaDatumKnapp;
