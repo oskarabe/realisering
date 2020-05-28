@@ -44,7 +44,7 @@
                       <Component id="addAlien" min="-2" pref="136" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
-                      <Component id="attributVal" min="-2" max="-2" attributes="0"/>
+                      <Component id="cBoxAttrVal" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                       <Component id="cBoxBytRas" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -172,7 +172,7 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="attributVal" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="cBoxAttrVal" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="bytRas" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="cBoxBytRas" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
@@ -355,7 +355,7 @@
         <Property name="text" type="java.lang.String" value="Ange nytt v&#xe4;rde:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JComboBox" name="attributVal">
+    <Component class="javax.swing.JComboBox" name="cBoxAttrVal">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="4">

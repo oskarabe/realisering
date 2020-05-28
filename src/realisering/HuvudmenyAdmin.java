@@ -13,6 +13,7 @@ import oru.inf.*;
  */
 public class HuvudmenyAdmin extends javax.swing.JFrame {
 
+    // Deklaration av variabler som behövs
                 private final InfDB mib;
                 private ComboBoxModel lvBox;
                 private String omID, omCB, all, agentLista;
@@ -21,7 +22,7 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
 
                 DefaultTableModel model;
 
-                //Konstruktor för HuvudmenyAdmin
+    //Konstruktor för HuvudmenyAdmin. Anropar metoder för att fylla i text och alternativ.
                 public HuvudmenyAdmin(InfDB mib) {
 
                                 this.mib = mib;
@@ -35,6 +36,7 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
 
                 }
 
+    // Metod som returnerar områdes_ID för valt område
                 private String valOmrade() {
 
                                 try {
@@ -76,12 +78,14 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
                                 }
                 }
 
-
-                protected void skrivTabell() {
+    // Metod för att skriva ut tabellen utan parametrar. Standardfråga för att lista alla alien används som parameter för metoden som tar parameter.
+    private void skrivTabell() {
                                 skrivTabell(getAgentLista());
                 }
 
-    protected void skrivTabell(String specQuery) {
+    // Metod för att skriva ut tabellen med parameter i form av SQL-fråga
+    private void skrivTabell(String specQuery) {
+        // Lokala variablar för at hämta data från databasen samt för att kunna använda konstruktorn för tabellmodellen.
         ArrayList< HashMap< String, String>> hmData;
         Vector< Vector< String>> vRad = new Vector<>();
 
@@ -89,19 +93,23 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
             vKolumn = new Vector<>();
             hmData = mib.fetchRows(specQuery);
 
+            //        Lägger till all data rad för rad till vektorn vRad
             for (HashMap<String, String> hm : hmData) {
                 vData = new Vector<>();
                 vData.addAll(hm.values());
                 vRad.add(vData);
             }
 
+            // Lägger till kolumner
             vKolumn.addAll(hmData.get(0).keySet());
 
+            // Anropar konstruktorn för en modell med de tidigare vektorerna som parametrar. Sätter denna modell som mall för tabellen.
             model.setDataVector(vRad, vKolumn);
             tabell.setRowSelectionAllowed(true);
             tabell.getColumnModel().moveColumn(2, 0);
             tabell.getColumnModel().moveColumn(5, 4);
 
+            // Om något går fel
         } catch (InfException ettUndantag) {
             JOptionPane.showMessageDialog(null, "Databasfel!");
             System.out.println("inf fel 3 Internt felmeddelande" + ettUndantag.getMessage());
@@ -115,6 +123,7 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
         }
                 }
 
+    // Metod som skapar och returnerar en modell för hur cBoxOmrade ska se ut
                 private ComboBoxModel setGetCbModel() {
                                 vC = new Vector<>();
                                 all = "Alla";
@@ -131,6 +140,7 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
 
                 }
 
+    // metod som rensar, skapar och returnerar en basmodell för tabellen.
                 private TableModel setGetTableModel() {
                     setAgentLista("SELECT AGENT_ID, NAMN, TELEFON, ANSTALLNINGSDATUM, ADMINISTRATOR, OMRADE FROM AGENT");
                                 model = (DefaultTableModel) tabell.getModel();
@@ -140,6 +150,7 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
                                 return model;
                 }
 
+    // Metod för att stänga fönstret
                 private void avslut(boolean b) {
                     //      new HanteraAgent(mib).setVisible(true);
 
@@ -355,30 +366,35 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    // Stänger fönstret och öppnar HanteraAgent vid klick
     private void hanteraAgentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hanteraAgentActionPerformed
-                                dispose();
+        avslut(false);
         new HanteraAgent(mib).setVisible(true);
                                 //Öppnar fönstret för att hantera agenter
     }//GEN-LAST:event_hanteraAgentActionPerformed
 
+    // Tillbaka till Login
     private void tillbakaKnappActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tillbakaKnappActionPerformed
-                                dispose();
-                                new Login(mib).setVisible(true);
+        avslut(false);
+        new Login(mib).setVisible(true);
                                 //Tar användaren tillbaka till login-fönstret
     }//GEN-LAST:event_tillbakaKnappActionPerformed
 
+    // Öppnar HanteraUtrustning
     private void hanteraUtrustningActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hanteraUtrustningActionPerformed
-                                dispose();
-                                new HanteraUtrustning(mib).setVisible(true);
+        avslut(false);
+        new HanteraUtrustning(mib).setVisible(true);
                                 //Tar användaren till fönstret för att hantera utrustning
     }//GEN-LAST:event_hanteraUtrustningActionPerformed
 
+    // Öppnar HuvudmenyAgent
     private void hanteraAlienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hanteraAlienActionPerformed
-                                dispose();
+        avslut(false);
         new HuvudmenyAgent(mib).setVisible(true);
                                 //Öppnar fönstret för att hantera aliens
     }//GEN-LAST:event_hanteraAlienActionPerformed
 
+    // Skriver ut lista över agenter i valt område
                 private void omradeBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_omradeBoxItemStateChanged
                                 if (evt.getStateChange() == 1 && !omradeBox.getSelectedItem().toString().equals("Alla")) {
                                                 String agentL = getAgentLista() + " WHERE OMRADE = '" + valOmrade() + "'";
@@ -390,6 +406,7 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
                                 }
                 }//GEN-LAST:event_omradeBoxItemStateChanged
 
+                // Söker efter agent med namn vid enter-klick
                 private void sokrutaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_sokrutaKeyPressed
                                 String query = getAgentLista();
                     String lvpString = " WHERE LOWER (NAMN) LIKE " + "LOWER ('%" + sokruta.getText() + "%')";
@@ -403,11 +420,13 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
                                                 skrivTabell(query);
                                                 }                }//GEN-LAST:event_sokrutaKeyPressed
 
+                // Rensar text
                 private void sokrutaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sokrutaMouseClicked
                                 lblFel.setVisible(false);
                                 sokruta.setText("");
                 }//GEN-LAST:event_sokrutaMouseClicked
 
+                // Rensar text
                 private void sokrutaInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_sokrutaInputMethodTextChanged
                                 lblFel.setVisible(false);
                                 sokruta.setText("");
