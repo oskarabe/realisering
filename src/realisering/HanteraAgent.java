@@ -12,6 +12,7 @@ import oru.inf.*;
 public class HanteraAgent
         extends javax.swing.JFrame {
 
+    // Deklaration av variabler
     private final InfDB mib;
     private final String agentID;
     private String agentLista, agID;
@@ -20,6 +21,10 @@ public class HanteraAgent
     private DefaultComboBoxModel cbmod;
     private Vector< String> vKolumn, vData;
 
+    /**
+     * Konstruktor. Kallar metoder för att sätta rätt värden på text och
+     * comboboxes. Kollar även om användaren är vanlig agent eller admin.
+     */
     public HanteraAgent(InfDB mib) {
 
         this.mib = mib;
@@ -61,6 +66,7 @@ public class HanteraAgent
         this.agID = id;
     }
 
+    // Returnerar modellen för en combobox med attribut
     private DefaultComboBoxModel cBM(Vector< String> vQ, Vector< String> vW) {
         try {
 
@@ -90,18 +96,28 @@ public class HanteraAgent
         }
     }
 
+    // Metod för att ändra valt attribut för vald agent
     private void editAgent() {
         int rad = tabell.getSelectedRow();
 
+        // Sätter AGENT_ID för vald agent
         setAgID(tabell.getValueAt(rad, 0).toString());
+
+        // Sparar valt attribut
         String attr = cbmod.getSelectedItem().toString();
+
+        // Sparar nytt värde
         String nyttV = "'" + attributVarde.getText() + "'";
-        System.err.println(attr + " - " + nyttV + nyttV.length() + " " + agID + rad);
+
+        // För att admin-attributet alltid ska vara stor bokstav
         if (nyttV.length() == 3) {
             nyttV = nyttV.toUpperCase();
         }
+
+        // SQL-fråga för att uppdatera valt attribut till angivet värde
         String fraga = "UPDATE AGENT SET " + attr + " = " + nyttV + " WHERE AGENT_ID = " + agID + ";";
         try {
+            // Uppdatera och skriv ut ny tabell
             mib.update(fraga);
             model.fireTableDataChanged();
             model.fireTableStructureChanged();
@@ -136,11 +152,14 @@ public class HanteraAgent
 
     }
 
+    // Metod för att skriva ut tabellen utan parametrar. Standardfråga för att lista alla alien används som parameter för metoden som tar parameter.
     private void skrivTabell() {
         skrivTabell(getAgentLista());
     }
 
+    // Metod för att skriva ut tabellen med parameter i form av SQL-fråga
     private void skrivTabell(String specQuery) {
+        // Lokala variablar för at hämta data från databasen samt för att kunna använda konstruktorn för tabellmodellen.
         ArrayList< HashMap< String, String>> hmData;
         Vector< Vector< String>> vRad = new Vector<>();
 
@@ -148,19 +167,25 @@ public class HanteraAgent
             vKolumn = new Vector<>();
             hmData = mib.fetchRows(specQuery);
 
+            //        Lägger till all data rad för rad till vektorn vRad
             for (HashMap<String, String> hm : hmData) {
                 vData = new Vector<>();
                 vData.addAll(hm.values());
                 vRad.add(vData);
             }
 
+            // Lägger till kolumner
             vKolumn.addAll(hmData.get(0).keySet());
 
+            // Anropar konstruktorn för en modell med de tidigare vektorerna som parametrar. Sätter denna modell som mall för tabellen.
             model.setDataVector(vRad, vKolumn);
             tabell.setRowSelectionAllowed(true);
+
+            // Snyggar till ordningen på kolumner
             tabell.getColumnModel().moveColumn(2, 0);
             tabell.getColumnModel().moveColumn(5, 4);
 
+            // Om något går fel
         } catch (InfException ettUndantag) {
             JOptionPane.showMessageDialog(null, "Databasfel!");
             System.out.println("inf fel 3 Internt felmeddelande" + ettUndantag.getMessage());
@@ -175,12 +200,7 @@ public class HanteraAgent
 
     }
 
-    private ComboBoxModel getCbModel() {
-
-        return cbmod;
-
-    }
-
+    // Skapar standardmodellen för tabellen(Alla agenter) och anropar skrivTabell.
     private void setTableModel() {
         setAgentLista("SELECT AGENT_ID, NAMN, TELEFON, ANSTALLNINGSDATUM, ADMINISTRATOR, OMRADE FROM AGENT");
         model = (DefaultTableModel) tabell.getModel();
@@ -189,12 +209,7 @@ public class HanteraAgent
         skrivTabell();
     }
 
-    private TableModel getTableModel() {
-
-        return model;
-
-    }
-
+// Stänger fönstret och öppnar admin eller agent
     private void avslut(boolean b) {
         new HuvudmenyAdmin(mib).setVisible(Login.getAdmin());
         new HuvudmenyAgent(mib).setVisible(!Login.getAdmin());
@@ -392,18 +407,22 @@ public class HanteraAgent
                                 pack();
                 }//GEN-END:initComponents
 
+                    // Anropar metoden editAgent() när man klickar på attributKnapp.
     private void attributKnappActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_attributKnappActionPerformed
                                 editAgent();      // TODO add your handling code here:
     }//GEN-LAST:event_attributKnappActionPerformed
 
+    // Auto
     private void attributVardeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_attributVardeActionPerformed
                                 // TODO add your handling code here:
     }//GEN-LAST:event_attributVardeActionPerformed
 
+    // Stäng och gå tillbaka
     private void tillbakaKnappActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tillbakaKnappActionPerformed
                                 avslut(false);
     }//GEN-LAST:event_tillbakaKnappActionPerformed
 
+    // Ändrar kontorschef till vald agent
     private void kontorschefActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kontorschefActionPerformed
 
         try {
@@ -416,6 +435,7 @@ public class HanteraAgent
 
     }//GEN-LAST:event_kontorschefActionPerformed
 
+    // Ändrar områdeschef för valt område till vald agent
     private void omradeschefActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_omradeschefActionPerformed
         if (omrade.getSelectedItem() == null) {
             omrade.setSelectedIndex(0);
@@ -423,25 +443,30 @@ public class HanteraAgent
 
         try {
 
+            // Få ID för vald agent
             int rad = tabell.getSelectedRow();
             String a = (String) tabell.getValueAt(rad, 0);
             setAgID(a);
 
-            ArrayList < String > vS, vO;
+            // Sparar agent_id och områdes_id i ArrayLists
+            ArrayList< String> agentAL, omradeAL;
             String oi = mib.fetchSingle("SELECT OMRADES_ID FROM OMRADE WHERE BENAMNING LIKE '" + omrade.getSelectedItem() + "'");
-            vS = mib.fetchColumn("SELECT AGENT_ID FROM OMRADESCHEF");
-            vO = mib.fetchColumn("SELECT OMRADE FROM OMRADESCHEF");
+            agentAL = mib.fetchColumn("SELECT AGENT_ID FROM OMRADESCHEF");
+            omradeAL = mib.fetchColumn("SELECT OMRADE FROM OMRADESCHEF");
 
-            if (vS.contains(agID) || vO.contains(oi)) {
-
+            // Kollar om det redan finns en chef för valt område samt om valt område redan har en chef
+            if (agentAL.contains(agID) || omradeAL.contains(oi)) {
+                // Tar bort föregående uppdrag om det finns.
                 mib.delete("DELETE FROM OMRADESCHEF WHERE OMRADE = " + oi + " OR AGENT_ID = " + agID);
+                // Lägger till områdeschef
                 mib.insert("INSERT INTO OMRADESCHEF VALUES(" + agID + ", " + oi + ");");
             } else {
+                // Lägger till direkt om inte finns sedan tidigare.
                 mib.insert("INSERT INTO OMRADESCHEF VALUES(" + agID + ", " + oi + ");");
 
             }
 
-            JOptionPane.showMessageDialog(null, "Vald Agent är nu områdeschef över valt område");
+            JOptionPane.showMessageDialog(null, "Vald agent är nu områdeschef över valt område");
 
             //  mib.insert("INSERT INTO OMRADESCHEF VALUES(" + s + ", " + agID + ");");
         } catch (InfException ex) {
@@ -450,13 +475,17 @@ public class HanteraAgent
         }
     }//GEN-LAST:event_omradeschefActionPerformed
 
+            // metod för att lägga till ny agent med standardvärden.
                 private void addAgentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addAgentActionPerformed
 
                     try {
+                        // Ber användaren välja lösenord
                                                 String losen = JOptionPane.showInputDialog(null, "Ange lösenord för ny agent");
                                                 int radAntal = model.getRowCount() +1;
                         String id = "" + radAntal;
+                        // Lägger till en agent med valt lösenord och standardvärden.
                         mib.insert("INSERT INTO AGENT VALUES(" + id + ", 'Agent NY', '0', DATE '2020-05-01', 'N', '" + losen + "', 1)");
+                        // Skriver ut ny tabell
                                             skrivTabell();
                     } catch (InfException ex) {
                         Logger.getLogger(HanteraAgent.class.getName()).log(Level.SEVERE, null, ex);
@@ -464,6 +493,7 @@ public class HanteraAgent
 
                 }//GEN-LAST:event_addAgentActionPerformed
 
+                // Metod för att ta bort vald agent
                 private void deleteAgentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteAgentActionPerformed
 
                     try {
@@ -476,12 +506,14 @@ public class HanteraAgent
 
                 }//GEN-LAST:event_deleteAgentActionPerformed
 
+                // Auto
                 private void aCBItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_aCBItemStateChanged
 
 
                                 // TODO add your handling code here:
                 }//GEN-LAST:event_aCBItemStateChanged
 
+                // Auto
                 private void aCBInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_aCBInputMethodTextChanged
                                 // TODO add your handling code here:
                 }//GEN-LAST:event_aCBInputMethodTextChanged
