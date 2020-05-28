@@ -415,8 +415,9 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
                                 } else {
                                                 query += lvpString;
                                 }
+                                 if (evt.getKeyCode() == 10) {
                                 if (Validering.finnsText(sokruta)) {
-                    if (evt.getKeyCode() == 10) {
+
                                                 System.out.println(query);
                                                 skrivTabell(query);
                                                 }                }//GEN-LAST:event_sokrutaKeyPressed
