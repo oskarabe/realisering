@@ -11,7 +11,7 @@ import oru.inf.*;
  */
 public class HuvudmenyAgent extends javax.swing.JFrame {
 
-    private String agentID, rasID, omCB, all, agentLista, plats, platsID;
+    private String agentID, rasID, omCB, all, alienLista, plats, platsID, ras;
     private boolean isAdmin;
     private InfDB mib;
     private ComboBoxModel lvBox, rasModell, platsModell, attrModell, rasModellByt;
@@ -107,8 +107,8 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
     }
 
     protected void skrivTabell() {
-        setAgentLista("SELECT ALIEN_ID, REGISTRERINGSDATUM, NAMN, TELEFON, PLATS, ANSVARIG_AGENT FROM ALIEN ");
-        skrivTabell(getAgentLista());
+        setAlienLista("SELECT ALIEN_ID, REGISTRERINGSDATUM, NAMN, TELEFON, PLATS, ANSVARIG_AGENT FROM ALIEN ");
+        skrivTabell(getAlienLista());
     }
 
     protected void skrivTabell(String specQuery) {
@@ -162,7 +162,7 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
     }
 
     private TableModel setGetTableModel() {
-        setAgentLista("SELECT ALIEN_ID, REGISTRERINGSDATUM, NAMN, TELEFON, PLATS, ANSVARIG_AGENT FROM ALIEN");
+        setAlienLista("SELECT ALIEN_ID, REGISTRERINGSDATUM, NAMN, TELEFON, PLATS, ANSVARIG_AGENT FROM ALIEN");
         model = (DefaultTableModel) tabell.getModel();
         model.getDataVector().removeAllElements();
         tabell.setModel(model);
@@ -183,15 +183,15 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
     /**
      * @return the agentLista
      */
-    private String getAgentLista() {
-        return agentLista;
+    private String getAlienLista() {
+        return alienLista;
     }
 
     /**
      * @param agentLista the agentLista to set
      */
-    private void setAgentLista(String agentLista) {
-        this.agentLista = agentLista;
+    private void setAlienLista(String agentLista) {
+        this.alienLista = agentLista;
     }
 
     @SuppressWarnings("unchecked")
@@ -545,19 +545,29 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
     private void tabellMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabellMouseClicked
 
         int rad = tabell.getSelectedRow();
-        String ras = "";
+        ras = "";
         String id =  (String) tabell.getValueAt(rad, 0);
+
         try {
-            if (mib.fetchColumn("SELECT ALIEN_ID FROM BOGLODITE").contains(id)) {
+            ArrayList<String> bog = new ArrayList<>();
+            addAllIfNotNull(bog, mib.fetchColumn("SELECT ALIEN_ID FROM BOGLODITE"));
+            ArrayList<String> squid = new ArrayList<>();
+            addAllIfNotNull(squid, mib.fetchColumn("SELECT ALIEN_ID FROM SQUID"));
+            ArrayList<String> worm = new ArrayList<>();
+            addAllIfNotNull(worm, mib.fetchColumn("SELECT ALIEN_ID FROM WORM"));
+
+            if (bog.contains(id)) {
                 ras = "Boglodite";
-            } else if (mib.fetchColumn("SELECT ALIEN_ID FROM SQUID").contains(id)) {
+            } else if (squid.contains(id)) {
                 ras = "Squid";
-            } else if (mib.fetchColumn("SELECT ALIEN_ID FROM WORM").contains(id)) {
+            } else if (worm.contains(id)) {
                 ras = "Worm";
-            }
-                lblRasVald.setText("Ras för vald alien: " + ras);
+            } else { ras = "Ingen";}
+            lblRasVald.setText("Ras för vald alien: " + ras);
         } catch (InfException ex) {
             Logger.getLogger(HuvudmenyAgent.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NullPointerException ne) {
+            ne.printStackTrace();
         }
     }//GEN-LAST:event_tabellMouseClicked
 
@@ -590,7 +600,7 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
     private void cBoxPlatsItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cBoxPlatsItemStateChanged
 
         if (evt.getStateChange() == 1 && !cBoxPlats.getSelectedItem().toString().equals("Alla")) {
-            skrivTabell(getAgentLista() + " where PLATS = " + valPlats());
+            skrivTabell(getAlienLista() + " where PLATS = " + valPlats());
             System.out.println("Kom hit");
 
         } else {
@@ -606,7 +616,7 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
 
         String faOmrade = "SELECT PLATS_ID FROM PLATS WHERE FINNS_I = (" + valOmrade() + ")";
          if (evt.getStateChange() == 1 && !cBoxOmrade.getSelectedItem().toString().equals("Alla")) {
-             skrivTabell(getAgentLista() + " WHERE PLATS = ANY " + valOmrade());
+             skrivTabell(getAlienLista() + " WHERE PLATS = ANY " + valOmrade());
             System.out.println("Kom hit");
 
         } else {
@@ -620,7 +630,7 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
     private void sokrutaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_sokrutaKeyPressed
 
 
-                                String query = getAgentLista() + " WHERE LOWER (NAMN) LIKE " + "LOWER ('%" + sokruta.getText() + "%')";
+        String query = getAlienLista() + " WHERE LOWER (NAMN) LIKE " + "LOWER ('%" + sokruta.getText() + "%')";
 
         if (evt.getKeyCode() == 10 ) {
                                                 System.out.println(query);
@@ -638,7 +648,7 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
 
     private void visaDatumKnappMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_visaDatumKnappMouseClicked
 
-        skrivTabell(getAgentLista() + " WHERE REGISTRERINGSDATUM BETWEEN '" + txtFldDatumFran.getText() + "' AND '" + txtFldDatumTill.getText() + "'");
+        skrivTabell(getAlienLista() + " WHERE REGISTRERINGSDATUM BETWEEN '" + txtFldDatumFran.getText() + "' AND '" + txtFldDatumTill.getText() + "'");
 
     }//GEN-LAST:event_visaDatumKnappMouseClicked
 
@@ -693,11 +703,42 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
     private void bytRasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bytRasMouseClicked
 
         int rad = tabell.getSelectedRow();
-        String ras = "";
         String id = (String) tabell.getValueAt(rad, 0);
-        
+
+        try {
+            ArrayList<String> alla = new ArrayList<>();
+            addAllIfNotNull(alla, mib.fetchColumn("SELECT ALIEN_ID FROM BOGLODITE"));
+            addAllIfNotNull(alla, mib.fetchColumn("SELECT ALIEN_ID FROM SQUID"));
+            addAllIfNotNull(alla, mib.fetchColumn("SELECT ALIEN_ID FROM WORM"));
+
+
+            String vald = cBoxBytRas.getSelectedItem().toString().toUpperCase();
+            if (alla.contains(id)) {
+                mib.delete("DELETE FROM " + ras.toUpperCase() + " WHERE ALIEN_ID = " + id);
+            }
+            if (vald.equalsIgnoreCase("WORM")) {
+                mib.insert("INSERT INTO WORM VALUES(" + id + ")");
+
+                
+            } else {
+                                String ben = JOptionPane.showInputDialog("Antal ben:");
+
+                mib.insert("INSERT INTO " + vald + " VALUES(" + id + ", " + ben + ")");
+            }
+
+
+        } catch (InfException ex) {
+            Logger.getLogger(HuvudmenyAgent.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
 
     }//GEN-LAST:event_bytRasMouseClicked
+
+    public static <E> void addAllIfNotNull(List<E> list, Collection<? extends E> c) {
+    if (c != null) {
+        list.addAll(c);
+    }
+}
 
     private String valOmrade() {
 

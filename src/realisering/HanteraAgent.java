@@ -18,7 +18,7 @@ public class HanteraAgent
     private ArrayList< String> AyL, sList;
     private DefaultTableModel model;
     private DefaultComboBoxModel cbmod;
-    private Vector< String> vKolumn, vData, vL;
+    private Vector< String> vKolumn, vData;
 
     public HanteraAgent(InfDB mib) {
 

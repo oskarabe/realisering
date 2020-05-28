@@ -141,7 +141,7 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
                 }
 
                 private void avslut(boolean b) {
-                                new HanteraAgent(mib).setVisible(true);
+                    //      new HanteraAgent(mib).setVisible(true);
 
                                 setEnabled(b);
                                 this.dispose();
@@ -357,7 +357,7 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
 
     private void hanteraAgentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hanteraAgentActionPerformed
                                 dispose();
-                                new HanteraAgent(mib).setVisible(true);
+        new HanteraAgent(mib).setVisible(true);
                                 //Öppnar fönstret för att hantera agenter
     }//GEN-LAST:event_hanteraAgentActionPerformed
 
@@ -375,7 +375,7 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
 
     private void hanteraAlienActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hanteraAlienActionPerformed
                                 dispose();
-                                new HanteraAlien(mib).setVisible(true);
+        new HuvudmenyAgent(mib).setVisible(true);
                                 //Öppnar fönstret för att hantera aliens
     }//GEN-LAST:event_hanteraAlienActionPerformed
 
