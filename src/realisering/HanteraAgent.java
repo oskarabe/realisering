@@ -73,7 +73,7 @@ public class HanteraAgent
         Vector<String> attributVector = new Vector<>();
         attributVector.add("NAMN");
         attributVector.add("TELEFON");
-        attributVector.add("ANSTÄLLNINGSDATUM");
+        attributVector.add("ANSTALLNINGSDATUM");
         attributVector.add("ADMINISTRATÖR");
         attributVector.add("OMRADE");
 
@@ -500,7 +500,7 @@ public class HanteraAgent
                         mib.delete("DELETE FROM AGENT WHERE AGENT_ID = " + getAgID());
                         skrivTabell();
                     } catch (InfException ex) {
-                        JOptionPane.showMessageDialog(null, "Agenten är ansvarig över Aliens. Byt ansvarig agent först.");
+                        JOptionPane.showMessageDialog(null, "Agenten är ansvarig över Aliens / Är chef. Byt ansvarig agent/chef först.");
                     }
 
                 }//GEN-LAST:event_deleteAgentActionPerformed
