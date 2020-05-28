@@ -666,8 +666,7 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
 
         String query = getAlienLista() + " WHERE LOWER (NAMN) LIKE " + "LOWER ('%" + sokruta.getText() + "%')";
 
-        if (evt.getKeyCode() == 10 ) {
-                                                System.out.println(query);
+        if (evt.getKeyCode() == 10 && Validering.finnsText(sokruta)) {
                                                 skrivTabell(query);
                                                 }                
 
@@ -683,9 +682,9 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
 
     // Skriver ut en lista över aliens registrerade mellan valda datum.
     private void visaDatumKnappMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_visaDatumKnappMouseClicked
-
+        if (Validering.finnsText(txtFldDatumFran) && Validering.finnsText(txtFldDatumTill)) {
         skrivTabell(getAlienLista() + " WHERE REGISTRERINGSDATUM BETWEEN '" + txtFldDatumFran.getText() + "' AND '" + txtFldDatumTill.getText() + "'");
-
+        }
     }//GEN-LAST:event_visaDatumKnappMouseClicked
 
     // Rensar text vid klick
@@ -710,9 +709,9 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
 
     // Anropar metoden editAlien() när man klickar på attributKnapp.
     private void attributKnappMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_attributKnappMouseClicked
-
+        if (Validering.finnsText(attributVarde)) {
         editAlien();
-
+        }
     }//GEN-LAST:event_attributKnappMouseClicked
 
     // Lägger till en ny alien med standardvärden och ras Boglodite.

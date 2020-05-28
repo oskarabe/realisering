@@ -409,7 +409,9 @@ public class HanteraAgent
 
                     // Anropar metoden editAgent() när man klickar på attributKnapp.
     private void attributKnappActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_attributKnappActionPerformed
-                                editAgent();      // TODO add your handling code here:
+        if (Validering.finnsText(attributVarde)) {
+            editAgent();      // TODO add your handling code here:
+        }
     }//GEN-LAST:event_attributKnappActionPerformed
 
     // Auto
