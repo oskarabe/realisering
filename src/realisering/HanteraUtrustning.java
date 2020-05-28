@@ -296,11 +296,15 @@ public class HanteraUtrustning extends javax.swing.JFrame {
 
     private void btnSokActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSokActionPerformed
         //Filtrerar tabellen på angivet namn på utrustning i sökrutan
+        //Validera först så att text är angiven
+        if(Validering.finnsText(sokruta))
+        {
         String sokOrd = sokruta.getText();
         String SQLsokord = "SELECT AGENT_ID, UTKVITTERINGSDATUM, UTRUSTNING.UTRUSTNINGS_ID, BENAMNING FROM UTRUSTNING, " +
                                               "INNEHAR_UTRUSTNING WHERE UTRUSTNING.UTRUSTNINGS_ID = INNEHAR_UTRUSTNING.UTRUSTNINGS_ID " +
                                               "AND BENAMNING = '" + sokOrd + "' ORDER BY UTRUSTNINGS_ID ASC;";
         setGetTableModel(SQLsokord);
+        }
     }//GEN-LAST:event_btnSokActionPerformed
 
     private void seAllaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seAllaActionPerformed

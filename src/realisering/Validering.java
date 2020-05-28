@@ -10,7 +10,7 @@ public class Validering {
 
     static public boolean finnsText(JTextField tf) {
         if (tf.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Textfältet tomt!");
+            JOptionPane.showMessageDialog(null, "Textfältet är tomt!");
             tf.requestFocus();
             return false;
         } else {
