@@ -480,8 +480,8 @@ public class HanteraAgent
                     try {
                         // Ber användaren välja lösenord
                                                 String losen = JOptionPane.showInputDialog(null, "Ange lösenord för ny agent");
-                                                int radAntal = model.getRowCount() +1;
-                        String id = "" + radAntal;
+                        int nextID = Integer.parseInt(mib.fetchSingle("SELECT MAX(AGENT_ID) FROM AGENT")) + 1;
+                        String id = "" + nextID;
                         // Lägger till en agent med valt lösenord och standardvärden.
                         mib.insert("INSERT INTO AGENT VALUES(" + id + ", 'Agent NY', '0', DATE '2020-05-01', 'N', '" + losen + "', 1)");
                         // Skriver ut ny tabell
@@ -494,13 +494,27 @@ public class HanteraAgent
 
                 // Metod för att ta bort vald agent
                 private void deleteAgentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteAgentActionPerformed
-
                     try {
+                        
                         setAgID(tabell.getValueAt(tabell.getSelectedRow(), 0).toString());
+                        String finnsID = mib.fetchSingle("SELECT AGENT_ID FROM AGENT WHERE AGENT_ID <> " + getAgID());
+                        ArrayList<String> ejOmradesChef = mib.fetchColumn("SELECT AGENT_ID FROM OMRADESCHEF");
+                        for (String s : ejOmradesChef) {
+                            if (finnsID.equalsIgnoreCase(s)) {
+                                finnsID = mib.fetchSingle("SELECT AGENT_ID FROM AGENT WHERE AGENT_ID <> " + getAgID() + " AND AGENT_ID <> " + finnsID);
+                            }
+                        }
+
+                        mib.update("UPDATE ALIEN SET ANSVARIG_AGENT = " + finnsID + " WHERE ANSVARIG_AGENT = " + getAgID());
+                        mib.update("UPDATE INNEHAR_FORDON SET AGENT_ID = " + finnsID + " WHERE AGENT_ID = " + getAgID());
+                        mib.update("UPDATE INNEHAR_UTRUSTNING SET AGENT_ID = " + finnsID + " WHERE AGENT_ID = " + getAgID());
+                        mib.update("UPDATE KONTORSCHEF SET AGENT_ID = " + finnsID + " WHERE AGENT_ID = " + getAgID());
+                        mib.update("UPDATE OMRADESCHEF SET AGENT_ID = " + finnsID + " WHERE AGENT_ID = " + getAgID());
                         mib.delete("DELETE FROM AGENT WHERE AGENT_ID = " + getAgID());
                         skrivTabell();
+                       JOptionPane.showMessageDialog(null, "Agenten är borttagen och ansvaren överlagda på en kollega.");
                     } catch (InfException ex) {
-                        JOptionPane.showMessageDialog(null, "Agenten är ansvarig över Aliens / Är chef. Byt ansvarig agent/chef först.");
+                        ex.printError();
                     }
 
                 }//GEN-LAST:event_deleteAgentActionPerformed
