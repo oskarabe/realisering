@@ -1,17 +1,16 @@
 package realisering;
 
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 /**
  * Klass för att validera input
  */
 public class Validering {
 
-    static public boolean finnsText(JTextField tf) {
-        if (tf.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Textfältet är tomt!");
-            tf.requestFocus();
+    static public boolean finnsText(JTextField text) {
+        if (text.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Textfält tomt!");
+            text.requestFocus();
             return false;
         } else {
             return true;
