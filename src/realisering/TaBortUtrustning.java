@@ -27,10 +27,13 @@ public class TaBortUtrustning extends javax.swing.JFrame {
         txtFldUtrustningNamn = new javax.swing.JTextField();
         btnTaBort = new javax.swing.JButton();
         Tillbaka = new javax.swing.JButton();
+        namn = new javax.swing.JLabel();
+        txtId = new javax.swing.JTextField();
+        id = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        lblNamnUtrustning.setText("Skriv in namnet på den utrustning du vill ta bort");
+        lblNamnUtrustning.setText("Skriv in namnet och ID-numret på den utrustning du vill ta bort");
 
         btnTaBort.setText("Ta bort");
         btnTaBort.addActionListener(new java.awt.event.ActionListener() {
@@ -46,6 +49,10 @@ public class TaBortUtrustning extends javax.swing.JFrame {
             }
         });
 
+        namn.setText("Namn:");
+
+        id.setText("ID:");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -53,31 +60,44 @@ public class TaBortUtrustning extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(65, 65, 65)
+                        .addGap(45, 45, 45)
                         .addComponent(lblNamnUtrustning))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(127, 127, 127)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(146, 146, 146)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(Tillbaka)
+                            .addComponent(btnTaBort, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(101, 101, 101)
+                        .addComponent(namn, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(txtFldUtrustningNamn, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(Tillbaka)
-                                    .addComponent(btnTaBort, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(66, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(id)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(28, 28, 28)))))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addComponent(lblNamnUtrustning)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtFldUtrustningNamn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtFldUtrustningNamn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(namn))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(id))
+                .addGap(18, 18, 18)
                 .addComponent(btnTaBort)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(Tillbaka)
-                .addGap(23, 23, 23))
+                .addGap(24, 24, 24))
         );
 
         pack();
@@ -88,19 +108,17 @@ public class TaBortUtrustning extends javax.swing.JFrame {
     //beroende på den typ av utrustning som ska tas bort
     private void btnTaBortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaBortActionPerformed
         String namnPaUtrustning = txtFldUtrustningNamn.getText();
-        String hittaUtrustnings_id = ("select utrustnings_id from utrustning where benamning = " 
-                                      + "'" + namnPaUtrustning + "'");
-        String utrustnings_id = "";
+        String utrustnings_id = txtId.getText();
         String deleteFromUtrustning = ("delete from utrustning where utrustnings_id = " + "(" +
-                                        hittaUtrustnings_id + ")");
+                                        utrustnings_id + ")");
         String deleteFromInneharUtrustning = ("delete from innehar_utrustning where utrustnings_id = " + "(" +
-                                        hittaUtrustnings_id + ")");
+                                        utrustnings_id + ")");
         String deleteFromVapen = ("delete from vapen where utrustnings_id = " + "(" +
-                                        hittaUtrustnings_id + ")");
+                                        utrustnings_id + ")");
         String deleteFromTeknik = ("delete from teknik where utrustnings_id = " + "(" +
-                                        hittaUtrustnings_id + ")");
+                                        utrustnings_id + ")");
         String deleteFromKom = ("delete from kommunikation where utrustnings_id = " + "(" +
-                                        hittaUtrustnings_id + ")");
+                                        utrustnings_id + ")");
         
         //boolean-variabler för att se ifall utrustningen är vapen, teknik eller kommunikation
         boolean isVapen = false;
@@ -121,7 +139,6 @@ public class TaBortUtrustning extends javax.swing.JFrame {
             vapenLista = mib.fetchColumn(hamtaVapen_id);
             vapenLista = mib.fetchColumn(hamtaTeknik_id);
             vapenLista = mib.fetchColumn(hamtaKom_id);
-            utrustnings_id = mib.fetchSingle(hittaUtrustnings_id);
             }
             
             catch (InfException ettUndantag) {
@@ -187,7 +204,10 @@ public class TaBortUtrustning extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Tillbaka;
     private javax.swing.JButton btnTaBort;
+    private javax.swing.JLabel id;
     private javax.swing.JLabel lblNamnUtrustning;
+    private javax.swing.JLabel namn;
     private javax.swing.JTextField txtFldUtrustningNamn;
+    private javax.swing.JTextField txtId;
     // End of variables declaration//GEN-END:variables
 }
