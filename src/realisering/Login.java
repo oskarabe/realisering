@@ -131,7 +131,7 @@ public class Login extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         losenord = new javax.swing.JPasswordField();
         knapp = new javax.swing.JButton();
-        andraLosenord = new javax.swing.JLabel();
+        AndraLosen = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(47, 59, 94));
@@ -167,10 +167,10 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        andraLosenord.setText("Ändra lösenord");
-        andraLosenord.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                andraLosenordMouseClicked(evt);
+        AndraLosen.setText("Ändra lösenord");
+        AndraLosen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AndraLosenActionPerformed(evt);
             }
         });
 
@@ -186,9 +186,7 @@ public class Login extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(125, 125, 125)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(andraLosenord))
+                            .addComponent(AndraLosen)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(knapp, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(losenord)))))
@@ -203,9 +201,9 @@ public class Login extends javax.swing.JFrame {
                 .addComponent(losenord, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(knapp, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(andraLosenord)
-                .addContainerGap(56, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(AndraLosen)
+                .addContainerGap(35, Short.MAX_VALUE))
         );
 
         pack();
@@ -221,18 +219,17 @@ public class Login extends javax.swing.JFrame {
                                 }
     }//GEN-LAST:event_losenordKeyPressed
 
-    private void andraLosenordMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_andraLosenordMouseClicked
-                                new AndraLosenord(mib).setVisible(true);
-                                dispose();
-                                //Öppnar upp fönster för att ändra lösenord
-    }//GEN-LAST:event_andraLosenordMouseClicked
-
     private void losenordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_losenordActionPerformed
 
     }//GEN-LAST:event_losenordActionPerformed
 
+    private void AndraLosenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AndraLosenActionPerformed
+        new AndraLosenord(mib).setVisible(true);
+        dispose();
+    }//GEN-LAST:event_AndraLosenActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel andraLosenord;
+    private javax.swing.JButton AndraLosen;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JButton knapp;
     private javax.swing.JPasswordField losenord;
