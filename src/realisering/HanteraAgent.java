@@ -117,6 +117,18 @@ public class HanteraAgent
                 if (Validering.isDatum(attributVarde)) {
                     mib.update(fraga);
                 }
+            } else if (attr.equalsIgnoreCase("ADMINISTRATOR")) {
+                if (Validering.adminFormat(attributVarde)) {
+                    mib.update(fraga);
+                }
+            } else if (attr.equalsIgnoreCase("NAMN")) {
+                if (Validering.namnLangd(attributVarde)) {
+                    mib.update(fraga);
+                }
+            } else if (attr.equalsIgnoreCase("TELEFON")) {
+                if (Validering.telefonLangd(attributVarde)) {
+                    mib.update(fraga);
+                }
             } else {
                 mib.update(fraga);
             }

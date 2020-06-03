@@ -964,9 +964,7 @@ private void editAlien() {
     String fraga = "UPDATE ALIEN SET " + attr + " = " + nyttV + " WHERE ALIEN_ID = " + alienID + ";";
     try {
         // uppdatera tabell
-        if (!attr.equalsIgnoreCase("PLATS") && !attr.equalsIgnoreCase("ANSVARIG_AGENT") && !attr.equalsIgnoreCase("REGISTRERINGSDATUM")) {
-            mib.update(fraga);
-        } else if (attr.equalsIgnoreCase("PLATS")) {
+         if (attr.equalsIgnoreCase("PLATS")) {
             String pid = mib.fetchSingle("SELECT PLATS_ID FROM PLATS WHERE BENAMNING LIKE " + nyttV);
             if (Validering.finnsIDB(pid)) {
                 fraga = "UPDATE ALIEN SET " + attr + " = " + pid + " WHERE ALIEN_ID = " + alienID + ";";
@@ -982,6 +980,16 @@ private void editAlien() {
             if (Validering.isDatum(attributVarde)) {
                 mib.update(fraga);
             }
+        } else if (attr.equalsIgnoreCase("NAMN")) {
+            if (Validering.namnLangd(attributVarde)) {
+                mib.update(fraga);
+            }
+        } else if (attr.equalsIgnoreCase("TELEFON")) {
+            if (Validering.telefonLangd(attributVarde)) {
+                mib.update(fraga);
+            }
+        } else {
+            mib.update(fraga);
         }
 
             model.fireTableDataChanged();
