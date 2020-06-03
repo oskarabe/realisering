@@ -16,7 +16,6 @@ public class HanteraAgent
     private final InfDB mib;
     private final String agentID;
     private String agentLista, agID;
-    private ArrayList< String> AyL, sList;
     private DefaultTableModel model;
     private DefaultComboBoxModel cbmod;
     private Vector< String> vKolumn, vData;
