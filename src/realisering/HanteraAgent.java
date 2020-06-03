@@ -454,7 +454,7 @@ public class HanteraAgent
         try {
                                 setAgID(tabell.getValueAt(tabell.getSelectedRow(), 0).toString());
             mib.update("UPDATE KONTORSCHEF SET AGENT_ID = " + getAgID() + " WHERE KONTORSBETECKNING LIKE 'Örebrokontoret'");
-            JOptionPane.showMessageDialog(null, "Vald agent är nu kontorschef");
+            JOptionPane.showMessageDialog(null, mib.fetchSingle("SELECT NAMN FROM AGENT WHERE AGENT_ID = " + getAgID()) + " är nu kontorschef");
         } catch (InfException ex) {
             Logger.getLogger(HanteraAgent.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -495,7 +495,7 @@ public class HanteraAgent
 
             }
 
-            JOptionPane.showMessageDialog(null, "Vald agent är nu områdeschef över valt område");
+            JOptionPane.showMessageDialog(null, mib.fetchSingle("SELECT NAMN FROM AGENT WHERE AGENT_ID = " + getAgID()) + " är nu områdeschef över " + omrade.getSelectedItem().toString());
 
             //  mib.insert("INSERT INTO OMRADESCHEF VALUES(" + s + ", " + agID + ");");
         } catch (InfException ex) {
