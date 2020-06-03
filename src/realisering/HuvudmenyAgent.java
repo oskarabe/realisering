@@ -150,6 +150,20 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
             tabell.getColumnModel().moveColumn(3, 0);
             tabell.getColumnModel().moveColumn(4, 2);
 
+            // Sätter lbl för områdeschef till valt område.
+            String oc = mib.fetchSingle("SELECT NAMN FROM AGENT WHERE AGENT_ID = (SELECT AGENT_ID FROM OMRADESCHEF WHERE OMRADE = (SELECT OMRADES_ID FROM OMRADE WHERE BENAMNING LIKE '" + cBoxOmrade.getSelectedItem().toString() + "'))");
+            if (oc == null || oc.length() == 0) {
+                oc = "Ingen";
+            }
+            if (cBoxOmrade.getSelectedIndex() != 0 && cBoxOmrade.getSelectedIndex() != -1) {
+                lblOChef.setText("Områdeschef: " + oc);
+            } else {
+                lblOChef.setText("Igen områdeschef/Inget valt område");
+            }
+
+            // Sätter lbl för kontorschef
+            lblKChef.setText("Kontorschef: " + mib.fetchSingle("SELECT NAMN FROM AGENT WHERE AGENT_ID = (SELECT AGENT_ID FROM KONTORSCHEF)"));
+
             // Om något går fel
         } catch (InfException ettUndantag) {
             JOptionPane.showMessageDialog(null, "Databasfel!");
@@ -159,7 +173,7 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
             System.out.println("headFel --  " + ettUndantag.getMessage() + " -- " + ettUndantag.getLocalizedMessage());
         } catch (NullPointerException u) {
             JOptionPane.showMessageDialog(null, "Inga resultat...");
-            cBoxOmrade.setSelectedIndex(0);
+            //   cBoxOmrade.setSelectedIndex(0);
             cBoxRas.setSelectedIndex(0);
             cBoxPlats.setSelectedIndex(0);
         }
@@ -249,8 +263,9 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
         deleteAlien = new javax.swing.JButton();
         addAlien = new javax.swing.JButton();
         cBoxBytRas = new javax.swing.JComboBox<>();
-        lblChef = new javax.swing.JLabel();
+        lblKChef = new javax.swing.JLabel();
         tillbakaHvdmeny = new javax.swing.JButton();
+        lblOChef = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(800, 500));
@@ -423,7 +438,7 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
 
         cBoxBytRas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        lblChef.setText("Områdeschef: ");
+        lblKChef.setText("Områdeschef: ");
 
         tillbakaHvdmeny.setText("Tillbaka till huvudmeny");
         tillbakaHvdmeny.addActionListener(new java.awt.event.ActionListener() {
@@ -431,6 +446,8 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
                 tillbakaHvdmenyActionPerformed(evt);
             }
         });
+
+        lblOChef.setText("Områdeschef: ");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -461,8 +478,8 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
                         .addComponent(lblRasVald))
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(cBoxOmrade, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -480,11 +497,7 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(18, 18, 18)
                                         .addComponent(cBoxRas, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addGap(31, 31, 31)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblChef)
-                                    .addComponent(lblInloggNamn))))
+                            .addComponent(lblOChef))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(18, 18, Short.MAX_VALUE)
@@ -494,8 +507,7 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(txtFldDatumTill, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(visaDatumKnapp)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addComponent(visaDatumKnapp))
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(lblDatum)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -509,19 +521,30 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                         .addComponent(lblHuvudmenyAgent, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(148, 148, 148)
-                                        .addComponent(tillbakaHvdmeny)))))))
+                                        .addComponent(tillbakaHvdmeny))))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblKChef)
+                            .addComponent(lblInloggNamn))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addGap(33, 33, 33))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(42, 42, 42)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(tillbakaHvdmeny)
+                    .addComponent(lblHuvudmenyAgent))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(96, 96, 96)
                         .addComponent(lblInloggNamn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblChef)
-                        .addGap(23, 23, 23)
+                        .addComponent(lblKChef)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblOChef)
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lblPlats)
                             .addComponent(lblOmrade)
@@ -537,11 +560,6 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
                             .addComponent(visaDatumKnapp)
                             .addComponent(sokruta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(42, 42, 42)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(tillbakaHvdmeny)
-                            .addComponent(lblHuvudmenyAgent))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnTillbakaInlogg)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnHanteraUtrustning)))
@@ -604,16 +622,19 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
             addNotNull(squid, mib.fetchColumn("SELECT ALIEN_ID FROM SQUID"));
             ArrayList<String> worm = new ArrayList<>();
             addNotNull(worm, mib.fetchColumn("SELECT ALIEN_ID FROM WORM"));
-
+            String ben = "";
             // Kollar vilken ras vald alien tillhör och ändrar lblRasVald utefter
             if (bog.contains(id)) {
                 ras = "Boglodite";
+                ben = ". Antal boogies: " + mib.fetchSingle("SELECT ANTAL_BOOGIES FROM BOGLODITE WHERE ALIEN_ID = " + id);
             } else if (squid.contains(id)) {
                 ras = "Squid";
+                ben = ". Antal armar: " + mib.fetchSingle("SELECT ANTAL_ARMAR FROM SQUID WHERE ALIEN_ID = " + id);
+
             } else if (worm.contains(id)) {
                 ras = "Worm";
             } else { ras = "Ingen";}
-            lblRasVald.setText("Ras för vald alien: " + ras);
+            lblRasVald.setText("Ras för vald alien: " + ras + ben);
         } catch (InfException ex) {
             Logger.getLogger(HuvudmenyAgent.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NullPointerException ne) {
@@ -656,7 +677,22 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
 
         if (evt.getStateChange() == 1 && !cBoxPlats.getSelectedItem().toString().equals("Alla")) {
             skrivTabell(getAlienLista() + " where PLATS = " + valPlats());
-            System.out.println("Kom hit");
+
+            // Sätter lbl för områdeschef utifrån vald plats..
+            String oc = "";
+            try {
+                oc = mib.fetchSingle("SELECT NAMN FROM AGENT WHERE AGENT_ID = (SELECT AGENT_ID FROM OMRADESCHEF WHERE OMRADE = (SELECT FINNS_I FROM PLATS WHERE BENAMNING LIKE '" + cBoxPlats.getSelectedItem().toString() + "'))");
+            } catch (InfException ex) {
+                ex.printError();
+            }
+            if (oc == null || oc.length() == 0) {
+                oc = "Ingen";
+            }
+            if (cBoxPlats.getSelectedIndex() != 0 && cBoxPlats.getSelectedIndex() != -1) {
+                lblOChef.setText("Områdeschef: " + oc);
+            } else {
+                lblOChef.setText("Igen områdeschef/Inget valt område");
+            }
 
         } else {
             skrivTabell();
@@ -673,12 +709,7 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
         String aktiv = cBoxOmrade.getSelectedItem().toString();
         if (evt.getStateChange() == 1 && !cBoxOmrade.getSelectedItem().toString().equals("Alla")) {
              skrivTabell(getAlienLista() + " WHERE PLATS = ANY " + valOmrade());
-             try {
-                 String s = mib.fetchSingle("SELECT NAMN FROM AGENT WHERE AGENT_ID = (SELECT AGENT_ID FROM OMRADESCHEF WHERE OMRADE = " + "(SELECT OMRADES_ID FROM OMRADE WHERE BENAMNING LIKE '" + aktiv + "'))");
-                 lblChef.setText("Områdeschef: " + s);
-             } catch (InfException ex) {
-                 Logger.getLogger(HuvudmenyAgent.class.getName()).log(Level.SEVERE, null, ex);
-             }
+             
 
         } else {
             skrivTabell();
@@ -763,7 +794,10 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
 
         try {
                       String aID = tabell.getValueAt(tabell.getSelectedRow(), 0).toString();
+                                  mib.delete("DELETE FROM " + ras.toUpperCase() + " WHERE ALIEN_ID = " + aID);
+
                         mib.delete("DELETE FROM ALIEN WHERE ALIEN_ID = " + aID);
+
                         skrivTabell();
                     } catch (InfException ex) {
                         Logger.getLogger(HanteraAgent.class.getName()).log(Level.SEVERE, null, ex);
@@ -791,8 +825,6 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
             }
             if (vald.equalsIgnoreCase("WORM")) {
                 mib.insert("INSERT INTO WORM VALUES(" + id + ")");
-
-                
             } else {
                 // Är rasen inte worm är antalet kolumner två istället för en. Lägger till val för detta.
                 String ben = JOptionPane.showInputDialog("Antal boogies/ben:");
@@ -932,10 +964,11 @@ private void editAlien() {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lblChef;
     private javax.swing.JLabel lblDatum;
     private javax.swing.JLabel lblHuvudmenyAgent;
     private javax.swing.JLabel lblInloggNamn;
+    private javax.swing.JLabel lblKChef;
+    private javax.swing.JLabel lblOChef;
     private javax.swing.JLabel lblOmrade;
     private javax.swing.JLabel lblPlats;
     private javax.swing.JLabel lblRas;
