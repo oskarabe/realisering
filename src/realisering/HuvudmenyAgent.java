@@ -150,6 +150,16 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
             tabell.getColumnModel().moveColumn(3, 0);
             tabell.getColumnModel().moveColumn(4, 2);
 
+            // Skriv plats och ansvarig agent med text istället för ID
+            for (int i = 0; i < tabell.getRowCount(); i++) {
+                String platsText = "";
+                platsText = mib.fetchSingle("SELECT BENAMNING FROM PLATS WHERE PLATS_ID = " + tabell.getValueAt(i, 2));
+                String ansvarigAgent = "";
+                ansvarigAgent = mib.fetchSingle("SELECT NAMN FROM AGENT WHERE AGENT_ID = " + tabell.getValueAt(i, 4));
+                tabell.setValueAt(platsText, i, 2);
+                tabell.setValueAt(ansvarigAgent, i, 4);
+            }
+
             // Sätter lbl för områdeschef till valt område.
             String oc = mib.fetchSingle("SELECT NAMN FROM AGENT WHERE AGENT_ID = (SELECT AGENT_ID FROM OMRADESCHEF WHERE OMRADE = (SELECT OMRADES_ID FROM OMRADE WHERE BENAMNING LIKE '" + cBoxOmrade.getSelectedItem().toString() + "'))");
             if (oc == null || oc.length() == 0) {
@@ -923,13 +933,20 @@ private void editAlien() {
     String fraga = "UPDATE ALIEN SET " + attr + " = " + nyttV + " WHERE ALIEN_ID = " + alienID + ";";
     try {
         // uppdatera tabell
-        if (!attr.equalsIgnoreCase("Plats")) {
+        if (!attr.equalsIgnoreCase("PLATS") && !attr.equalsIgnoreCase("ANSVARIG_AGENT")) {
             mib.update(fraga);
-        } else {
-            String omr = mib.fetchSingle("SELECT PLATS_ID FROM PLATS WHERE BENAMNING LIKE " + nyttV);
-            fraga = "UPDATE ALIEN SET " + attr + " = " + omr + " WHERE ALIEN_ID = " + alienID + ";";
-            mib.update(fraga);
-
+        } else if (attr.equalsIgnoreCase("PLATS")) {
+            String pid = mib.fetchSingle("SELECT PLATS_ID FROM PLATS WHERE BENAMNING LIKE " + nyttV);
+            if (Validering.finnsIDB(pid)) {
+                fraga = "UPDATE ALIEN SET " + attr + " = " + pid + " WHERE ALIEN_ID = " + alienID + ";";
+                mib.update(fraga);
+            }
+        } else if (attr.equalsIgnoreCase("ANSVARIG_AGENT")) {
+            String ansvarig = mib.fetchSingle("SELECT AGENT_ID FROM AGENT WHERE NAMN LIKE " + nyttV);
+            if (Validering.finnsIDB(ansvarig)) {
+                fraga = "UPDATE ALIEN SET " + attr + " = " + ansvarig + " WHERE ALIEN_ID = " + alienID + ";";
+                mib.update(fraga);
+            }
         }
             model.fireTableDataChanged();
             model.fireTableStructureChanged();

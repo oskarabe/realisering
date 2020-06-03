@@ -111,11 +111,11 @@ public class HanteraAgent
                 mib.update(fraga);
             } else {
                 String omr = mib.fetchSingle("SELECT OMRADES_ID FROM OMRADE WHERE BENAMNING LIKE " + nyttV);
-                fraga = "UPDATE AGENT SET " + attr + " = " + omr + " WHERE AGENT_ID = " + agID + ";";
-                mib.update(fraga);
-
+                if (Validering.finnsIDB(omr)) {
+                    fraga = "UPDATE AGENT SET OMRADE = " + omr + " WHERE AGENT_ID = " + agID + ";";
+                    mib.update(fraga);
+                }
             }
-            mib.update(fraga);
             model.fireTableDataChanged();
             model.fireTableStructureChanged();
             setTableModel();
@@ -181,6 +181,13 @@ public class HanteraAgent
             // Snyggar till ordningen på kolumner
             tabell.getColumnModel().moveColumn(2, 0);
             tabell.getColumnModel().moveColumn(5, 4);
+
+            // Skriv område med text istället för ID
+            for (int i = 0; i < tabell.getRowCount(); i++) {
+                String omradeText = "";
+                omradeText = mib.fetchSingle("SELECT BENAMNING FROM OMRADE WHERE OMRADES_ID = " + tabell.getValueAt(i, 5));
+                tabell.setValueAt(omradeText, i, 5);
+            }
 
             // Om något går fel
         } catch (InfException ettUndantag) {

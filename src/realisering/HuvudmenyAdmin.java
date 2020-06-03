@@ -109,6 +109,13 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
             tabell.getColumnModel().moveColumn(2, 0);
             tabell.getColumnModel().moveColumn(5, 4);
 
+            // Skriv område med text istället för ID
+            for (int i = 0; i < tabell.getRowCount(); i++) {
+                String omradeText = "";
+                omradeText = mib.fetchSingle("SELECT BENAMNING FROM OMRADE WHERE OMRADES_ID = " + tabell.getValueAt(i, 5));
+                tabell.setValueAt(omradeText, i, 5);
+            }
+
             // Sätter lbl för områdeschef till valt område.
             String oc = mib.fetchSingle("SELECT NAMN FROM AGENT WHERE AGENT_ID =" + valOmrade());
             if (oc == null || oc.length() == 0) {
