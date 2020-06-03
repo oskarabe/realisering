@@ -107,14 +107,18 @@ public class HanteraAgent
         String fraga = "UPDATE AGENT SET " + attr + " = " + nyttV + " WHERE AGENT_ID = " + agID + ";";
         try {
             // Uppdatera och skriv ut ny tabell
-            if (!attr.equalsIgnoreCase("Omrade")) {
-                mib.update(fraga);
-            } else {
+            if (attr.equalsIgnoreCase("Omrade")) {
                 String omr = mib.fetchSingle("SELECT OMRADES_ID FROM OMRADE WHERE BENAMNING LIKE " + nyttV);
                 if (Validering.finnsIDB(omr)) {
                     fraga = "UPDATE AGENT SET OMRADE = " + omr + " WHERE AGENT_ID = " + agID + ";";
                     mib.update(fraga);
+                }               
+            } else if (attr.equalsIgnoreCase("ANSTALLNINGSDATUM")) {
+                if (Validering.isDatum(attributVarde)) {
+                    mib.update(fraga);
                 }
+            } else {
+                mib.update(fraga);
             }
             model.fireTableDataChanged();
             model.fireTableStructureChanged();
@@ -413,8 +417,10 @@ public class HanteraAgent
 
                     // Anropar metoden editAgent() när man klickar på attributKnapp.
     private void attributKnappActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_attributKnappActionPerformed
-        if (Validering.finnsText(attributVarde)) {
+        if (Validering.finnsText(attributVarde) && tabell.getSelectedRow() != -1) {
             editAgent();      // TODO add your handling code here:
+        } else {
+            JOptionPane.showMessageDialog(null, "Välj en agent genom att klicka i tabellen");
         }
     }//GEN-LAST:event_attributKnappActionPerformed
 
@@ -431,6 +437,9 @@ public class HanteraAgent
     // Ändrar kontorschef till vald agent
     private void kontorschefActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_kontorschefActionPerformed
 
+        if (tabell.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(null, "Välj en agent genom att klicka i tabellen");
+        } else {
         try {
                                 setAgID(tabell.getValueAt(tabell.getSelectedRow(), 0).toString());
             mib.update("UPDATE KONTORSCHEF SET AGENT_ID = " + getAgID() + " WHERE KONTORSBETECKNING LIKE 'Örebrokontoret'");
@@ -438,12 +447,15 @@ public class HanteraAgent
         } catch (InfException ex) {
             Logger.getLogger(HanteraAgent.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        }
     }//GEN-LAST:event_kontorschefActionPerformed
 
     // Ändrar områdeschef för valt område till vald agent
     private void omradeschefActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_omradeschefActionPerformed
-        if (omrade.getSelectedItem() == null) {
+     if (tabell.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(null, "Välj en agent genom att klicka i tabellen");
+     } else {
+         if (omrade.getSelectedItem() == null) {
             omrade.setSelectedIndex(0);
         }
 
@@ -478,6 +490,7 @@ public class HanteraAgent
         } catch (InfException ex) {
             System.err.println(ex.getMessage() + ex.getLocalizedMessage() + ex.getSQLState() + ex.getErrorCode() + ex.getNextException());
             Logger.getLogger(HanteraAgent.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_omradeschefActionPerformed
 
@@ -501,13 +514,15 @@ public class HanteraAgent
 
                 // Metod för att ta bort vald agent
                 private void deleteAgentActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteAgentActionPerformed
-                    try {
-                        
-                        setAgID(tabell.getValueAt(tabell.getSelectedRow(), 0).toString());
-                        String finnsID = mib.fetchSingle("SELECT AGENT_ID FROM AGENT WHERE AGENT_ID <> " + getAgID());
-                        ArrayList<String> ejOmradesChef = mib.fetchColumn("SELECT AGENT_ID FROM OMRADESCHEF");
-                        for (String s : ejOmradesChef) {
-                            if (finnsID.equalsIgnoreCase(s)) {
+                      if (tabell.getSelectedRow() == -1) {
+                            JOptionPane.showMessageDialog(null, "Välj en agent genom att klicka i tabellen");
+                      } else {
+                          try {
+                            setAgID(tabell.getValueAt(tabell.getSelectedRow(), 0).toString());
+                              String finnsID = mib.fetchSingle("SELECT AGENT_ID FROM AGENT WHERE AGENT_ID <> " + getAgID());
+                              ArrayList<String> ejOmradesChef = mib.fetchColumn("SELECT AGENT_ID FROM OMRADESCHEF");
+                              for (String s : ejOmradesChef) {
+                                  if (finnsID.equalsIgnoreCase(s)) {
                                 finnsID = mib.fetchSingle("SELECT AGENT_ID FROM AGENT WHERE AGENT_ID <> " + getAgID() + " AND AGENT_ID <> " + finnsID);
                             }
                         }
@@ -523,7 +538,7 @@ public class HanteraAgent
                     } catch (InfException ex) {
                         ex.printError();
                     }
-
+                    }
                 }//GEN-LAST:event_deleteAgentActionPerformed
 
                 // Auto

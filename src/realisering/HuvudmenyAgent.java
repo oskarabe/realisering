@@ -111,6 +111,7 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
         attributVector.add("PLATS");
         attributVector.add("TELEFON");
         attributVector.add("ANSVARIG_AGENT");
+        attributVector.add("REGISTRERINGSDATUM");
 
         attrModell = new DefaultComboBoxModel(attributVector);
         cBoxAttrVal.setModel(attrModell);
@@ -751,7 +752,7 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
 
     // Skriver ut en lista över aliens registrerade mellan valda datum.
     private void visaDatumKnappMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_visaDatumKnappMouseClicked
-        if (Validering.finnsText(txtFldDatumFran) && Validering.finnsText(txtFldDatumTill)) {
+        if (Validering.isDatum(txtFldDatumFran) && Validering.isDatum(txtFldDatumTill)) {
         skrivTabell(getAlienLista() + " WHERE REGISTRERINGSDATUM BETWEEN '" + txtFldDatumFran.getText() + "' AND '" + txtFldDatumTill.getText() + "'");
         }
     }//GEN-LAST:event_visaDatumKnappMouseClicked
@@ -778,14 +779,16 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
 
     // Anropar metoden editAlien() när man klickar på attributKnapp.
     private void attributKnappMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_attributKnappMouseClicked
-        if (Validering.finnsText(attributVarde)) {
+        if (Validering.finnsText(attributVarde) && tabell.getSelectedRow() != -1) {
         editAlien();
+        } else {
+            JOptionPane.showMessageDialog(null, "Välj en alien genom att klicka i tabellen");
         }
     }//GEN-LAST:event_attributKnappMouseClicked
 
     // Lägger till en ny alien med standardvärden och ras Boglodite.
     private void addAlienMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addAlienMouseClicked
-
+ 
          try {
                                                 String losen = JOptionPane.showInputDialog(null, "Ange lösenord för ny alien");
              int radAntal = model.getRowCount() + 1;
@@ -802,6 +805,9 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
     // Tar bort vald alien från databasen.
     private void deleteAlienMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteAlienMouseClicked
 
+         if (tabell.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(null, "Välj en alien genom att klicka i tabellen");
+        } else {
         try {
                       String aID = tabell.getValueAt(tabell.getSelectedRow(), 0).toString();
                                   mib.delete("DELETE FROM " + ras.toUpperCase() + " WHERE ALIEN_ID = " + aID);
@@ -812,13 +818,16 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
                     } catch (InfException ex) {
                         Logger.getLogger(HanteraAgent.class.getName()).log(Level.SEVERE, null, ex);
                     }
-
+        }
     }//GEN-LAST:event_deleteAlienMouseClicked
 
     // Metod för att byta ras.
     private void bytRasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bytRasMouseClicked
 
         int rad = tabell.getSelectedRow();
+        if (rad == -1) {
+            JOptionPane.showMessageDialog(null, "Välj en alien genom att klicka i tabellen");
+        } else {
         String id = (String) tabell.getValueAt(rad, 0);
 
         try {
@@ -838,16 +847,19 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
             } else {
                 // Är rasen inte worm är antalet kolumner två istället för en. Lägger till val för detta.
                 String ben = JOptionPane.showInputDialog("Antal boogies/ben:");
+                if (ben == null || ben.length() == 0) {
+                    ben = "2";
+                }
 
                 mib.insert("INSERT INTO " + vald + " VALUES(" + id + ", " + ben + ")");
             }
-
+            tabellMouseClicked(evt);
 
         } catch (InfException ex) {
-            Logger.getLogger(HuvudmenyAgent.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printError();
         }
 
-
+        }
     }//GEN-LAST:event_bytRasMouseClicked
 
     //Tar användaren tillbaka till HuvudmenyAdmin
@@ -933,7 +945,7 @@ private void editAlien() {
     String fraga = "UPDATE ALIEN SET " + attr + " = " + nyttV + " WHERE ALIEN_ID = " + alienID + ";";
     try {
         // uppdatera tabell
-        if (!attr.equalsIgnoreCase("PLATS") && !attr.equalsIgnoreCase("ANSVARIG_AGENT")) {
+        if (!attr.equalsIgnoreCase("PLATS") && !attr.equalsIgnoreCase("ANSVARIG_AGENT") && !attr.equalsIgnoreCase("REGISTRERINGSDATUM")) {
             mib.update(fraga);
         } else if (attr.equalsIgnoreCase("PLATS")) {
             String pid = mib.fetchSingle("SELECT PLATS_ID FROM PLATS WHERE BENAMNING LIKE " + nyttV);
@@ -947,7 +959,12 @@ private void editAlien() {
                 fraga = "UPDATE ALIEN SET " + attr + " = " + ansvarig + " WHERE ALIEN_ID = " + alienID + ";";
                 mib.update(fraga);
             }
+        } else if (attr.equalsIgnoreCase("REGISTRERINGSDATUM")) {
+            if (Validering.isDatum(attributVarde)) {
+                mib.update(fraga);
+            }
         }
+
             model.fireTableDataChanged();
             model.fireTableStructureChanged();
             tabell.updateUI();
