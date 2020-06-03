@@ -117,7 +117,7 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
             }
 
             // Sätter lbl för områdeschef till valt område.
-            String oc = mib.fetchSingle("SELECT NAMN FROM AGENT WHERE AGENT_ID =" + valOmrade());
+            String oc = mib.fetchSingle("SELECT NAMN FROM AGENT WHERE AGENT_ID = (SELECT AGENT_ID FROM OMRADESCHEF WHERE OMRADE = " + valOmrade() + ")");
             if (oc == null || oc.length() == 0) {
                 oc = "Ingen";
             }
