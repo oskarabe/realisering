@@ -499,13 +499,25 @@ public class HanteraAgent
 
                     try {
                         // Ber användaren välja lösenord
-                                                String losen = JOptionPane.showInputDialog(null, "Ange lösenord för ny agent");
+                        String losen = JOptionPane.showInputDialog(null, "Ange lösenord för ny agent");
+
+                        // Kollar om lösenordet redan är upptaget
+                        String hittaAlien = "SELECT LOSENORD FROM ALIEN;";
+                        String hittaAgent = "SELECT LOSENORD FROM AGENT;";
+                        ArrayList<String> allaLosen = new ArrayList<>();
+                        allaLosen.addAll(mib.fetchColumn(hittaAlien));
+                        allaLosen.addAll(mib.fetchColumn(hittaAgent));
+
+                        if (allaLosen.contains(losen)) {
+                            JOptionPane.showMessageDialog(null, "Testa med ett annat lösenord.");
+                        } else {
                         int nextID = Integer.parseInt(mib.fetchSingle("SELECT MAX(AGENT_ID) FROM AGENT")) + 1;
                         String id = "" + nextID;
                         // Lägger till en agent med valt lösenord och standardvärden.
                         mib.insert("INSERT INTO AGENT VALUES(" + id + ", 'Agent NY', '0', DATE '2020-05-01', 'N', '" + losen + "', 1)");
                         // Skriver ut ny tabell
-                                            skrivTabell();
+                          skrivTabell();
+                        }
                     } catch (InfException ex) {
                         Logger.getLogger(HanteraAgent.class.getName()).log(Level.SEVERE, null, ex);
                     }

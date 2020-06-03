@@ -790,12 +790,26 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
     private void addAlienMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addAlienMouseClicked
  
          try {
-                                                String losen = JOptionPane.showInputDialog(null, "Ange lösenord för ny alien");
-             int radAntal = model.getRowCount() + 1;
+              // Ber användaren välja lösenord
+                        String losen = JOptionPane.showInputDialog(null, "Ange lösenord för ny alien");
+                        
+                        // Kollar om lösenordet redan är upptaget
+                        String hittaAlien = "SELECT LOSENORD FROM ALIEN;";
+                        String hittaAgent = "SELECT LOSENORD FROM AGENT;";
+                        ArrayList<String> allaLosen = new ArrayList<>();
+                        allaLosen.addAll(mib.fetchColumn(hittaAlien));
+                        allaLosen.addAll(mib.fetchColumn(hittaAgent));
+
+                        if (allaLosen.contains(losen)) {
+                            JOptionPane.showMessageDialog(null, "Testa med ett annat lösenord.");
+                        } else {
+
+                            int radAntal = model.getRowCount() + 1;
                         String id = "" + radAntal;
-             mib.insert("INSERT INTO ALIEN VALUES(" + id + ", DATE '2020-05-01', '" + losen + "', 'Alien NY', '0', '1', '1')");
+                          mib.insert("INSERT INTO ALIEN VALUES(" + id + ", DATE '2020-05-01', '" + losen + "', 'Alien NY', '0', '1', '1')");
              mib.insert("INSERT INTO BOGLODITE VALUES (" + id + ", 2)");
-             skrivTabell();
+                 skrivTabell();
+             }
                     } catch (InfException ex) {
                         Logger.getLogger(HanteraAgent.class.getName()).log(Level.SEVERE, null, ex);
                     }
