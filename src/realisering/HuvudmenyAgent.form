@@ -88,39 +88,43 @@
                           <Component id="lblInloggNamn" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="lblOChef" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="102" attributes="0">
-                                  <EmptySpace type="separate" max="32767" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" attributes="0">
-                                          <Component id="txtFldDatumFran" min="-2" pref="94" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="txtFldDatumTill" min="-2" pref="94" max="-2" attributes="0"/>
-                                          <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="visaDatumKnapp" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Group type="102" attributes="0">
-                                          <Component id="lblDatum" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace max="32767" attributes="0"/>
-                                          <Component id="btnHanteraUtrustning" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                  </Group>
-                              </Group>
-                              <Group type="102" alignment="1" attributes="0">
-                                  <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="sokruta" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="1" attributes="0">
-                                  <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="lblHuvudmenyAgent" min="-2" pref="276" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="95" max="-2" attributes="0"/>
-                                  <Component id="tillbakaHvdmeny" min="-2" max="-2" attributes="0"/>
-                              </Group>
+                          <Group type="102" attributes="0">
+                              <Component id="lblDatum" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace min="-2" pref="602" max="-2" attributes="0"/>
-                              <Component id="btnTillbakaInlogg" min="-2" pref="136" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                      <Component id="lblHuvudmenyAgent" min="-2" pref="276" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="txtFldDatumFran" min="-2" pref="94" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="txtFldDatumTill" min="-2" pref="94" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="visaDatumKnapp" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="234" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <EmptySpace min="-2" pref="142" max="-2" attributes="0"/>
+                                      <Component id="sokruta" min="-2" pref="152" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <Component id="btnHanteraUtrustning" max="32767" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="andraLosenord" min="-2" pref="136" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" attributes="0">
+                                      <Component id="tillbakaHvdmeny" min="-2" pref="160" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="btnTillbakaInlogg" min="-2" pref="136" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
                           </Group>
                       </Group>
                   </Group>
@@ -132,48 +136,50 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <EmptySpace min="-2" pref="52" max="-2" attributes="0"/>
-                              <Component id="tillbakaHvdmeny" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
-                              <Component id="lblHuvudmenyAgent" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="btnTillbakaInlogg" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="btnHanteraUtrustning" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
-                      <Component id="lblInloggNamn" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
-                      <Component id="lblKChef" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Group type="102" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="lblOChef" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="lblPlats" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblOmrade" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblRas" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="lblDatum" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnTillbakaInlogg" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="tillbakaHvdmeny" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="cBoxOmrade" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="cBoxRas" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtFldDatumFran" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="txtFldDatumTill" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="cBoxPlats" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="visaDatumKnapp" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="sokruta" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="andraLosenord" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnHanteraUtrustning" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="66" max="-2" attributes="0"/>
+                          <Component id="lblInloggNamn" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
+                          <Component id="lblKChef" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
+                          <Component id="lblHuvudmenyAgent" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+              </Group>
+              <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+              <Component id="lblOChef" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="lblPlats" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblOmrade" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblRas" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblDatum" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="cBoxOmrade" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="cBoxRas" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtFldDatumFran" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtFldDatumTill" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="cBoxPlats" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="visaDatumKnapp" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="sokruta" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jScrollPane1" min="-2" pref="139" max="-2" attributes="0"/>
@@ -196,7 +202,7 @@
                   <Component id="addAlien" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="deleteAlien" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="26" max="32767" attributes="0"/>
+              <EmptySpace pref="17" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -455,6 +461,15 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Omr&#xe5;deschef: "/>
       </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="andraLosenord">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="&#xc4;ndra l&#xf6;senord"/>
+      </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="andraLosenordMouseClicked"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="andraLosenordActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
