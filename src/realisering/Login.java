@@ -166,8 +166,6 @@ public class Login extends javax.swing.JFrame {
                                                 }
                                 });
 
-                                AndraLosen.setBackground(new java.awt.Color(171, 190, 196));
-                                AndraLosen.setForeground(new java.awt.Color(51, 51, 51));
                                 AndraLosen.setText("Ändra lösenord");
                                 AndraLosen.addActionListener(new java.awt.event.ActionListener() {
                                                 public void actionPerformed(java.awt.event.ActionEvent evt) {
