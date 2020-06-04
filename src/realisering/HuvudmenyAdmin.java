@@ -124,7 +124,7 @@ public class HuvudmenyAdmin extends javax.swing.JFrame {
                                                 if (omradeBox.getSelectedIndex() != 0 && omradeBox.getSelectedIndex() != -1) {
                                                                 lblOChef.setText("Områdeschef: " + oc);
                                                 } else {
-                                                                lblOChef.setText("Igen områdeschef/Inget valt område");
+                                                                lblOChef.setText("Ingen områdeschef/Inget valt område");
                                                 }
 
                                                 // Sätter lbl för kontorschef

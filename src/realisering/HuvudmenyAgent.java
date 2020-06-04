@@ -164,7 +164,7 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
                                                 if (cBoxOmrade.getSelectedIndex() != 0 && cBoxOmrade.getSelectedIndex() != -1) {
                                                                 lblOChef.setText("Områdeschef: " + oc);
                                                 } else {
-                                                                lblOChef.setText("Igen områdeschef/Inget valt område");
+                                                                lblOChef.setText("Ingen områdeschef / Inget valt område");
                                                 }
 
                                                 // Sätter lbl för kontorschef
@@ -491,10 +491,6 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
                                 getContentPane().setLayout(layout);
                                 layout.setHorizontalGroup(
                                                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                                .addComponent(lblHuvudmenyAgent, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                .addGap(186, 186, 186))
                                                 .addGroup(layout.createSequentialGroup()
                                                                 .addGap(25, 25, 25)
                                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -573,6 +569,10 @@ public class HuvudmenyAgent extends javax.swing.JFrame {
                                                                                                                                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                                                                                                                                                 .addComponent(btnTillbakaInlogg, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                                                                                                 .addGap(25, 25, 25))))
+                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                                                .addComponent(lblHuvudmenyAgent)
+                                                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 );
                                 layout.setVerticalGroup(
                                                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
