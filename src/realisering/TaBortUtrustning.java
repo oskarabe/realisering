@@ -112,8 +112,8 @@ public class TaBortUtrustning extends javax.swing.JFrame {
         String hittaBenamning = ("select benamning from utrustning where utrustnings_id = " +
                                  utrustnings_id + " and benamning = '" + namnPaUtrustning + "'");
         String benamningFranDB = "";
-        String deleteFromUtrustning = ("delete from utrustning where utrustnings_id = " + "(" +
-                                        utrustnings_id + ")");
+        String deleteFromUtrustning = ("delete from utrustning where utrustnings_id = " +
+                                        utrustnings_id + " and benamning = '" + namnPaUtrustning + "'");
         String deleteFromInneharUtrustning = ("delete from innehar_utrustning where utrustnings_id = " + "(" +
                                         utrustnings_id + ")");
         String deleteFromVapen = ("delete from vapen where utrustnings_id = " + "(" +
