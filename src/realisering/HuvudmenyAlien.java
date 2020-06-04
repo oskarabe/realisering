@@ -260,7 +260,7 @@ public class HuvudmenyAlien extends javax.swing.JFrame {
                                 }
                 }
 
-                // För att undvika problem med SQL-frågor som returnerar null
+                // För att undvika problem med SQL-frågor, fetchColumn, som returnerar null
                 public static <E> void addNotNull(List<E> list, Collection<? extends E> c) {
                                 if (c != null) {
                                                 list.addAll(c);
