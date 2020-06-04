@@ -109,6 +109,9 @@ public class TaBortUtrustning extends javax.swing.JFrame {
     private void btnTaBortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaBortActionPerformed
         String namnPaUtrustning = txtFldUtrustningNamn.getText();
         String utrustnings_id = txtId.getText();
+        String hittaBenamning = ("select benamning from utrustning where utrustnings_id = " +
+                                 utrustnings_id + " and benamning = '" + namnPaUtrustning + "'");
+        String benamningFranDB = "";
         String deleteFromUtrustning = ("delete from utrustning where utrustnings_id = " + "(" +
                                         utrustnings_id + ")");
         String deleteFromInneharUtrustning = ("delete from innehar_utrustning where utrustnings_id = " + "(" +
@@ -139,6 +142,8 @@ public class TaBortUtrustning extends javax.swing.JFrame {
             vapenLista = mib.fetchColumn(hamtaVapen_id);
             vapenLista = mib.fetchColumn(hamtaTeknik_id);
             vapenLista = mib.fetchColumn(hamtaKom_id);
+            //Sträng-variabel som kollar att värde finns i databasen
+            benamningFranDB = mib.fetchSingle(hittaBenamning);
             }
             
             catch (InfException ettUndantag) {
@@ -168,8 +173,10 @@ public class TaBortUtrustning extends javax.swing.JFrame {
                 
                 //Tar bort utrustning från tabellerna Utrustning, Innehar_utrustning
                 //samt Vapen, Teknik eller Kommunikation
-                //Först validering för att textfältet inte ska vara tomt
-                 if (Validering.finnsText(txtFldUtrustningNamn))
+                //Först validering för att textfältena inte ska vara tomt och att den angivna utrustningen
+                //faktiskt finns i databasen
+                 if (Validering.finnsText(txtFldUtrustningNamn) && Validering.finnsText(txtId)
+                     && Validering.finnsIDB(benamningFranDB))
                  {
                       try {
                            mib.delete(deleteFromInneharUtrustning);
